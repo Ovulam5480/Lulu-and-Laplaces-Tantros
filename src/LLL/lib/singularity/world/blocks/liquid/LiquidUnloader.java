@@ -1,0 +1,151 @@
+package LLL.lib.singularity.world.blocks.liquid;
+
+import arc.graphics.g2d.*;
+import arc.scene.ui.layout.*;
+import arc.util.*;
+import arc.util.io.*;
+import mindustry.entities.units.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.*;
+import mindustry.world.meta.*;
+import mindustry.world.modules.*;
+import universecore.annotations.*;
+import universecore.components.blockcomp.*;
+
+import static mindustry.Vars.*;
+
+/**
+ * 液体提取器，可从周围的方块中抽取液体并送向下一个方块
+ * 类似物品装卸器
+ *
+ * @see mindustry.world.blocks.storage.Unloader
+ */
+public class LiquidUnloader extends Block{
+  /**
+   * 液体提取器，可从周围的方块中抽取液体并送向下一个方块
+   */
+  public LiquidUnloader(String name){
+    super(name);
+    update = true;
+    solid = true;
+    unloadable = false;
+    hasLiquids = true;
+    liquidCapacity = 10f;
+    configurable = true;
+    outputsLiquid = true;
+    saveConfig = true;
+    displayFlow = false;
+    group = BlockGroup.liquids;
+
+    config(Liquid.class, (LiquidUnloadedBuild tile, Liquid l) -> tile.current = l);
+    configClear((LiquidUnloadedBuild tile) -> tile.current = null);
+  }
+
+  @Override
+  public void setBars(){
+    super.setBars();
+    removeBar("liquid");
+  }
+
+  @Override
+  public void setStats(){
+    super.setStats();
+    stats.remove(Stat.liquidCapacity);
+  }
+
+  @Override
+  public void drawPlanConfigTop(BuildPlan req, Eachable<BuildPlan> list){
+    drawPlanConfigCenter(req, req.config, "center", true);
+  }
+
+  @Annotations.ImplEntries
+  public class LiquidUnloadedBuild extends Building implements Takeable{
+    public @Nullable Liquid current = null;
+
+    @Override
+    public void updateTile(){
+      Building next = getNext("liquidsPeek", e -> e.block.hasLiquids && e.canUnload());
+      if(next == null) return;
+
+      if(next.liquids != null){
+        LiquidModule.LiquidConsumer dmp = (l, a) -> {
+          Building dump = getNext("liquids", e -> {
+            Building dest = e.getLiquidDestination(this, l);
+            return dest.acceptLiquid(this, l) && dest != next && dest.liquids.get(l) / dest.block.liquidCapacity < a / next.block.liquidCapacity;
+          });
+          if(dump == null) return;
+
+          dump = dump.getLiquidDestination(this, l);
+
+          float move = (a * dump.block.liquidCapacity - dump.liquids.get(l) * next.block.liquidCapacity) / (dump.block.liquidCapacity + next.block.liquidCapacity);
+          move = Math.min(Math.min(move, dump.block.liquidCapacity - dump.liquids.get(l)), a);
+
+          next.liquids.remove(l, move);
+          dump.handleLiquid(this, l, move);
+        };
+
+        if(current != null){
+          dmp.accept(current, next.liquids.get(current));
+        }else{
+          next.liquids.each(dmp);
+        }
+      }
+    }
+
+    @Override
+    public void draw(){
+      Draw.rect(region, x, y);
+
+      if(current != null){
+        Draw.color(current.color);
+        Draw.rect(name + "_top", x, y);
+        Draw.color();
+      }
+    }
+
+    @Override
+    public void buildConfiguration(Table table){
+      ItemSelection.buildTable(table, content.liquids(), () -> current, this::configure);
+    }
+
+    @Override
+    public boolean onConfigureBuildTapped(Building other){
+      if(this == other){
+        deselect();
+        configure(null);
+        return false;
+      }
+      return true;
+    }
+
+    @Override
+    public Liquid config(){
+      return current;
+    }
+
+    @Override
+    public boolean acceptLiquid(Building source, Liquid liquid){
+      return false;
+    }
+
+    @Override
+    public boolean acceptItem(Building source, Item item){
+      return false;
+    }
+
+    @Override
+    public void write(Writes write){
+      super.write(write);
+      write.i(current == null ? -1 : current.id);
+    }
+
+    @Override
+    public void read(Reads read, byte revision){
+      super.read(read, revision);
+      int id = read.i();
+      current = id == -1 ? null : content.liquid(id);
+    }
+  }
+}
