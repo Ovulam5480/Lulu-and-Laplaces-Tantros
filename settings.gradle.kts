@@ -2,15 +2,24 @@ pluginManagement{
     repositories{
         gradlePluginPortal()
         mavenLocal()
-        maven("https://raw.githubusercontent.com/GglLfr/EntityAnnoMaven/main")
-        maven("https://raw.githubusercontent.com/GglLfr/MindustryClientMaven/main")
+        // Proxied mirrors of the GitHub-hosted repositories below. They must come first: Gradle aborts the whole
+        // repository chain on a connection error, so an unreachable `raw.githubusercontent.com` would otherwise
+        // prevent the mirrors from ever being tried.
+        maven("https://ghproxy.net/https://raw.githubusercontent.com/Ovulam5480/EntityAnnoMaven/main")
+        maven("https://ghproxy.net/https://raw.githubusercontent.com/GglLfr/MindustryClientMaven/main")
+        maven("https://raw.githubusercontent.com/Ovulam5480/EntityAnnoMaven/main"){
+            content{includeGroupByRegex("com\\.github.*")}
+        }
+        maven("https://raw.githubusercontent.com/GglLfr/MindustryClientMaven/main"){
+            content{includeGroupByRegex("com\\.github.*")}
+        }
     }
 
     plugins{
         val entVersion = providers.gradleProperty("entVersion").get()
         val clientVersion = providers.gradleProperty("clientVersion").get()
 
-        id("com.github.GglLfr.EntityAnno") version(entVersion)
+        id("com.github.Ovulam5480.EntityAnno") version(entVersion)
         id("com.github.GglLfr.MindustryClient") version(clientVersion)
     }
 }

@@ -47,7 +47,7 @@ buildscript{
 
 plugins{
     java
-    id("com.github.GglLfr.EntityAnno") apply false
+    id("com.github.Ovulam5480.EntityAnno") apply false
     id("com.github.GglLfr.MindustryClient") apply false
 }
 
@@ -111,7 +111,11 @@ allprojects{
         mavenCentral()
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
         maven("https://oss.sonatype.org/content/repositories/releases/")
-        maven("https://raw.githubusercontent.com/GglLfr/EntityAnnoMaven/main")
+        // Proxied mirror of the GitHub-hosted repository below, placed first for the same reason as in `settings.gradle.kts`.
+        maven("https://ghproxy.net/https://raw.githubusercontent.com/Ovulam5480/EntityAnnoMaven/main")
+        maven("https://raw.githubusercontent.com/Ovulam5480/EntityAnnoMaven/main"){
+            content{includeGroupByRegex("com\\.github.*")}
+        }
     }
 
     tasks.withType<JavaCompile>().configureEach{
@@ -135,7 +139,7 @@ allprojects{
 }
 
 project(":"){
-    apply(plugin = "com.github.GglLfr.EntityAnno")
+    apply(plugin = "com.github.Ovulam5480.EntityAnno")
     apply(plugin = "com.github.GglLfr.MindustryClient")
 
     configure<EntityAnnoExtension>{
@@ -147,8 +151,8 @@ project(":"){
 
     dependencies{
         // Use the entity generation annotation processor.
-        compileOnly("com.github.GglLfr.EntityAnno:entity:$entVersion")
-        annotationProcessor("com.github.GglLfr.EntityAnno:entity:$entVersion")
+        compileOnly("com.github.Ovulam5480.EntityAnno:entity:$entVersion")
+        annotationProcessor("com.github.Ovulam5480.EntityAnno:entity:$entVersion")
 
         compileOnly("Anuken:$mindustry:$mindustryVersion")
     }
