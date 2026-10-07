@@ -1,11 +1,11 @@
 package LLL.world.blocks.module;
 
+import LLL.world.blockcomp.*;
 import arc.struct.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.gen.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
 
 //仅限于建筑和单位的序列化
 @SuppressWarnings("unused")

@@ -7,9 +7,11 @@ import LLL.graphics.*;
 import LLL.io.*;
 import LLL.lib.seam.*;
 import LLL.lib.singularity.graphic.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import LLL.type.neoplasm.*;
-import LLL.type.resourceStacks.*;
 import LLL.ui.*;
+import LLL.util.uncUtil.handler.*;
 import LLL.world.*;
 import arc.*;
 import arc.graphics.*;
@@ -22,9 +24,6 @@ import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.mod.*;
-import mindustry.type.*;
-
-import static mindustry.Vars.*;
 
 public class LuluMod extends Mod{
   public static String modName = "lulu-";
@@ -34,6 +33,7 @@ public class LuluMod extends Mod{
   public static NeoplasmRules neoplasmRules;
   public static LaplacesTantrosDialog tantrosDialog;
   public static Seam seam;
+  public static CategoryHandler categories;
 
   @Override
   public void init(){
@@ -60,7 +60,7 @@ public class LuluMod extends Mod{
 //    }
 
     Events.on(EventType.ClientLoadEvent.class, e -> {
-      Vars.ui.load.runLoadSave(control.saves.getSaveSlots().first());
+      Vars.ui.load.runLoadSave(Vars.control.saves.getSaveSlots().first());
 
       Vars.ui.hudGroup.addChild(new Element(){
         public FrameBuffer buffer = new FrameBuffer();
@@ -140,7 +140,7 @@ public class LuluMod extends Mod{
     seam.init();
 
     OvulamBlockFlags.init();
-    OvulamShaders.init();
+    //OvulamShaders.init();
     OvulamPacketTypes.initAndLoad();
     initResources();
     PrefrontalCortex.load();
@@ -156,7 +156,7 @@ public class LuluMod extends Mod{
 
     if(Vars.mobile){
     }else{
-      control.input = new OvulamDesktopControl();
+      Vars.control.input = new OvulamDesktopControl();
     }
 
 //        new BaseDialog("Lulu-and-Laplace-Tantros"){{
@@ -172,11 +172,9 @@ public class LuluMod extends Mod{
     OvulamSaveChunks.addSaveChunks();
   }
 
-  public static Planet biomePlanet;
-
   @Override
   public void loadContent(){
-
+    categories = new CategoryHandler();
     registerResources();
     OvulamContents.load();
 //        new RunnableBlock("daw"){{
@@ -195,13 +193,13 @@ public class LuluMod extends Mod{
   }
 
   public static void registerResources(){
-    for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
+    for(ResourceStack<?, ?, ?> instance : ResourceStackManager.all){
       instance.register();
     }
   }
 
   public static void initResources(){
-    for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
+    for(ResourceStack<?, ?, ?> instance : ResourceStackManager.all){
       instance.init();
     }
   }

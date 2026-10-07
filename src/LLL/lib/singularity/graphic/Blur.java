@@ -48,7 +48,6 @@ public class Blur{
     0.2561736558128f,
   };
 
-  @Language("vert")
   private static final String vertTemplate =
     """
       attribute vec4 a_position;
@@ -69,7 +68,7 @@ public class Blur{
         gl_Position = a_position;
       }
       """;
-  @Language("frag")
+
   private static final String fragmentTemplate =
     """
       uniform lowp sampler2D u_texture0;

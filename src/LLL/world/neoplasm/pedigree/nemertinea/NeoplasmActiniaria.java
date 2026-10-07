@@ -2,6 +2,7 @@ package LLL.world.neoplasm.pedigree.nemertinea;
 
 import LLL.content.blocks.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import mindustry.*;

@@ -1,7 +1,7 @@
 package LLL.world.blocks.distribution;
 
-import LLL.ctype.packet.*;
 import LLL.entities.*;
+import LLL.packet.*;
 import LLL.world.blocks.packet.*;
 import arc.graphics.g2d.*;
 import arc.math.*;

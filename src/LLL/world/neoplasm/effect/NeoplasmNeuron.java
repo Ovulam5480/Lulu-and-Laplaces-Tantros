@@ -5,6 +5,7 @@ import LLL.content.blocks.*;
 import LLL.type.*;
 import LLL.type.neoplasm.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import LLL.world.neoplasm.*;
 import arc.*;
 import arc.func.*;

@@ -1,6 +1,7 @@
 package LLL.world.neoplasm.production;
 
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;

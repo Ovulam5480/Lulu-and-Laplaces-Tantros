@@ -2,7 +2,6 @@ package LLL.content.blocks;
 
 import LLL.content.*;
 import LLL.content.extensions.*;
-import LLL.lib.singularity.world.blocks.product.*;
 import LLL.lib.singularity.world.consumers.*;
 import LLL.world.blocks.packet.*;
 import LLL.world.blocks.production.*;

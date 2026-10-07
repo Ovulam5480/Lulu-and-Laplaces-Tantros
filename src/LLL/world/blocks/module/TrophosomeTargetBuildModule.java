@@ -1,6 +1,7 @@
 package LLL.world.blocks.module;
 
 import LLL.lib.singularity.world.components.*;
+import LLL.world.blocks.module.block.*;
 import arc.struct.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;

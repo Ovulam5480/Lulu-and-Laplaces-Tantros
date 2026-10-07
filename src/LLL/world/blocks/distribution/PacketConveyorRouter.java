@@ -1,6 +1,6 @@
 package LLL.world.blocks.distribution;
 
-import LLL.ctype.packet.*;
+import LLL.packet.*;
 import arc.math.geom.*;
 
 //todo 应用场景疑似被分流器覆盖

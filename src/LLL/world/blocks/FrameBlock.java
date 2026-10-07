@@ -1,15 +1,12 @@
 package LLL.world.blocks;
 
-import LLL.lib.singularity.world.blocks.product.*;
-import arc.func.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.world.*;
 import mindustry.world.blocks.*;
 
 public class FrameBlock extends PayloadCrafter{
-  public Block replacedBlock;
+  public Block replacedBlock = Blocks.copperWallLarge;
   public float requiredProgress = 0.5f;
   public float requiredProgressRound = 0.05f;
 
@@ -68,9 +65,8 @@ public class FrameBlock extends PayloadCrafter{
   @Override
   public void placeEnded(Tile tile, Unit builder, int rotation, Object config){
     if(toReplaced != null){
-
+      toReplaced = null;
     }
-    toReplaced = null;
   }
 
   public class FrameBlockBuild extends PayloadCrafterBuild{
@@ -79,4 +75,5 @@ public class FrameBlock extends PayloadCrafter{
 
     }
   }
+
 }

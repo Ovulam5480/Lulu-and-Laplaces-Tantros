@@ -72,7 +72,6 @@ public enum HealthBarStyle{
   public <T extends Teamc & Healthc> float draw(float x, float y, EntityInfoFrag.EntityEntry<T> entry, Team team, float dy, float alpha, float scl){
     T entity = entry.entity;
     float present = Mathf.clamp(entity.health() / entity.maxHealth());
-    float empPresent = entity instanceof Unit u ? Mathf.clamp(1 - Sgl.empHealth.healthPresent(u)) : 0;
 
     Draw.color(Color.white, alpha);
     float frameWidth = frame.width * frame.scl() * xscl * sclX * scl;
@@ -99,11 +98,6 @@ public enum HealthBarStyle{
     drawBar(healthBar, origX, y, hOffX, hOffY, healthWidth, healthHeight, present, entity.team().color, alpha);
     if(entity instanceof Shieldc u)
       drawBar(healthBar, origX, y, hOffX, hOffY, healthWidth, healthHeight, Mathf.clamp(u.shield() / u.maxHealth()), c.set(entity.team().color).lerp(Tmp.c1.set(Pal.accent).mul(1.6f), 0.3f + Mathf.absin(8, 0.7f)), alpha);
-
-    float emp = 1 - empPresent;
-    drawBar(empBar, origX, y, eOffX, eOffY, empWidth, empHeight, empPresent,
-      Tmp.c1.set(Pal.remove).lerp(Color.white, emp + Mathf.absin(Time.globalTime % 360, 1 + emp * 4, 1 - emp)), alpha
-    );
 
     String str =
       entity instanceof Unit u ? u.type.localizedName + " " + Mathf.round(Mathf.maxZero(u.health)) + "/" + Mathf.round(u.maxHealth) :

@@ -1,6 +1,6 @@
 package LLL.world.blocks.distribution;
 
-import LLL.ctype.packet.*;
+import LLL.packet.*;
 import arc.math.geom.*;
 import mindustry.*;
 import mindustry.world.*;

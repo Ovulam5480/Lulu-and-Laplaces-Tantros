@@ -2,6 +2,7 @@ package LLL.world.blocks.module;
 
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.type.neoplasm.*;
+import LLL.world.blocks.module.block.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;

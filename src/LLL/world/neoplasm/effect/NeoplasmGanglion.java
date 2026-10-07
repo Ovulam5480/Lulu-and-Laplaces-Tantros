@@ -2,6 +2,7 @@ package LLL.world.neoplasm.effect;
 
 import LLL.content.blocks.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import arc.*;
 import mindustry.entities.*;
 import mindustry.game.*;

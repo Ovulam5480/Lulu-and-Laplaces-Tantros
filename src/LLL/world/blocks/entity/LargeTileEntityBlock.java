@@ -1,7 +1,7 @@
 package LLL.world.blocks.entity;
 
 import LLL.entities.gen.*;
-import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import arc.math.*;
 import arc.math.geom.*;
 import universecore.annotations.*;

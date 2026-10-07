@@ -1,8 +1,8 @@
 package LLL.world.blocks.packet;
 
-import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -27,9 +27,9 @@ public class UnpackerBlock extends PacketBlock{
   //解包的封包类型, 为空时 再对解包类型匹配
   public PacketType filterType;
   //解包类型, 空为全部类型
-  public Seq<Class<? extends ResourceStack<?>>> filter = new Seq<>();
+  public Seq<Class<? extends ResourceStack<?, ?, ?>>> filter = new Seq<>();
 
-  protected Seq<ResourceStack<?>> instances = new Seq<>();
+  protected Seq<ResourceStack<?, ?, ?>> instances = new Seq<>();
 
   public TextureRegion inRegion1, inRegion2, iconRegion;
 
@@ -68,8 +68,8 @@ public class UnpackerBlock extends PacketBlock{
       filter.add(ResourceStackManager.classMap.get(filterType.resourceClass));
     }
 
-    for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
-      if(filter.isEmpty() || filter.contains((Class<? extends ResourceStack<?>>)instance.getClass())){
+    for(ResourceStack<?, ?, ?> instance : ResourceStackManager.all){
+      if(filter.isEmpty() || filter.contains((Class<? extends ResourceStack<?, ?, ?>>)instance.getClass())){
         instance.applyBlock(this);
         instances.add(instance);
       }
@@ -85,7 +85,7 @@ public class UnpackerBlock extends PacketBlock{
     public Seq<T> toUnpacks = new Seq<>();
 
     public @Nullable T toUnpack;
-    public @Nullable ResourceStack<?> stack;
+    public @Nullable ResourceStack<?, ?, ?> stack;
 
     public Payload payload;
     public Vec2 payVector = new Vec2();

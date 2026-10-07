@@ -6,7 +6,6 @@ import LLL.entities.neoplasmBehavior.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.type.*;
 import LLL.util.struct.*;
-import LLL.world.blocks.module.*;
 import LLL.world.neoplasm.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
@@ -40,11 +39,11 @@ public class PrefrontalCortex implements Visible{
   private final NeoplasmBehavior behavior;
   private final VesselClusters clusters;
   private final NeoplasmReadAfterAllEntity readAfterAllEntity;
-  private final Seq<NeoplasmBuildModule> suicides = new Seq<>();
-  private final ObjectIntMap<NeoplasmBuildModule> toUpdateCP = new ObjectIntMap<>();
-  private final Seq<NeoplasmBuildModule> toUpdateBranch = new Seq<>();
-  private final Seq<NeoplasmBuildModule> sourceOrgans = new Seq<>();
-  private final Seq<NeoplasmBuildModule> thrombusOrgans = new Seq<>();
+  private final Seq<NeoplasmBuildc> suicides = new Seq<>();
+  private final ObjectIntMap<NeoplasmBuildc> toUpdateCP = new ObjectIntMap<>();
+  private final Seq<NeoplasmBuildc> toUpdateBranch = new Seq<>();
+  private final Seq<NeoplasmBuildc> sourceOrgans = new Seq<>();
+  private final Seq<NeoplasmBuildc> thrombusOrgans = new Seq<>();
   private final Interval interval = new Interval(8);
   public float stressedInterval;
   public boolean underStressed;
@@ -79,7 +78,7 @@ public class PrefrontalCortex implements Visible{
 
     if(shouldNetworkUpdate()){
       if(interval.get(0, 3)){
-        for(NeoplasmBuildModule organ : sourceOrgans){
+        for(NeoplasmBuildc organ : sourceOrgans){
           if(!organ.isAdded()){
             sourceOrgans.remove(organ);
             continue;
@@ -89,7 +88,7 @@ public class PrefrontalCortex implements Visible{
       }
 
       if(interval.get(1, 15)){
-        for(NeoplasmBuildModule organ : thrombusOrgans){
+        for(NeoplasmBuildc organ : thrombusOrgans){
           if(!organ.isAdded()){
             thrombusOrgans.remove(organ);
             continue;
@@ -100,7 +99,7 @@ public class PrefrontalCortex implements Visible{
     }
 
     if(!suicides.isEmpty()){
-      for(NeoplasmBuildModule suicided : suicides){
+      for(NeoplasmBuildc suicided : suicides){
         regrowVessel(suicided);
       }
       suicides.clear();
@@ -123,7 +122,7 @@ public class PrefrontalCortex implements Visible{
                 if(t.build instanceof NeoplasmVessel.NeoplasmVesselBuild v && v.neuron() == neuron){
                   toUpdateBranch.add(v);
                 }
-              }else if(t.build instanceof NeoplasmBuildModule m){
+              }else if(t.build instanceof NeoplasmBuildc m){
                 if(m.neuron() == null){
                   if(m.getTile() == t){
                     m.configureNeuron(null, neuron);
@@ -149,7 +148,7 @@ public class PrefrontalCortex implements Visible{
               if(t.build == null){
                 result = NeoplasmPermeate.ResultState.invalid;
               }else if(t == t.build.tile){
-                ((NeoplasmBuildModule)t.build).suicide();
+                ((NeoplasmBuildc)t.build).suicide();
               }
             }
             case fail -> {
@@ -188,11 +187,11 @@ public class PrefrontalCortex implements Visible{
   }
 
   public void updateCP(){
-    Seq<NeoplasmBuildModule> toRemove = new Seq<>();
-    for(ObjectIntMap.Entry<NeoplasmBuildModule> entry : toUpdateCP){
-      NeoplasmBuildModule build = entry.key;
+    Seq<NeoplasmBuildc> toRemove = new Seq<>();
+    for(ObjectIntMap.Entry<NeoplasmBuildc> entry : toUpdateCP){
+      NeoplasmBuildc build = entry.key;
 
-      if(build.getBuilding().dead){
+      if(build.dead){
         toRemove.add(build);
         continue;
       }
@@ -213,13 +212,13 @@ public class PrefrontalCortex implements Visible{
           Point2 edge = Geometry.d4[i];
 
           if(!structure.containsKey(tileX + edge.x, tileY + edge.y)) continue;
-          NeoplasmBuildModule other = (NeoplasmBuildModule)Vars.world.build(tileX + edge.x, tileY + edge.y);
+          NeoplasmBuildc other = (NeoplasmBuildc)Vars.world.build(tileX + edge.x, tileY + edge.y);
           if(other == null) continue;
 
-          addCP(build, other, i == build.getBuilding().rotation);
+          addCP(build, other, i == build.rotation);
         }
       }else{
-        NeoplasmBuildModule bestParent = null;
+        NeoplasmBuildc bestParent = null;
         int minIndex = 999999;
         int length = build.getBlock().getEdges().length;
 
@@ -229,7 +228,7 @@ public class PrefrontalCortex implements Visible{
 
           if(!structure.containsKey(tileX + edge.x, tileY + edge.y)
             || !structure.containsKey(tileX + inside.x, tileY + inside.y)) continue;
-          NeoplasmBuildModule other = (NeoplasmBuildModule)Vars.world.build(tileX + edge.x, tileY + edge.y);
+          NeoplasmBuildc other = (NeoplasmBuildc)Vars.world.build(tileX + edge.x, tileY + edge.y);
           if(other == null) continue;
 
           if(other == build.parent() || build.children().contains(other)) continue;
@@ -262,16 +261,16 @@ public class PrefrontalCortex implements Visible{
     toRemove.each(build -> toUpdateCP.remove(build, 0));
   }
 
-  public void addCP(NeoplasmBuildModule build, NeoplasmBuildModule other, boolean isParent){
+  public void addCP(NeoplasmBuildc build, NeoplasmBuildc other, boolean isParent){
     if(isParent){
       if(build.parent() == null){
-        build.setParent(other);
+        build.parent(other);
         other.children().add(build);
       }
       //other.children().add(build);
     }else{
       if(other.parent() == null){
-        other.setParent(build);
+        other.parent(build);
       }
 
       if(other.parent() == build){
@@ -300,10 +299,10 @@ public class PrefrontalCortex implements Visible{
     }
   }
 
-  public void regrowVessel(NeoplasmBuildModule suicided){
+  public void regrowVessel(NeoplasmBuildc suicided){
     int[] type = {999};
     int[] ownedIndex = {-1};
-    suicided.getBuilding().eachEdge(t -> {
+    suicided.eachEdge(t -> {
       Block block = t.block();
       if(betterVesselTypes.contains(block) && betterVesselTypes.indexOf(block) < type[0]){
         int index = ownedBlocks.get(block).indexOf(t);
@@ -320,7 +319,7 @@ public class PrefrontalCortex implements Visible{
     Block vessel = betterVesselTypes.get(type[0]);
     Seq<Tile> tiles = ownedBlocks.get(vessel);
 
-    suicided.getTile().getLinkedTilesAs(suicided.getBlock(), t -> {
+    suicided.tile.getLinkedTilesAs(suicided.block, t -> {
       if(structure.get(t.x, t.y) != null){
         byte rot = (byte)getMinDirectionIndex(t.x, t.y);
 
@@ -340,7 +339,7 @@ public class PrefrontalCortex implements Visible{
     return Build.checkNoUnitOverlap(type, x, y) && validPlaceIgnoreUnits(type, team, x, y, rotation, !placeIgnoreCore);
   }
 
-  public boolean checkValid(NeoplasmBuildModule build){
+  public boolean checkValid(NeoplasmBuildc build){
     return structure.get(build.tileX(), build.tileY()) != null;
   }
 
@@ -353,11 +352,11 @@ public class PrefrontalCortex implements Visible{
     behavior.handleStructureChange(build, build.tileX(), build.tileY(), false);
   }
 
-  public void handleSuicide(NeoplasmBuildModule build){
+  public void handleSuicide(NeoplasmBuildc build){
     suicides.add(build);
   }
 
-  public void handleKill(NeoplasmBuildModule build){
+  public void handleKill(NeoplasmBuildc build){
     permeate.getRemoved(build);
   }
 
@@ -365,21 +364,21 @@ public class PrefrontalCortex implements Visible{
     permeate.requestStructure(x, y, stemCell);
   }
 
-  public void handleOwnedBlock(NeoplasmBuildModule build, int x, int y, int rotation, boolean add){
-    Block block = build.getBlock();
+  public void handleOwnedBlock(NeoplasmBuildc build, int x, int y, int rotation, boolean add){
+    Block block = build.block;
 
     if(add){
       if(!ownedBlocks.containsKey(block)){
         ownedBlocks.put(block, new Seq<>());
       }
 
-      ownedBlocks.get(block).add(build.getTile());
+      ownedBlocks.get(block).add(build.tile);
     }else if(ownedBlocks.containsKey(block)){//排除退出某一局游戏时的情况
-      ownedBlocks.get(block).remove(build.getTile());
+      ownedBlocks.get(block).remove(build.tile);
     }
   }
 
-  public void handleThrombusChange(NeoplasmBuildModule build, boolean add){
+  public void handleThrombusChange(NeoplasmBuildc build, boolean add){
     if(add){
       thrombusOrgans.add(build);
     }else{
@@ -387,15 +386,15 @@ public class PrefrontalCortex implements Visible{
     }
   }
 
-  public void handleSource(NeoplasmBuildModule build){
+  public void handleSource(NeoplasmBuildc build){
     sourceOrgans.add(build);
   }
 
-  public void rotationChange(NeoplasmBuildModule build){
-    build.getBuilding().rotation = getMinDirectionIndex(build.tileX(), build.tileY());
+  public void rotationChange(NeoplasmBuildc build){
+    build.rotation = getMinDirectionIndex(build.tileX(), build.tileY());
   }
 
-  public void addParentChildren(NeoplasmBuildModule build){
+  public void addParentChildren(NeoplasmBuildc build){
     if(structure.containsKey(build.tileX(), build.tileY())){//todo fix -> growAttributes
       toUpdateCP.put(build, cpUndateTime);
     }else{
@@ -422,14 +421,13 @@ public class PrefrontalCortex implements Visible{
     return rotation;
   }
 
-  public void getItemDumpTarget(NeoplasmBuildModule build){
-    Building building = build.getBuilding();
-    Tile tile = build.getTile();
+  public void getItemDumpTarget(NeoplasmBuildc build){
+    Tile tile = build.tile;
 
     Tile target = null;
     int minI = 999999;
 
-    for(Point2 edge : build.getBlock().getEdges()){
+    for(Point2 edge : build.block.getEdges()){
       int i = structure.get(tile.x + edge.x, tile.y + edge.y, 999999);
       if(i < minI){
         minI = i;
@@ -437,11 +435,11 @@ public class PrefrontalCortex implements Visible{
       }
     }
 
-    if(target != null && target.build != null && target.build.team == building.team){
+    if(target != null && target.build != null && target.build.team == build.team){
       build.setDumpTarget(target.build);
     }
 
-    building.onProximityUpdate();
+    build.onProximityUpdate();
   }
 
   public void remove(){
@@ -489,9 +487,9 @@ public class PrefrontalCortex implements Visible{
           continue;
         }
 
-        NeoplasmBuildModule build = (NeoplasmBuildModule)building;
+        NeoplasmBuildc build = (NeoplasmBuildc)building;
 
-        for(NeoplasmBuildModule child : build.children()){
+        for(NeoplasmBuildc child : build.children()){
           if(!Tmp.r1.set(camera).grow(child.getBlock().clipSize).contains(child.x(), child.y())){
             continue;
           }

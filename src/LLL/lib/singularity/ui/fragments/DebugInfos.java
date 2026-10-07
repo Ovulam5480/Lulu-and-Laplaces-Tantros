@@ -1,6 +1,7 @@
 package LLL.lib.singularity.ui.fragments;
 
 import LLL.lib.singularity.*;
+import LLL.world.particles.*;
 import arc.*;
 import arc.func.*;
 import arc.scene.*;
@@ -12,7 +13,6 @@ import mindustry.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
-import universecore.world.particles.*;
 
 public class DebugInfos{
   public boolean hidden = false;

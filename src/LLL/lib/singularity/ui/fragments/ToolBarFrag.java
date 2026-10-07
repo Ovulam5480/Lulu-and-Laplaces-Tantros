@@ -11,7 +11,8 @@ import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
-import universecore.util.handler.*;
+import mindustry.ui.fragments.*;
+import universe.util.reflect.*;
 
 public class ToolBarFrag{
   private final OrderedMap<String, ToolEntry> tools = new OrderedMap<>();
@@ -21,7 +22,7 @@ public class ToolBarFrag{
   public void init(){
     Events.on(EventType.WorldLoadEvent.class, e -> {
       Core.app.post(() -> {
-        Table blockCatTable = FieldHandler.getValueDefault(Vars.ui.hudfrag.blockfrag, "blockCatTable");
+        Table blockCatTable = Reflection.accessField(PlacementFragment.class, Table.class, "blockCatTable").get(Vars.ui.hudfrag.blockfrag);
         blockCatTable.table(SglDrawConst.grayUIAlpha, tools -> {
           tools.top().pane(Styles.noBarPane, this::buildTools).growY().width(50).left().get().setScrollingDisabledX(true);
         }).width(50).growY();

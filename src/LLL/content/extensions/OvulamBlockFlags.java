@@ -1,18 +1,17 @@
 package LLL.content.extensions;
 
-import LLL.lib.singularity.world.blocks.product.*;
 import arc.func.*;
 import arc.struct.*;
 import mindustry.*;
-import mindustry.game.*;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.meta.*;
-import universecore.util.handler.*;
+import universe.util.reflect.*;
+import universe.util.reflect.accessor.*;
 
 public class OvulamBlockFlags{
-  private static final EnumHandler<BlockFlag> handler = new EnumHandler<>(BlockFlag.class);
-  private static ObjectMap<Boolf<Block>, BlockFlag> flagBlocks = new ObjectMap<>();
+  private static final EnumAccessor0<BlockFlag> handler = Enums.accessEnum(BlockFlag.class);
+  private static final ObjectMap<Boolf<Block>, BlockFlag> flagBlocks = new ObjectMap<>();
 
   public static BlockFlag trophosomeTarget = add("trophosomeTarget");
   public static BlockFlag buildPayloadProducer = add("buildPayloadProducer", b -> {
@@ -23,7 +22,7 @@ public class OvulamBlockFlags{
   });
 
   public static BlockFlag add(String addition){
-    return handler.addEnumItemTail(addition);
+    return handler.appendEnumInstance(addition, false);
   }
 
   public static BlockFlag add(String addition, Boolf<Block> flagBlock){
@@ -39,8 +38,8 @@ public class OvulamBlockFlags{
   }
 
   public static void load(){
-    FieldHandler.setValueDefault(BlockFlag.class, "all", BlockFlag.values());
-    FieldHandler.setValueDefault(Vars.indexer, "flagMap", new Seq[Team.all.length][BlockFlag.all.length]);
+    //    FieldHandler.setValueDefault(Vars.indexer, "flagMap", new Seq[Team.all.length][BlockFlag.all.length]);
+    Reflection.accessStaticField(BlockFlag.class, BlockFlag[].class, "all").set(BlockFlag.values());
   }
 
   public static void init(){

@@ -3,7 +3,7 @@ package LLL.world.blocks.entity;
 import LLL.*;
 import LLL.content.extensions.*;
 import LLL.entities.gen.*;
-import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import arc.*;
 import arc.func.*;
 import arc.math.geom.*;

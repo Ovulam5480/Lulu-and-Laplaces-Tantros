@@ -2,9 +2,8 @@ package LLL.io;
 
 import LLL.*;
 import LLL.content.*;
-import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.io.*;

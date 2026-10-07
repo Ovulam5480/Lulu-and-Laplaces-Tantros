@@ -1,8 +1,8 @@
 package LLL.world.blocks.packet;
 
-import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
+import LLL.packet.*;
 
 public class PacketUnpacker extends UnpackerBlock{
   public float excavateTime = 60f;

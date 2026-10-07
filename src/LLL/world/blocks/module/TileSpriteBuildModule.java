@@ -1,11 +1,12 @@
 package LLL.world.blocks.module;
 
+import LLL.world.blockcomp.*;
+import LLL.world.blocks.module.block.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.*;
 import mindustry.gen.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
 
 @SuppressWarnings("unused")
 public interface TileSpriteBuildModule extends BuildCompBase{

@@ -1,6 +1,7 @@
 package LLL.lib.singularity.ui.fragments.notification;
 
 import LLL.lib.singularity.graphic.*;
+import LLL.util.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.scene.style.*;
@@ -9,7 +10,6 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import universecore.util.*;
 
 import java.util.*;
 

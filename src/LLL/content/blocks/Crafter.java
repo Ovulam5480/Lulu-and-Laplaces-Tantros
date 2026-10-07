@@ -1,7 +1,6 @@
 package LLL.content.blocks;
 
 import LLL.content.*;
-import LLL.lib.singularity.world.blocks.product.*;
 import LLL.lib.singularity.world.consumers.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;

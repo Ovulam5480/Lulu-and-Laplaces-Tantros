@@ -1,6 +1,7 @@
 package LLL.lib.singularity.world.components;
 
-import LLL.lib.singularity.world.modules.*;
+import LLL.world.blockcomp.*;
+import LLL.world.modules.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -11,7 +12,6 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
 
 import static mindustry.Vars.*;
 import static mindustry.world.blocks.payloads.PayloadBlock.*;
@@ -89,12 +89,12 @@ public interface PayloadBuildComp extends BuildCompBase{
   default void carried(boolean carried){
   }
 
-  @Annotations.BindField(value = "payloads", initialize = "new LLL.lib.singularity.world.modules.PayloadModule()")
+  @Annotations.BindField(value = "payloads", initialize = "new LLL.world.modules.PayloadModule()")
   default PayloadModule payloads(){
     return null;
   }
 
-  @Annotations.BindField(value = "payloads", initialize = "new LLL.lib.singularity.world.modules.PayloadModule()")
+  @Annotations.BindField(value = "payloads", initialize = "new LLL.world.modules.PayloadModule()")
   default void payloads(PayloadModule module){
   }
 

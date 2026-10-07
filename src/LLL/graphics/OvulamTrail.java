@@ -1,6 +1,5 @@
 package LLL.graphics;
 
-import LLL.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
@@ -12,7 +11,7 @@ public class OvulamTrail extends Trail{
   //-1~1
   public float offsetBias;
   public float trailWidth = 8f;
-  public Interp widthInterp = Interps.A;
+  public Interp widthInterp = Interp.linear;
 
   public OvulamTrail(int length, float bias){
     super(length);

@@ -3,6 +3,7 @@ package LLL.lib.singularity.ui.fragments.notification;
 import LLL.lib.singularity.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.ui.*;
+import LLL.util.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -20,7 +21,6 @@ import arc.util.io.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
-import universecore.util.*;
 
 import java.text.*;
 

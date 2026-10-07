@@ -1,6 +1,6 @@
 package LLL.util;
 
-import LLL.ctype.packet.*;
+import LLL.packet.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.g2d.*;

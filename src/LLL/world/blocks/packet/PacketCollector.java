@@ -1,9 +1,9 @@
 package LLL.world.blocks.packet;
 
 import LLL.*;
-import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
 import LLL.io.*;
+import LLL.packet.*;
 import LLL.world.blocks.entity.*;
 import LLL.world.blocks.module.*;
 import arc.math.geom.*;

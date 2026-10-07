@@ -14,7 +14,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
-import universecore.ui.elements.markdown.*;
+import universe.ui.markdown.*;
 
 public class DocumentDialog extends BaseDialog{
   @Nullable

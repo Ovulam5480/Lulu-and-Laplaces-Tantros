@@ -8,7 +8,6 @@ import mindustry.*;
 import mindustry.async.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
-import universecore.util.handler.*;
 
 public class OvulamPhysicsProcess extends PhysicsProcess{
   public static final int
@@ -143,6 +142,8 @@ public class OvulamPhysicsProcess extends PhysicsProcess{
   }
 
   public static class OvulamPhysicsWorld extends PhysicsWorld{
+    private static final FieldAccessor<PhysicsWorld, QuadTree[]> treesAccessor =
+      Reflection.accessField(PhysicsWorld.class, QuadTree[].class, "trees");
 
     public OvulamPhysicsWorld(Rect bounds){
       super(bounds);
@@ -152,7 +153,7 @@ public class OvulamPhysicsProcess extends PhysicsProcess{
         trees[i] = new QuadTree(bounds);
       }
 
-      FieldHandler.setValueDefault(this, "trees", trees);
+      treesAccessor.set(this, trees);
     }
   }
 }

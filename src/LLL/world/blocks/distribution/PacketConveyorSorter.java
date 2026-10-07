@@ -1,7 +1,7 @@
 package LLL.world.blocks.distribution;
 
-import LLL.ctype.packet.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import LLL.world.blocks.module.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.*;
@@ -45,9 +45,9 @@ public class PacketConveyorSorter extends PacketConveyor{
       if(packetEntry.packet.packetType() != getSelected()){
         return false;
       }else if(!selectedResources().isEmpty()){
-        Seq<ResourceStack<?>> resources = packetEntry.packet.resources();
+        Seq<ResourceStack<?, ?, ?>> resources = packetEntry.packet.resources();
 
-        for(ResourceStack<?> resource : selectedResources()){
+        for(ResourceStack<?, ?, ?> resource : selectedResources()){
           if(!resources.contains(r -> r.item == resource.item && r.amount >= resource.amount)){
             return false;
           }

@@ -5,6 +5,7 @@ import LLL.graphics.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.util.func.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import LLL.world.neoplasm.units.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;

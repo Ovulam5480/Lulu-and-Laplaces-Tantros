@@ -1,9 +1,5 @@
 package LLL.lib.singularity;
 
-import LLL.lib.singularity.contents.*;
-import LLL.lib.singularity.core.*;
-import LLL.lib.singularity.type.*;
-import LLL.lib.singularity.world.meta.*;
 import arc.*;
 import arc.files.*;
 import arc.graphics.g2d.*;
@@ -13,7 +9,6 @@ import arc.util.*;
 import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.mod.*;
-import universecore.*;
 
 import java.util.*;
 
@@ -22,26 +17,11 @@ import static mindustry.game.EventType.*;
 //@RecipeEntryPoint(Recipes.class)
 //@Annotations.ImportUNC(requireVersion = "2.1.0")
 public class Singularity extends Mod{
-  private static final ContentList[] modContents = new ContentList[]{
-    new OtherContents(),//其他内容
-
-    new SglItems(),//物品
-    new SglLiquids(),//液体
-    new NuclearBlocks(),//核能方块
-    new LiquidBlocks(),//物流方块
-    new ProductBlocks(),//采集方块
-    new DistributeBlocks(),//物流运输方块
-    new SglTurrets(),//炮台
-    new SglUnits(),//单位相关内容（单位、工厂）
-    new DefenceBlocks(),//防御方块
-  };
-
   public boolean initialized = false;
 
   public Singularity(){
     //加载模组配置数据
     Sgl.config.load();
-    Sgl.classes = UncCore.classes.newInstance(Singularity.class);
 
     Log.info(
       """
@@ -51,12 +31,6 @@ public class Singularity extends Mod{
         Visit the GitHub project about this mod:
         >\040""" + Sgl.githubProject + " <"
     );
-
-    if(Sgl.config.modReciprocalContent){
-      Events.on(ContentInitEvent.class, e -> {
-        Init.reloadContent();
-      });
-    }
 
     if(Sgl.config.debugMode) Events.on(WorldLoadEvent.class, e -> Vars.state.rules.infiniteResources = true);
   }
@@ -68,23 +42,11 @@ public class Singularity extends Mod{
 
     initialized = true;
 
-    Sgl.classes.finishGenerate();
     if(Sgl.config.loadInfo) Log.info("[Singularity] mod initialize finished");
   }
 
   @Override
   public void loadContent(){
-    //加载属性类型
-    SglAttribute.load();
-    //加载方块类型
-    SglCategory.load();
-    //载入所有新内容类型
-    SglContentType.load();
-
-    for(ContentList list : Singularity.modContents){
-      list.load();
-    }
-
     if(Sgl.config.debugMode){
 
       for(ContentType type : ContentType.all){

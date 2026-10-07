@@ -3,6 +3,7 @@ package LLL.lib.singularity.ui.dialogs;
 import LLL.lib.singularity.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.ui.*;
+import LLL.util.uncUtil.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -17,7 +18,6 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
-import universecore.util.*;
 
 import static mindustry.Vars.*;
 

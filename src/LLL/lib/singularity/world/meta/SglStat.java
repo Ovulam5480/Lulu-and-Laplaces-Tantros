@@ -1,11 +1,13 @@
 package LLL.lib.singularity.world.meta;
 
+import LLL.content.*;
 import arc.struct.*;
 import mindustry.world.meta.*;
-import universecore.util.handler.*;
-import universecore.world.meta.*;
+import universe.util.reflect.*;
+import universe.util.reflect.accessor.*;
 
 public class SglStat{
+  private static final FieldAccessor<Stat, Integer> idField = Reflection.accessField(Stat.class, int.class, "id");
   public static final Stat
     componentBelongs = create("componentBelongs", UncStatCat.structure),
     maxChildrenNodes = create("maxChildrenNodes", UncStatCat.structure),
@@ -86,7 +88,7 @@ public class SglStat{
     all.insert(index, res);
 
     for(int i = 0; i < all.size; i++){
-      FieldHandler.setValueDefault(all.get(i), "id", i);
+      idField.set(all.get(i), i);
     }
 
     return res;

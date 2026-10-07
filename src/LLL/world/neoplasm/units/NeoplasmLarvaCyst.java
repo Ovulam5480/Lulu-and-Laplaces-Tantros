@@ -1,10 +1,7 @@
 package LLL.world.neoplasm.units;
 
 import LLL.content.*;
-import LLL.lib.singularity.world.blocks.product.*;
 import LLL.lib.singularity.world.consumers.*;
-import LLL.world.blocks.module.*;
-import LLL.world.uncRecipes.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -28,7 +25,7 @@ import static mindustry.Vars.*;
 import static mindustry.world.blocks.payloads.PayloadBlock.*;
 
 @Annotations.ImplEntries
-public class NeoplasmLarvaCyst extends PayloadCrafter implements NeoplasmBlockModule{
+public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockModule, UnitCrafterBlockComp{
   protected ObjectIntMap<UnlockableContent> accepts = new ObjectIntMap<>();
 
   public float degenerateTime = 60 * 60;
@@ -136,8 +133,8 @@ public class NeoplasmLarvaCyst extends PayloadCrafter implements NeoplasmBlockMo
     addBar("sleepTime", (NeoplasmLarvaCystBuild b) -> new Bar("bar.neoplasm", Pal.accent, () -> b.degenerate() / degenerateTime));
   }
 
-  @Annotations.ImplEntries
-  public class NeoplasmLarvaCystBuild extends PayloadCrafterBuild implements NeoplasmOrganModule{
+  //NeoplasmOrganBuild
+  public class NeoplasmLarvaCystBuild extends PayloadCrafterBuildNeoplasmBuildBuilding{
     @Override
     public void craftTrigger(){
       super.craftTrigger();

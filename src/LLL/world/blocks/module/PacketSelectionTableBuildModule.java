@@ -1,16 +1,16 @@
 package LLL.world.blocks.module;
 
-import LLL.ctype.packet.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import LLL.ui.*;
+import LLL.world.blockcomp.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
 
 public interface PacketSelectionTableBuildModule extends BuildCompBase{
   @Annotations.BindField(value = "selectedResources", initialize = "new arc.struct.Seq<>()")
-  default Seq<ResourceStack<?>> selectedResources(){
+  default Seq<ResourceStack<?, ?, ?>> selectedResources(){
     return null;
   }
 
@@ -19,7 +19,7 @@ public interface PacketSelectionTableBuildModule extends BuildCompBase{
     return null;
   }
 
-  @Annotations.BindField(value = "selectionPacketType", initialize = "new arc.struct.Seq<>(LLL.ctype.packet.PacketType.class)")
+  @Annotations.BindField(value = "selectionPacketType", initialize = "new arc.struct.Seq<>(LLL.packet.PacketType.class)")
   default Seq<PacketType> selectionPacketType(){
     return null;
   }

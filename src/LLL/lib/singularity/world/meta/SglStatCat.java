@@ -2,9 +2,11 @@ package LLL.lib.singularity.world.meta;
 
 import arc.struct.*;
 import mindustry.world.meta.*;
-import universecore.util.handler.*;
+import universe.util.reflect.*;
+import universe.util.reflect.accessor.*;
 
 public class SglStatCat{
+  private static final FieldAccessor<StatCat, Integer> idField = Reflection.accessField(StatCat.class, int.class, "id");
   public static final StatCat
     neutron = create("neutron", 3),
     matrix = create("matrix", 5),
@@ -23,7 +25,7 @@ public class SglStatCat{
     all.insert(index, res);
 
     for(int i = 0; i < all.size; i++){
-      FieldHandler.setValueDefault(all.get(i), "id", i);
+      idField.set(all.get(i), i);
     }
 
     return res;

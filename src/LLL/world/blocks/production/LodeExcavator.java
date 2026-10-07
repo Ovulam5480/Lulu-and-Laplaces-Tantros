@@ -2,9 +2,9 @@ package LLL.world.blocks.production;
 
 import LLL.*;
 import LLL.content.*;
-import LLL.ctype.packet.packetTypes.*;
 import LLL.entities.gen.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.ResourceStacks.*;
+import LLL.packet.packetTypes.*;
 import LLL.world.blocks.packet.*;
 import arc.*;
 import arc.graphics.*;
@@ -109,7 +109,7 @@ public class LodeExcavator extends UnpackerBlock{
     LuluMod.oIndexer.lodePacketTree.intersect(tmp, lp -> {
       float sum = lp.amount();
 
-      for(ResourceStack<?> stack : lp.resources()){
+      for(ResourceStack<?, ?, ?> stack : lp.resources()){
         TextureRegion icon = stack.getIcon();
         int amount = Mathf.floor(stack.amount);
 

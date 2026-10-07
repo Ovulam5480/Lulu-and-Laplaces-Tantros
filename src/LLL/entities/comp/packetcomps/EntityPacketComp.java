@@ -1,11 +1,11 @@
 package LLL.entities.comp.packetcomps;
 
 import LLL.*;
-import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
 import LLL.graphics.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;

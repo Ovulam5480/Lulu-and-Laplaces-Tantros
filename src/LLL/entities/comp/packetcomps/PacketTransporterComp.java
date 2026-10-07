@@ -1,8 +1,8 @@
 package LLL.entities.comp.packetcomps;
 
-import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
+import LLL.packet.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;

@@ -1,8 +1,8 @@
 package LLL.world.blocks.entity;
 
-import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
@@ -12,7 +12,7 @@ import mindustry.graphics.*;
 
 public class CrystalCoreBlock extends TileEntityBlock{
   public PacketType packetType;
-  public Seq<ResourceStack<?>> resources = new Seq<>();
+  public Seq<ResourceStack<?, ?, ?>> resources = new Seq<>();
 
   public float spawnTime = 160f;
   public float spawnerRadius = 80f;

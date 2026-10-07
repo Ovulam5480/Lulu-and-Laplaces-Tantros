@@ -11,6 +11,9 @@ import arc.util.*;
 import static mindustry.Vars.*;
 
 public class SglShaders{
+  // 3D stage
+  public static Shader planet, solar, standardBase, standard;
+
   // scene space shaders
   public static Shader baseShader, simpleScreen;
   public static SglSurfaceShader boundWater;
@@ -97,6 +100,19 @@ public class SglShaders{
   }
 
   public static void load(){
+    planet = new SglShader(
+      internalShaderDir.child("3d").child("planet.vert"),
+      internalShaderDir.child("3d").child("planet.frag")
+    );
+    solar = new SglShader(
+      internalShaderDir.child("3d").child("solar.vert"),
+      internalShaderDir.child("3d").child("solar.frag")
+    );
+    standardBase = new SglShader(
+      internalShaderDir.child("3d").child("standard_base.vert"),
+      internalShaderDir.child("3d").child("standard_base.frag")
+    );
+
     simpleScreen = new SglShader(Core.files.internal("shaders/screenspace.vert"), internalShaderDir.child("simple.frag"));
     baseShader = new SglShader(Core.files.internal("shaders/screenspace.vert"), internalShaderDir.child("dist_base.frag"));
     boundWater = new SglSurfaceShader("boundwater");

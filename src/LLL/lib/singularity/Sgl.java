@@ -3,19 +3,12 @@ package LLL.lib.singularity;
 import LLL.lib.singularity.core.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.ui.*;
-import LLL.lib.singularity.world.blocks.*;
-import LLL.lib.singularity.world.blocks.turrets.*;
-import LLL.lib.singularity.world.distribution.*;
-import LLL.lib.singularity.world.unit.*;
 import arc.*;
 import arc.files.*;
-import arc.graphics.g2d.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.game.*;
-import mindustry.world.*;
-import universecore.util.handler.*;
 import universecore.util.mods.*;
 
 import java.util.concurrent.*;
@@ -123,26 +116,15 @@ public class Sgl{
    */
   public static Settings globals;
   /**
-   * 模组配置存储器
-   */
-  public static ClassHandler classes;
-  /**
    * ui类存放对象
    */
   public static SglUI ui;
-
-  public static DistSupportContainerTable matrixContainers;
-
-  public static EMPHealthManager empHealth;
 
   public static ModsInteropAPI interopAPI = new ModsInteropAPI();
 
   public static ExecutorService executor = Threads.unboundedExecutor("SGL_EXEC", 1);
 
   public static void init(){
-    //注册所有打包数据类型id
-    BytePackAssign.assignAll();
-
     globals = new Settings(){
       {
         setAutosave(true);
@@ -200,15 +182,7 @@ public class Sgl{
 
     globals.load();
 
-    matrixContainers = new DistSupportContainerTable();
-    empHealth = new EMPHealthManager();
-
-    matrixContainers.setDefaultSupports();
-
     interopAPI.init();
-    empHealth.init();
-
-    UpdatePool.receive("autosaveGlobal", globals::autosave);
 
     if(!Core.app.isHeadless()){
       generatePostAtlas();
@@ -231,13 +205,6 @@ public class Sgl{
     }
 
     Events.on(EventType.ClientLoadEvent.class, e -> interopAPI.updateModels());
-
-    for(Block block : Vars.content.blocks()){
-      if(block.minfo.mod != null && block.minfo.mod.name.equals(modName) && !(block instanceof SglTurret)){
-        PixmapRegion image = Core.atlas.getPixmap(block.region);
-        block.squareSprite = image.getA(0, 0) > 0.5f;
-      }
-    }
   }
 
   private static boolean saving;
@@ -257,20 +224,6 @@ public class Sgl{
         }
       }
     }
-
-    UpdatePool.receive("notificationAutoSave", () -> {
-      if(ui.notificationFrag.shouldSave() && notificationHistory.exists() && !saving){
-        executor.submit(() -> {
-          saving = true;
-          notificationHistory.copyTo(notificationHistoryBackup);
-
-          try(Writes writes = notificationHistory.writes(false)){
-            ui.notificationFrag.saveHistory(writes);
-          }
-          saving = false;
-        });
-      }
-    });
   }
 
   private static void generatePostAtlas(){

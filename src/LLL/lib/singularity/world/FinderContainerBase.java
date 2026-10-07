@@ -1,10 +1,10 @@
 package LLL.lib.singularity.world;
 
+import LLL.util.uncUtil.path.*;
+import LLL.world.blockcomp.*;
 import arc.struct.*;
 import arc.struct.Queue;
 import arc.util.pooling.*;
-import universecore.components.blockcomp.*;
-import universecore.util.path.*;
 
 import java.util.*;
 

@@ -1,7 +1,8 @@
 package LLL.lib.singularity.graphic;
 
 import LLL.lib.singularity.*;
-import LLL.lib.singularity.util.func.*;
+import LLL.util.func.*;
+import LLL.world.particles.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -12,7 +13,6 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
-import universecore.world.particles.*;
 
 import java.util.*;
 

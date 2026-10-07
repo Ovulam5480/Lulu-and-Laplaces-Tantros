@@ -1,7 +1,6 @@
 package LLL.lib.singularity.ui;
 
 import LLL.lib.singularity.*;
-import LLL.lib.singularity.core.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.graphic.renders.*;
 import LLL.lib.singularity.ui.dialogs.*;
@@ -9,7 +8,6 @@ import LLL.lib.singularity.ui.dialogs.ModConfigDialog.*;
 import LLL.lib.singularity.ui.fragments.*;
 import LLL.lib.singularity.ui.fragments.entityinfo.*;
 import LLL.lib.singularity.ui.fragments.notification.*;
-import LLL.lib.singularity.ui.fragments.override.*;
 import arc.*;
 import arc.input.*;
 import arc.math.*;
@@ -26,7 +24,7 @@ import mindustry.graphics.g3d.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.world.meta.*;
-import universecore.util.handler.*;
+import universe.util.reflect.*;
 
 @SuppressWarnings("DuplicatedCode")
 public class SglUI{
@@ -42,26 +40,11 @@ public class SglUI{
   public DocumentDialog document;
   public ModConfigDialog config;
   public SupportUsDialog support;
-
-  public DistNetMonitorDialog bufferStat;
-
-  public UnitFactoryCfgDialog unitFactoryCfg;
-
   public ToolBarFrag toolBar;
   public DebugInfos debugInfos;
   public NotificationFrag notificationFrag;
 
   public static Blur uiBlur = new Blur(Blur.DEf_B);
-
-  static{
-    UpdatePool.receive("syncUIBlurCfg", () -> {
-      uiBlur.blurScl = Sgl.config.blurLevel;
-      uiBlur.blurSpace = Sgl.config.backBlurLen;
-
-      SglStyles.blurBack.stageBackground = Sgl.config.enableBlur ? SglStyles.BLUR_BACK : Styles.black9;
-      Styles.defaultDialog.stageBackground = Sgl.config.enableBlur ? SglStyles.BLUR_BACK : Styles.black9;
-    });
-  }
 
   private static final Object[][] grapPreset = {
     {1, false, 0.25f, false, false, 64, false},
@@ -201,9 +184,7 @@ public class SglUI{
     publicInfo = new PublicInfoDialog();
     config = new ModConfigDialog();
     support = new SupportUsDialog();
-    bufferStat = new DistNetMonitorDialog();
     document = new DocumentDialog();
-    unitFactoryCfg = new UnitFactoryCfgDialog();
 
     toolBar = new ToolBarFrag();
     debugInfos = new DebugInfos();
@@ -215,7 +196,6 @@ public class SglUI{
 
     mainMenu.build();
     aboutDialog.build();
-    unitFactoryCfg.build();
 
     toolBar.init();
 
@@ -223,17 +203,12 @@ public class SglUI{
       debugInfos.build(Vars.ui.hudGroup);
     }
 
-    if(!Sgl.config.disableModMainMenu){
-      Vars.ui.menufrag = new SglMenuFrag();
-      Vars.ui.menufrag.build(Vars.ui.menuGroup);
-    }
-
     setConfigItems();
     configEventListeners();
 
     //添加设置项入口
     Vars.ui.settings.shown(() -> {
-      Table table = FieldHandler.getValueDefault(Vars.ui.settings, "menu");
+      Table table = Reflection.accessField(SettingsMenuDialog.class, Table.class, "menu").get(Vars.ui.settings);
       table.button(
         Core.bundle.get("settings.singularity"),
         SglDrawConst.sglIcon,

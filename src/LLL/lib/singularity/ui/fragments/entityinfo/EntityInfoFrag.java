@@ -1,9 +1,9 @@
 package LLL.lib.singularity.ui.fragments.entityinfo;
 
 import LLL.lib.singularity.*;
-import LLL.lib.singularity.core.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.lib.singularity.util.*;
+import LLL.util.math.*;
+import LLL.world.AAAtodo.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -23,7 +23,6 @@ import mindustry.graphics.*;
 import mindustry.input.*;
 import mindustry.ui.*;
 import universecore.annotations.*;
-import universecore.components.*;
 
 import java.util.*;
 
@@ -55,12 +54,6 @@ public class EntityInfoFrag{
   float sclAlpha, touchY = -1, lastScl = -1;
 
   static{
-    Element cap = new Element();
-    UpdatePool.receive("lockScl", () -> {
-      if(Core.app.isDesktop() && (Sgl.ui.entityInfoFrag.resizing || Core.input.alt())){
-        Core.scene.setScrollFocus(cap);
-      }else if(Core.scene.getScrollFocus() == cap) Core.scene.unfocus(cap);
-    });
     Vars.control.input.addLock(() -> Core.app.isMobile() && Sgl.ui.entityInfoFrag.resizing);
   }
 

@@ -2,6 +2,7 @@ package LLL.world.neoplasm.effect;
 
 import LLL.lib.multiblock.extend.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import universecore.annotations.*;

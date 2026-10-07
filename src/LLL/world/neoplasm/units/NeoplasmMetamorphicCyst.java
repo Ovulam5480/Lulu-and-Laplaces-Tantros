@@ -1,10 +1,11 @@
 package LLL.world.neoplasm.units;
 
+import LLL.packet.resources.*;
 import LLL.world.blocks.module.*;
+import LLL.world.blocks.module.block.*;
 import mindustry.ctype.*;
 import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
-import universecore.world.consumers.*;
 
 @Annotations.ImplEntries
 public class NeoplasmMetamorphicCyst extends NeoplasmLarvaCyst implements TrophosomeTargetBlockModule{
@@ -28,7 +29,7 @@ public class NeoplasmMetamorphicCyst extends NeoplasmLarvaCyst implements Tropho
 
     @Override
     public boolean canAcceptPayload(UnlockableContent type){
-      return filter().filter(this, ConsumeType.payload, type, true);
+      return filter().filter(this, ResourceType.payload, type, true);
     }
 
     @Override

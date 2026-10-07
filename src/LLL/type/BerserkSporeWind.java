@@ -3,7 +3,7 @@ package LLL.type;
 import LLL.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.lib.singularity.util.*;
+import LLL.util.math.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;

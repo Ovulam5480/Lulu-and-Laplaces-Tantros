@@ -1,12 +1,13 @@
 package LLL.world.blocks.module;
 
+import LLL.world.blockcomp.*;
+import LLL.world.blocks.module.block.*;
 import arc.math.geom.*;
 import mindustry.*;
 import mindustry.core.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
 
 @SuppressWarnings("unused")
 public interface MovableBuildModule extends BuildCompBase{

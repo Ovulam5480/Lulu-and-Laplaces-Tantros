@@ -16,7 +16,8 @@ public class FlyingBuildUnitAI extends CommandAI{
   @Override
   public void commandPosition(Vec2 pos, boolean stopWhenInRange){
     float offset = ((MovableBuildUnitc)unit).tile().block.offset;
-    pos.set(World.toTile(pos.x) * 8, World.toTile(pos.y) * 8).add(offset, offset);
+    pos.set(World.toTile(pos.x - offset) * 8, World.toTile(pos.y - offset) * 8).add(offset, offset);
+
     super.commandPosition(pos, stopWhenInRange);
   }
 
@@ -100,10 +101,27 @@ public class FlyingBuildUnitAI extends CommandAI{
         unit.isFlying() ? 40f : 100f, false, null, isFinalPoint || alwaysArrive);
     }
 
-    //todo 单位靠近终点时颤抖问题
-    //todo 滚动立方等无法移动到指定位置
-    if(unit.within(vecMovePos, 1f) && unit.elevation <= 0.01f){
-      ((MovableBuildUnitc)unit).tile().set(targetPos);
+    if(unit.within(vecMovePos, 1f)){
+      if(commandQueue.isEmpty()){
+        if(unit.elevation <= 0.01f) ((MovableBuildUnitc)unit).tile().set(targetPos);
+      }else{
+        Vec2 prev = targetPos;
+        var next = commandQueue.remove(0);
+        if(next instanceof Teamc target){
+          commandTarget(target, this.stopAtTarget);
+        }else if(next instanceof Vec2 position){
+          commandPosition(position);
+        }
+
+        if(prev != null && (hasStance(UnitStance.patrol) || command == UnitCommand.loopPayloadCommand)){
+          commandQueue.add(prev.cpy());
+        }
+
+        //make sure spot in formation is reachable
+        if(group != null){
+          group.updateRaycast(groupIndex, next instanceof Vec2 position ? position : Tmp.v3.set(next));
+        }
+      }
     }
   }
 

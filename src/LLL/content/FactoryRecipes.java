@@ -1,9 +1,8 @@
 package LLL.content;
 
-import LLL.world.uncRecipes.*;
+import LLL.world.recipe.*;
+import LLL.world.recipe.producers.*;
 import arc.struct.*;
-import universecore.world.consumers.*;
-import universecore.world.producers.*;
 
 public class FactoryRecipes{
   public static Seq<BaseConsumers> smeltConsumers = new Seq<>();

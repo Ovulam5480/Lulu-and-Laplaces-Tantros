@@ -1,8 +1,5 @@
 package LLL.lib.singularity.ui;
 
-import LLL.lib.singularity.contents.*;
-import LLL.lib.singularity.world.blocks.turrets.*;
-import LLL.lib.singularity.world.blocks.turrets.EmpBulletType;
 import arc.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
@@ -24,19 +21,6 @@ public class UIUtils{
       }else{
         sep(table, Core.bundle.format("bullet.damage", bullet.damage));
       }
-    }
-
-    if(bullet instanceof EmpBulletType emp){
-      sep(table, Core.bundle.format("bullet.empDamage", emp.empDamage, emp.empRange > 0 ? "[lightgray]~ [accent]" + emp.empRange / tilesize + "[lightgray]" + StatUnit.blocks.localized() : ""));
-    }
-
-    if(bullet instanceof HeatBulletType heat){
-      table.row();
-      table.table(t -> {
-        t.left().defaults().padRight(3).left();
-        t.image(OtherContents.meltdown.uiIcon).size(25).scaling(Scaling.fit);
-        t.add(Core.bundle.format("infos.heatAmmo", Strings.autoFixed(heat.meltDownTime / 60, 1), Strings.autoFixed(heat.melDamageScl * 60, 1), heat.maxExDamage > 0 ? heat.maxExDamage : Math.max(heat.damage, heat.splashDamage)));
-      });
     }
 
     if(bullet.buildingDamageMultiplier != 1){

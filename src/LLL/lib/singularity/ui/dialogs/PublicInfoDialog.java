@@ -16,7 +16,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
-import universecore.ui.elements.markdown.*;
+import universe.ui.markdown.*;
 
 import java.io.*;
 import java.nio.charset.*;
@@ -173,7 +173,7 @@ public class PublicInfoDialog extends BaseDialog{
           String doc = getToString(response.getResultAsStream(), response.getContentLength());
 
           Core.app.post(() -> {
-            documents.put(current.docName, new Markdown(doc, MarkdownStyles.defaultMD));
+            documents.put(current.docName, new Markdown(doc, MarkdownStyles.INSTANCE.getDefaultMD()));
             if(current.equals(curr)){
               loading = false;
               setupInfos();

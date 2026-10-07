@@ -1,8 +1,8 @@
 package LLL.ui;
 
 import LLL.content.*;
-import LLL.ctype.packet.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.*;
+import LLL.packet.ResourceStacks.*;
 import arc.graphics.g2d.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
@@ -14,7 +14,7 @@ import mindustry.ui.*;
 public class PacketSelectionTable{
   private int currentSelection = 0, prevSelection = 0;
 
-  public void build(Table parents, PacketType[] packetType, Seq<ResourceStack<?>> selectedResources){
+  public void build(Table parents, PacketType[] packetType, Seq<ResourceStack<?, ?, ?>> selectedResources){
     parents.table(Styles.black5, all -> {
       all.table(visibleSetter -> {
         visibleSetter.button(Icon.menu, Styles.clearNoneTogglei, () -> currentSelection = 0).checked(ib -> currentSelection == 0).height(60).growX();
@@ -52,7 +52,7 @@ public class PacketSelectionTable{
         if(selectedResources.isEmpty()) return;
 
         float sum = selectedResources.sumf(r -> r.amount);
-        for(ResourceStack<?> stack : selectedResources){
+        for(ResourceStack<?, ?, ?> stack : selectedResources){
           float amount = stack.amount;
           TextField field = new TextField(amount + "");
 
@@ -84,7 +84,7 @@ public class PacketSelectionTable{
         if(packetType[0] == null) return;
 
         Seq<?> seq = ResourceStackManager.resourceInstances.get(packetType[0].resourceClass);
-        Class<? extends ResourceStack<?>> stackClass = ResourceStackManager.classMap.get(packetType[0].resourceClass);
+        Class<ResourceStack<?, ?, ?>> stackClass = ResourceStackManager.classMap.get(packetType[0].resourceClass);
 
         if(seq == null) return;
 
@@ -102,8 +102,8 @@ public class PacketSelectionTable{
             }
           });
 
-          ResourceStack<?> stack = ResourceStackManager.resourceStackInstances.find(r -> r.getClass() == stackClass);
-          TextureRegion icon = stack.getIcon();
+          ResourceStack stack = ResourceStackManager.all.find(r -> r.getClass() == stackClass);
+          TextureRegion icon = stack.getItemIcon(o);
 
           button.getStyle().imageUp = new TextureRegionDrawable(icon);
 

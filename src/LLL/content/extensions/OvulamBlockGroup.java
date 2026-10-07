@@ -1,10 +1,11 @@
 package LLL.content.extensions;
 
 import mindustry.world.meta.*;
-import universecore.util.handler.*;
+import universe.util.reflect.*;
+import universe.util.reflect.accessor.*;
 
 public class OvulamBlockGroup{
-  private static final EnumHandler<BlockGroup> handler = new EnumHandler<>(BlockGroup.class);
+  private static final EnumAccessor1<BlockGroup, Boolean> handler = Enums.accessEnum(BlockGroup.class, boolean.class);
 
-  public static BlockGroup neoplastic = handler.addEnumItemTail("neoplastic", true);
+  public static BlockGroup neoplastic = handler.appendEnumInstance("neoplastic", true, false);
 }

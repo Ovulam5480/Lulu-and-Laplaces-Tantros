@@ -1,7 +1,7 @@
 package LLL.entities.comp.entitycomps;
 
 import LLL.entities.gen.*;
-import LLL.type.resourceStacks.*;
+import LLL.packet.ResourceStacks.*;
 import LLL.world.blocks.entity.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -48,7 +48,7 @@ abstract class CrystalCoreComp implements TileEntityc, SerializationPacketSeqc{
 
     Packetc packetc = crystalCore.packetType.create(null, spawnerPos.x, spawnerPos.y);
 
-    for(ResourceStack<?> resource : crystalCore.resources){
+    for(ResourceStack<?, ?, ?> resource : crystalCore.resources){
       packetc.resources().add(resource.copy());
     }
 
