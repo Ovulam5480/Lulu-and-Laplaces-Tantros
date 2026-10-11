@@ -66,7 +66,7 @@ public class Parallel<E> extends BranchTask<E>{
    * Creates a parallel task with sequence policy, resume orchestrator and no children
    */
   public Parallel(){
-    this(new Seq<Task<E>>());
+    this(new Seq<>());
   }
 
   /**
@@ -75,7 +75,7 @@ public class Parallel<E> extends BranchTask<E>{
    * @param tasks the children
    */
   public Parallel(Task<E>... tasks){
-    this(new Seq<Task<E>>(tasks));
+    this(new Seq<>(tasks));
   }
 
   /**
@@ -93,7 +93,7 @@ public class Parallel<E> extends BranchTask<E>{
    * @param policy the policy
    */
   public Parallel(Policy policy){
-    this(policy, new Seq<Task<E>>());
+    this(policy, new Seq<>());
   }
 
   /**
@@ -103,7 +103,7 @@ public class Parallel<E> extends BranchTask<E>{
    * @param tasks  the children
    */
   public Parallel(Policy policy, Task<E>... tasks){
-    this(policy, new Seq<Task<E>>(tasks));
+    this(policy, new Seq<>(tasks));
   }
 
   /**
@@ -133,7 +133,7 @@ public class Parallel<E> extends BranchTask<E>{
    * @param tasks        the children
    */
   public Parallel(Orchestrator orchestrator, Task<E>... tasks){
-    this(Policy.Sequence, orchestrator, new Seq<Task<E>>(tasks));
+    this(Policy.Sequence, orchestrator, new Seq<>(tasks));
   }
 
   /**

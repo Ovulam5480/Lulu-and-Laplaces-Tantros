@@ -3,7 +3,7 @@ package LLL.world.blocks.storage;
 import LLL.*;
 import LLL.content.*;
 import LLL.graphics.*;
-import LLL.world.blocks.module.*;
+import LLL.world.blockcomp.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;

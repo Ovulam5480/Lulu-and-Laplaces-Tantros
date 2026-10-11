@@ -1,11 +1,13 @@
 package LLL.world.recipe.producers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import arc.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
@@ -13,7 +15,7 @@ import java.util.*;
 
 import static LLL.world.recipe.consumers.ConsumeItemBase.*;
 
-public class ProduceItems extends BaseProduce{
+public class ProduceItems<T extends Building & ProducerBuildc> extends BaseProduce<T>{
   private static final ObjectMap<Item, ItemStack> TMP = new ObjectMap<>();
 
   public boolean showPerSecond = true;
@@ -28,7 +30,7 @@ public class ProduceItems extends BaseProduce{
     this.items = items;
   }
 
-  public ProduceItems random(){
+  public ProduceItems<T> random(){
     this.random = true;
     return this;
   }
@@ -56,8 +58,8 @@ public class ProduceItems extends BaseProduce{
   }
 
   @Override
-  public void merge(BaseProduce other){
-    if(other instanceof ProduceItems cons){
+  public void merge(BaseProduce<T> other){
+    if(other instanceof ProduceItems<T> cons){
       TMP.clear();
       for(ItemStack stack : items){
         TMP.put(stack.item, stack);
@@ -74,7 +76,7 @@ public class ProduceItems extends BaseProduce{
   }
 
   @Override
-  public void produce(ProducerBuildc entity){
+  public void produce(T entity){
     float f = multiple(entity);
     if(!random){
       for(ItemStack stack : items){
@@ -114,12 +116,12 @@ public class ProduceItems extends BaseProduce{
   }
 
   @Override
-  public void update(ProducerBuildc entity){
+  public void update(T entity){
 
   }
 
   @Override
-  public void dump(ProducerBuildc entity){
+  public void dump(T entity){
     for(ItemStack stack : items){
       if(entity.items.get(stack.item) > 0) entity.dump(stack.item);
     }
@@ -159,7 +161,7 @@ public class ProduceItems extends BaseProduce{
   }
 
   @Override
-  public boolean valid(ProducerBuildc entity){
+  public boolean valid(T entity){
     if(entity.items == null) return false;
 
     boolean res = false;

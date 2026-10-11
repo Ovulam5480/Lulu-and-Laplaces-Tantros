@@ -49,7 +49,7 @@ public class DynamicGuardSelector<E> extends BranchTask<E>{
    * @param tasks the children of this task
    */
   public DynamicGuardSelector(Task<E>... tasks){
-    super(new Seq<Task<E>>(tasks));
+    super(new Seq<>(tasks));
   }
 
   /**

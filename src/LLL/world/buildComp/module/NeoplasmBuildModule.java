@@ -1,8 +1,8 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.type.neoplasm.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
@@ -23,8 +23,8 @@ public interface NeoplasmBuildModule extends SerializationGameEntityModule, Posc
   float scl = 60 / 3.14f * 1.6f;
   GrowBulletDamage.NeoplasmBulletDamage bulletDamage = new GrowBulletDamage.NeoplasmBulletDamage();
 
-  default NeoplasmBlockModule blockAs(){
-    return (NeoplasmBlockModule)getBlock();
+  default NeoplasmBlockComp blockAs(){
+    return (NeoplasmBlockComp)getBlock();
   }
 
   default PrefrontalCortex cortex(){

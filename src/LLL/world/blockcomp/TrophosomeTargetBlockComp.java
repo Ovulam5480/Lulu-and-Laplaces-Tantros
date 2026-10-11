@@ -1,4 +1,4 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import LLL.content.extensions.*;
 import arc.struct.*;
@@ -6,7 +6,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 import universecore.annotations.*;
 
-public interface TrophosomeTargetBlockModule{
+public interface TrophosomeTargetBlockComp{
   @Annotations.BindField(value = "priority")
   default int priority(){
     return 0;

@@ -2,7 +2,6 @@ package LLL.world.neoplasm.crafting;
 
 import LLL.content.*;
 import LLL.world.blockcomp.*;
-import LLL.world.blocks.module.block.*;
 import arc.audio.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
@@ -13,7 +12,7 @@ import mindustry.world.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmOrgan extends Block implements NeoplasmBlockModule, ProducerBlockComp{
+public class NeoplasmOrgan extends Block implements NeoplasmBlockComp, ProducerBlockComp{
   public float neoplasmScaleSpeed = 0.02f;
   public float targetScale = 0.7f;
   public float degenerateTime = 600f;

@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.pedigree.porifera;
 
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
 import arc.struct.*;
@@ -19,7 +19,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class NeoplasmHecto extends NeoplasmSyncytium implements TrophosomeTargetBlockModule{
+public class NeoplasmHecto extends NeoplasmSyncytium implements TrophosomeTargetBlockComp{
   public ObjectFloatMap<UnlockableContent> unitValue = new ObjectFloatMap<>();
   public int priority = -1;
 

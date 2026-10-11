@@ -2,7 +2,6 @@ package LLL.ui;
 
 import LLL.content.tantros.*;
 import LLL.util.*;
-import LLL.world.blocks.module.*;
 import LLL.world.modules.*;
 import arc.*;
 import arc.func.*;

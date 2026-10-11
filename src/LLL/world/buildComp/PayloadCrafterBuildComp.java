@@ -1,5 +1,6 @@
 package LLL.world.buildComp;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.blockcomp.*;
 import LLL.world.recipe.consumers.*;

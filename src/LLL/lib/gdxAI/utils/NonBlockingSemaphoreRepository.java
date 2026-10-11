@@ -24,7 +24,7 @@ import arc.struct.*;
  */
 public class NonBlockingSemaphoreRepository{
 
-  private static final ObjectMap<String, NonBlockingSemaphore> REPO = new ObjectMap<String, NonBlockingSemaphore>();
+  private static final ObjectMap<String, NonBlockingSemaphore> REPO = new ObjectMap<>();
 
   private static NonBlockingSemaphore.Factory FACTORY = new SimpleNonBlockingSemaphore.Factory();
 

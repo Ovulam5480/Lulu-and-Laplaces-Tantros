@@ -1,9 +1,11 @@
 package LLL.world.blockcomp;
 
+import LLL.entities.gen.*;
+import mindustry.gen.*;
 import mindustry.world.meta.*;
 import universecore.annotations.*;
 
-public interface PayloadCrafterBlockComp extends ProducerBlockComp{
+public interface PayloadCrafterBlockComp<T extends Building & ProducerBuildc> extends ProducerBlockComp<T>{
   @Annotations.BindField(value = "itemCapacityMulti", initialize = "2")
   default float itemCapacityMulti(){
     return 0;

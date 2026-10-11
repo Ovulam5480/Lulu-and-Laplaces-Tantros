@@ -49,7 +49,7 @@ public class RandomSequence<E> extends Sequence<E>{
    * @param tasks the children of this task
    */
   public RandomSequence(Task<E>... tasks){
-    super(new Seq<Task<E>>(tasks));
+    super(new Seq<>(tasks));
   }
 
   @Override

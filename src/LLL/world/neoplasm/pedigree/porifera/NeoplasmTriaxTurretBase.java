@@ -4,8 +4,8 @@ import LLL.content.*;
 import LLL.graphics.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.util.func.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.neoplasm.units.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -24,7 +24,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class NeoplasmTriaxTurretBase extends NeoplasmMetamorphicCyst implements NeoplasmBlockModule{
+public class NeoplasmTriaxTurretBase extends NeoplasmMetamorphicCyst implements NeoplasmBlockComp{
   public Block blockType = Blocks.duo;
   public UnitType blockUnitType = OvulamUnitTypes.neoplasmTraixBuildUnit;
   public int maxUnits = 5;

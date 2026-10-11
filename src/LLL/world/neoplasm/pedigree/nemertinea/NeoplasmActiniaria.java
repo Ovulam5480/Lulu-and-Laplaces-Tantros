@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.pedigree.nemertinea;
 
 import LLL.content.blocks.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import mindustry.*;
@@ -12,7 +12,7 @@ import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmActiniaria extends PayloadDeconstructor implements NeoplasmBlockModule{
+public class NeoplasmActiniaria extends PayloadDeconstructor implements NeoplasmBlockComp{
   public NeoplasmActiniaria(String name){
     super(name);
 

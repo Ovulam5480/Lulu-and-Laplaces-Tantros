@@ -1,16 +1,18 @@
 package LLL.world.recipe.producers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
 import arc.func.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
-public class ProducePower extends BaseProduce{
+public class ProducePower<T extends Building & ProducerBuildc> extends BaseProduce<T>{
   public float powerProduction;
   public boolean showIcon = true;
 
@@ -36,8 +38,8 @@ public class ProducePower extends BaseProduce{
   }
 
   @Override
-  public void merge(BaseProduce other){
-    if(other instanceof ProducePower cons){
+  public void merge(BaseProduce<T> other){
+    if(other instanceof ProducePower<T> cons){
       powerProduction += cons.powerProduction;
       return;
     }
@@ -45,23 +47,23 @@ public class ProducePower extends BaseProduce{
   }
 
   @Override
-  public void produce(ProducerBuildc entity){
+  public void produce(T entity){
     /*不在此更新能量生产*/
   }
 
   @Override
-  public void update(ProducerBuildc entity){
+  public void update(T entity){
     /*此处不进行能量更新*/
   }
 
   @Override
-  public void buildBars(ProducerBuildc entity, Table bars){
+  public void buildBars(T entity, Table bars){
     ResourceType powerResource = ResourceType.power;
-    Floatp prod = () -> entity.powerProdEfficiency() * entity.producer().current.<ProducePower>get(powerResource).powerProduction;
+    Floatp prod = () -> entity.powerProdEfficiency() * entity.producer().current.<ProducePower<T>>get(powerResource).powerProduction;
     Floatp cons = () -> {
-      ConsumePower cp;
+      ConsumePower<T> cp;
       return entity.block.consumesPower && entity.consumer().current != null
-        && (cp = entity.consumer().current.get(powerResource)) != null ?
+        && (cp = entity.consumer().current.<ConsumePower<T>>get(powerResource)) != null ?
         cp.usage * cp.multiple(entity) : 0;
     };
     bars.add(new Bar(
@@ -78,7 +80,7 @@ public class ProducePower extends BaseProduce{
   }
 
   @Override
-  public boolean valid(ProducerBuildc entity){
+  public boolean valid(T entity){
     return entity.power != null;
   }
 }

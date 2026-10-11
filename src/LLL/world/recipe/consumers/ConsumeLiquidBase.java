@@ -1,15 +1,17 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.core.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 
-public abstract class ConsumeLiquidBase extends BaseConsume{
+public abstract class ConsumeLiquidBase<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
   public LiquidStack[] consLiquids;
   public int displayLim = 4;
 
@@ -43,7 +45,7 @@ public abstract class ConsumeLiquidBase extends BaseConsume{
   }
 
   @Override
-  public void buildBars(ConsumerBuildc entity, Table bars){
+  public void buildBars(T entity, Table bars){
     for(LiquidStack stack : consLiquids){
       bars.add(new Bar(
         () -> stack.liquid.localizedName,

@@ -1,5 +1,6 @@
 package LLL.world.buildComp;
 
+import LLL.entities.gen.*;
 import LLL.world.blockcomp.*;
 import arc.struct.*;
 import ent.anno.*;

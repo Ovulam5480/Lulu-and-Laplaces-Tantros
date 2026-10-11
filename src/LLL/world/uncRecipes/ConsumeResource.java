@@ -2,7 +2,6 @@ package LLL.world.uncRecipes;
 
 import LLL.lib.singularity.world.consumers.*;
 import LLL.type.resourceStacks.*;
-import LLL.world.blocks.module.*;
 import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;

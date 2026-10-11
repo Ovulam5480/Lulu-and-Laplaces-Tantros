@@ -1,7 +1,7 @@
 package LLL.world.blocks.entity;
 
 import LLL.entities.gen.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
 import arc.math.*;
 import arc.math.geom.*;
 import universecore.annotations.*;
@@ -9,7 +9,7 @@ import universecore.annotations.*;
 import java.util.*;
 
 @Annotations.ImplEntries
-public class LargeTileEntityBlock extends TileEntityBlock implements MultiSizeBlock{
+public class LargeTileEntityBlock extends TileEntityBlock implements MultiSizeBlockComp{
   public int entitySize;
 
   protected static int maxLargeSize = 128;

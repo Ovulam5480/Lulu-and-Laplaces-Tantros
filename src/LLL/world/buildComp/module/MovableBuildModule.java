@@ -1,7 +1,6 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.world.blockcomp.*;
-import LLL.world.blocks.module.block.*;
 import arc.math.geom.*;
 import mindustry.*;
 import mindustry.core.*;
@@ -19,7 +18,6 @@ public interface MovableBuildModule extends BuildCompBase{
   @Annotations.BindField("unitSelf")
   default void unitSelf(Unit unit){
   }
-
 
   @Annotations.MethodEntry(entryMethod = "onCommand", paramTypes = {"arc.math.geom.Vec2 -> target"})
   default boolean onCommandModule(Vec2 target){
@@ -42,7 +40,7 @@ public interface MovableBuildModule extends BuildCompBase{
   }
 
   default Unit createBlockUnit(){
-    BlockUnitc unit = (BlockUnitc)(getBlock(MovableBlockModule.class).movableBlockType().create(building().team));
+    BlockUnitc unit = (BlockUnitc)(getBlock(MovableBlockComp.class).movableBlockType().create(building().team));
     unit.tile(building());
     unit.add();
     unit.elevation(0.02f);

@@ -38,7 +38,7 @@ public abstract class BranchTask<E> extends Task<E>{
    * Create a branch task with no children
    */
   public BranchTask(){
-    this(new Seq<Task<E>>());
+    this(new Seq<>());
   }
 
   /**

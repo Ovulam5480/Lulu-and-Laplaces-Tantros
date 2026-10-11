@@ -4,6 +4,7 @@ import LLL.content.extensions.*;
 import LLL.content.tantros.*;
 import LLL.entities.gen.*;
 import LLL.lib.multiblock.*;
+import mindustry.gen.*;
 
 public class OvulamContents{
   public static void load(){
@@ -29,5 +30,7 @@ public class OvulamContents{
     LaplacesTantros.load();
 
     MultiBlockLib.loadBlock();
+
+    EntityRegistry.registerUnits();
   }
 }

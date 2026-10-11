@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.production;
 
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
@@ -10,7 +10,7 @@ import mindustry.world.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmBranchialHeart extends Block implements NeoplasmBlockModule{
+public class NeoplasmBranchialHeart extends Block implements NeoplasmBlockComp{
   float section = 0.2f;
   Interp beatInterp = i -> {
     if(i < section) return Interp.pow2In.apply(i / section);

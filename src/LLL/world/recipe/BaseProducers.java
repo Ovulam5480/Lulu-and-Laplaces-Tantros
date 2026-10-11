@@ -1,10 +1,12 @@
 package LLL.world.recipe;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.producers.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.struct.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
@@ -15,10 +17,10 @@ import java.util.*;
  *
  * @author EBwilson
  */
-public class BaseProducers{
+public class BaseProducers<T extends Building & ProducerBuildc>{
   final static Color TRANS = new Color(0, 0, 0, 0);
 
-  protected final ObjectMap<ResourceType, BaseProduce> prod = new ObjectMap<>();
+  protected final ObjectMap<ResourceType, BaseProduce<T>> prod = new ObjectMap<>();
 
   /**
    * 此生产项的颜色，这通常被用于确定绘制top等目的时快速选择颜色
@@ -27,35 +29,35 @@ public class BaseProducers{
   /**
    * 后初始化的变量，不要手动更改，该变量绑定到与此生产匹配的消耗项
    */
-  public BaseConsumers cons;
+  public BaseConsumers<T> cons;
 
-  public BaseProducers setColor(Color color){
+  public BaseProducers<T> setColor(Color color){
     this.color = color;
     return this;
   }
 
-  public ProduceItems item(Item item, int amount){
+  public ProduceItems<T> item(Item item, int amount){
     return items(new ItemStack(item, amount));
   }
 
-  public ProduceItems items(ItemStack... items){
-    return add(new ProduceItems(items));
+  public ProduceItems<T> items(ItemStack... items){
+    return add(new ProduceItems<>(items));
   }
 
-  public ProduceLiquids liquid(Liquid liquid, float amount){
+  public ProduceLiquids<T> liquid(Liquid liquid, float amount){
     return liquids(new LiquidStack(liquid, amount));
   }
 
-  public ProduceLiquids liquids(LiquidStack... liquids){
-    return add(new ProduceLiquids(liquids));
+  public ProduceLiquids<T> liquids(LiquidStack... liquids){
+    return add(new ProduceLiquids<>(liquids));
   }
 
-  public ProducePower power(float prod){
-    return add(new ProducePower(prod));
+  public ProducePower<T> power(float prod){
+    return add(new ProducePower<>(prod));
   }
 
-  public <N extends BaseProduce> N add(N produce){
-    BaseProduce p = prod.get(produce.type());
+  public <N extends BaseProduce<T>> N add(N produce){
+    BaseProduce<T> p = prod.get(produce.type());
     if(p == null){
       prod.put(produce.type(), produce);
       produce.parent = this;
@@ -67,22 +69,22 @@ public class BaseProducers{
     return (N)p;
   }
 
-  public <N extends BaseProduce> N get(ResourceType type){
+  public <N extends BaseProduce<T>> N get(ResourceType type){
     return (N)prod.get(type);
   }
 
-  public Seq<BaseProduce> all(Seq<BaseProduce> out){
+  public Seq<BaseProduce<T>> all(Seq<BaseProduce<T>> out){
     for(ResourceType type : ResourceType.all){
-      BaseProduce p = prod.get(type);
+      BaseProduce<T> p = prod.get(type);
       if(p != null) out.add(p);
     }
 
     return out;
   }
 
-  public void forAll(Cons<BaseProduce> pcons){
+  public void forAll(Cons<BaseProduce<T>> pcons){
     for(ResourceType type : ResourceType.all){
-      BaseProduce p = prod.get(type);
+      BaseProduce<T> p = prod.get(type);
       if(p != null) pcons.get(p);
     }
   }
@@ -93,7 +95,7 @@ public class BaseProducers{
 
   public void display(Stats stats){
     if(prod.size > 0){
-      for(BaseProduce p : prod.values().toSeq().sort(Comparator.comparingInt(a -> a.type().id))){
+      for(BaseProduce<T> p : prod.values().toSeq().sort(Comparator.comparingInt(a -> a.type().id))){
         p.display(stats);
       }
     }

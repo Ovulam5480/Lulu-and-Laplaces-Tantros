@@ -94,7 +94,7 @@ public class PriorityQueue<E extends Comparable<E>>{
    */
   public PriorityQueue(int initialCapacity){
     this.queue = new Object[initialCapacity];
-    this.set = new ObjectSet<E>(initialCapacity);
+    this.set = new ObjectSet<>(initialCapacity);
   }
 
   /**

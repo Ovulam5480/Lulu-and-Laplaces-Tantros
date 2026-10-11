@@ -1,4 +1,4 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import LLL.*;
 import arc.*;
@@ -8,7 +8,7 @@ import mindustry.world.*;
 import universecore.annotations.*;
 
 @SuppressWarnings("unused")
-public interface MovableBlockModule{
+public interface MovableBlockComp{
   //todo setState
 
   default Block getBlock(){

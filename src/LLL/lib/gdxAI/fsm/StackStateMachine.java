@@ -71,7 +71,7 @@ public class StackStateMachine<E, S extends State<E>> extends DefaultStateMachin
   @Override
   public void setInitialState(S state){
     if(stateStack == null){
-      stateStack = new Seq<S>();
+      stateStack = new Seq<>();
     }
 
     this.stateStack.clear();

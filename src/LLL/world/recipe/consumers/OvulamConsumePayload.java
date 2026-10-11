@@ -1,5 +1,6 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.lib.singularity.world.components.*;
 import LLL.packet.resources.*;
 import arc.scene.ui.*;
@@ -7,13 +8,14 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class OvulamConsumePayload extends BaseConsume{
+public class OvulamConsumePayload<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
   private static final ObjectMap<UnlockableContent, PayloadStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;
@@ -57,8 +59,8 @@ public class OvulamConsumePayload extends BaseConsume{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumePayload cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumePayload<T> cons){
       TMP.clear();
       for(PayloadStack stack : payloads){
         TMP.put(stack.item, stack);
@@ -73,7 +75,7 @@ public class OvulamConsumePayload extends BaseConsume{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc build){
+  public float efficiency(T build){
     for(PayloadStack stack : payloads){
       if(!build.getPayloads().contains(stack.item, stack.amount)){
         return 0f;
@@ -83,7 +85,7 @@ public class OvulamConsumePayload extends BaseConsume{
   }
 
   @Override
-  public void consume(ConsumerBuildc build){
+  public void consume(T build){
     if(build instanceof PayloadBuildComp comp){
       for(PayloadStack stack : payloads){
         for(int i = 0; i < stack.amount; i++){
@@ -98,7 +100,7 @@ public class OvulamConsumePayload extends BaseConsume{
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
   }
 
   @Override
@@ -112,7 +114,7 @@ public class OvulamConsumePayload extends BaseConsume{
   }
 
   @Override
-  public void build(ConsumerBuildc build, Table table){
+  public void build(T build, Table table){
     PayloadSeq inv = build.getPayloads();
 
     table.table(c -> {

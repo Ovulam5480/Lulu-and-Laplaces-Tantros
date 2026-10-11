@@ -1,17 +1,19 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import arc.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class ConsumeItems extends ConsumeItemBase{
+public class ConsumeItems<T extends Building & ConsumerBuildc> extends ConsumeItemBase<T>{
   private static final ObjectMap<Item, ItemStack> TMP = new ObjectMap<>();
 
   public boolean showPerSecond = true;
@@ -26,8 +28,8 @@ public class ConsumeItems extends ConsumeItemBase{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumeItems cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumeItems<T> cons){
       TMP.clear();
       for(ItemStack stack : consItems){
         TMP.put(stack.item, stack);
@@ -44,7 +46,7 @@ public class ConsumeItems extends ConsumeItemBase{
   }
 
   @Override
-  public void consume(ConsumerBuildc object){
+  public void consume(T object){
     float f = multiple(object);
     for(ItemStack stack : consItems){
       int amount = stack.amount * ((int)Math.floor(f)) + Mathf.num(Math.random() < f % 1);
@@ -53,7 +55,7 @@ public class ConsumeItems extends ConsumeItemBase{
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
   }
 
   @Override
@@ -73,7 +75,7 @@ public class ConsumeItems extends ConsumeItemBase{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){
+  public void build(T entity, Table table){
     for(ItemStack stack : consItems){
       int amount = (int)(stack.amount * multiple(entity));
       if(amount == 0 && !entity.consumer().valid()) amount = stack.amount;
@@ -86,7 +88,7 @@ public class ConsumeItems extends ConsumeItemBase{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     if(entity.items == null) return 0;
     for(ItemStack stack : consItems){
       if(entity.items == null || entity.items.get(stack.item) < stack.amount * multiple(entity)) return 0;

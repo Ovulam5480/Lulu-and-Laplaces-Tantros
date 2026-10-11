@@ -245,31 +245,32 @@ public abstract class BehaviorTreeReader{
                       outer:
                       if(stringIsUnquoted){
                         if(debug) Log.info(LOG_TAG, "string: " + attrName + "=" + value);
-                        if(value.equals("true")){
-                          if(debug) Log.info(LOG_TAG, "boolean: " + attrName + "=true");
-                          attribute(attrName, Boolean.TRUE);
-                          break outer;
-                        }else if(value.equals("false")){
-                          if(debug) Log.info(LOG_TAG, "boolean: " + attrName + "=false");
-                          attribute(attrName, Boolean.FALSE);
-                          break outer;
-                        }else if(value.equals("null")){
-                          attribute(attrName, null);
-                          break outer;
-                        }else{ // number
-                          try{
-                            if(containsFloatingPointCharacters(value)){
-                              if(debug) Log.info(LOG_TAG, "double: " + attrName + "=" + Double.parseDouble(value));
-                              attribute(attrName, Double.valueOf(value));
-                              break outer;
-                            }else{
-                              if(debug) Log.info(LOG_TAG, "double: " + attrName + "=" + Double.parseDouble(value));
-                              attribute(attrName, Long.valueOf(value));
-                              break outer;
+                        switch(value){
+                          case "true":
+                            if(debug) Log.info(LOG_TAG, "boolean: " + attrName + "=true");
+                            attribute(attrName, Boolean.TRUE);
+                            break outer;
+                          case "false":
+                            if(debug) Log.info(LOG_TAG, "boolean: " + attrName + "=false");
+                            attribute(attrName, Boolean.FALSE);
+                            break outer;
+                          case "null":
+                            attribute(attrName, null);
+                            break outer;
+                          default:  // number
+                            try{
+                              if(containsFloatingPointCharacters(value)){
+                                if(debug) Log.info(LOG_TAG, "double: " + attrName + "=" + Double.parseDouble(value));
+                                attribute(attrName, Double.valueOf(value));
+                                break outer;
+                              }else{
+                                if(debug) Log.info(LOG_TAG, "double: " + attrName + "=" + Double.parseDouble(value));
+                                attribute(attrName, Long.valueOf(value));
+                                break outer;
+                              }
+                            }catch(NumberFormatException nfe){
+                              throw new RuntimeException("Attribute value must be a number, a boolean, a string or null");
                             }
-                          }catch(NumberFormatException nfe){
-                            throw new RuntimeException("Attribute value must be a number, a boolean, a string or null");
-                          }
                         }
                       }else{
                         if(debug) Log.info(LOG_TAG, "string: " + attrName + "=\"" + value + "\"");
@@ -575,7 +576,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_actions[] = init__btree_actions_0();
+  private static final byte[] _btree_actions = init__btree_actions_0();
 
 
   private static short[] init__btree_key_offsets_0(){
@@ -587,7 +588,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final short _btree_key_offsets[] = init__btree_key_offsets_0();
+  private static final short[] _btree_key_offsets = init__btree_key_offsets_0();
 
 
   private static char[] init__btree_trans_keys_0(){
@@ -618,7 +619,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final char _btree_trans_keys[] = init__btree_trans_keys_0();
+  private static final char[] _btree_trans_keys = init__btree_trans_keys_0();
 
 
   private static byte[] init__btree_single_lengths_0(){
@@ -630,7 +631,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_single_lengths[] = init__btree_single_lengths_0();
+  private static final byte[] _btree_single_lengths = init__btree_single_lengths_0();
 
 
   private static byte[] init__btree_range_lengths_0(){
@@ -642,7 +643,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_range_lengths[] = init__btree_range_lengths_0();
+  private static final byte[] _btree_range_lengths = init__btree_range_lengths_0();
 
 
   private static short[] init__btree_index_offsets_0(){
@@ -654,7 +655,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final short _btree_index_offsets[] = init__btree_index_offsets_0();
+  private static final short[] _btree_index_offsets = init__btree_index_offsets_0();
 
 
   private static byte[] init__btree_indicies_0(){
@@ -685,7 +686,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_indicies[] = init__btree_indicies_0();
+  private static final byte[] _btree_indicies = init__btree_indicies_0();
 
 
   private static byte[] init__btree_trans_targs_0(){
@@ -699,7 +700,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_trans_targs[] = init__btree_trans_targs_0();
+  private static final byte[] _btree_trans_targs = init__btree_trans_targs_0();
 
 
   private static byte[] init__btree_trans_actions_0(){
@@ -714,7 +715,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_trans_actions[] = init__btree_trans_actions_0();
+  private static final byte[] _btree_trans_actions = init__btree_trans_actions_0();
 
 
   private static byte[] init__btree_eof_actions_0(){
@@ -726,7 +727,7 @@ public abstract class BehaviorTreeReader{
     };
   }
 
-  private static final byte _btree_eof_actions[] = init__btree_eof_actions_0();
+  private static final byte[] _btree_eof_actions = init__btree_eof_actions_0();
 
 
   static final int btree_start = 29;

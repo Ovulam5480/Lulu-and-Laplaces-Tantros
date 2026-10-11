@@ -1,4 +1,4 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.lib.multiblock.extend.*;
 import LLL.world.neoplasm.effect.*;

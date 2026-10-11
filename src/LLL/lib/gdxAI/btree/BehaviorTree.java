@@ -65,7 +65,7 @@ public class BehaviorTree<E> extends Task<E>{
     this.rootTask = rootTask;
     this.object = object;
     this.tree = this;
-    this.guardEvaluator = new GuardEvaluator<E>(this);
+    this.guardEvaluator = new GuardEvaluator<>(this);
   }
 
   /**
@@ -161,7 +161,7 @@ public class BehaviorTree<E> extends Task<E>{
   }
 
   public void addListener(Listener<E> listener){
-    if(listeners == null) listeners = new Seq<Listener<E>>();
+    if(listeners == null) listeners = new Seq<>();
     listeners.add(listener);
   }
 

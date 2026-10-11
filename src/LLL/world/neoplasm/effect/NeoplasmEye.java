@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.effect;
 
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -13,7 +13,7 @@ import mindustry.world.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmEye extends Block implements NeoplasmBlockModule{
+public class NeoplasmEye extends Block implements NeoplasmBlockComp{
   public TextureRegion eyeballRegion, pupilRegion;
   //左上右下
   public float[] bound = {1.25f, 1, 1.5f, 1};

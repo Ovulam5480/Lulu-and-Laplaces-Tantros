@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.effect;
 
 import LLL.content.blocks.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import mindustry.entities.*;
 import mindustry.game.*;
@@ -13,7 +13,7 @@ import mindustry.world.blocks.storage.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmGanglion extends CoreBlock implements NeoplasmBlockModule{
+public class NeoplasmGanglion extends CoreBlock implements NeoplasmBlockComp{
   public boolean requestStructure = true;
   public float maxHealOnce = 5f;
 

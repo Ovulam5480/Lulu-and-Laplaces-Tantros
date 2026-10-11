@@ -1,4 +1,4 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import arc.*;
 import mindustry.game.*;
@@ -6,7 +6,7 @@ import universecore.annotations.*;
 
 //经过存档后不会增生的多边长无建筑实体方块
 @SuppressWarnings("unused")
-public interface MultiSizeBlock{
+public interface MultiSizeBlockComp{
   @Annotations.BindField("size")
   default void sizeSetter(int size){
   }

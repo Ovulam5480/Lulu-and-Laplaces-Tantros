@@ -1,7 +1,6 @@
 package LLL.world.modules;
 
 import LLL.type.resourceStacks.*;
-import LLL.world.blocks.module.*;
 import arc.struct.*;
 import arc.util.io.*;
 import mindustry.gen.*;

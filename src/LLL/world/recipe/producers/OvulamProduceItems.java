@@ -1,9 +1,11 @@
 package LLL.world.recipe.producers;
 
+import LLL.entities.gen.*;
 import arc.math.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 
-public class OvulamProduceItems extends ProduceItems{
+public class OvulamProduceItems<T extends Building & ProducerBuildc> extends ProduceItems<T>{
   public OvulamProduceItems(ItemStack[] items){
     super(items);
   }
@@ -13,7 +15,7 @@ public class OvulamProduceItems extends ProduceItems{
   }
 
   @Override
-  public void produce(ProducerBuildc entity){
+  public void produce(T entity){
     float f = multiple(entity);
     if(!random){
       for(ItemStack stack : items){
@@ -54,7 +56,7 @@ public class OvulamProduceItems extends ProduceItems{
   }
 
   @Override
-  public boolean valid(ProducerBuildc entity){
+  public boolean valid(T entity){
     if(entity.items == null) return false;
 
     boolean res = false;

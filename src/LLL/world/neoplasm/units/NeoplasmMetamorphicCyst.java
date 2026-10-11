@@ -1,14 +1,14 @@
 package LLL.world.neoplasm.units;
 
 import LLL.packet.resources.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import mindustry.ctype.*;
 import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmMetamorphicCyst extends NeoplasmLarvaCyst implements TrophosomeTargetBlockModule{
+public class NeoplasmMetamorphicCyst extends NeoplasmLarvaCyst implements TrophosomeTargetBlockComp{
 
   public NeoplasmMetamorphicCyst(String name){
     super(name);

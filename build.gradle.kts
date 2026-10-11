@@ -151,25 +151,14 @@ project(":"){
     }
 
     dependencies{
-        // Use the entity generation annotation processor.
         compileOnly("com.github.Ovulam5480.EntityAnno:entity:$entVersion")
         annotationProcessor("com.github.Ovulam5480.EntityAnno:entity:$entVersion")
 
+        compileOnly(project(":annotations"))
+        annotationProcessor(project(":annotations"))
+
         compileOnly("Anuken:$mindustry:$mindustryVersion")
-
-        //        compileOnly ("com.github.Ovulam5480.UniverseCoreFork:core:$uncVersion")//涵盖了大部分mod制作相关的工具
-        compileOnly ("com.github.Ovulam5480.UniverseCoreFork:annotations:2.5.0")//包括组件化接口在内的注解处理器
-//        compileOnly("com.github.Ovulam5480.UniverseCoreFork:scenes:${uncVersion}") //ui相关工具类型
-//        compileOnly("com.github.Ovulam5480.UniverseCoreFork:dynamilizer:${uncVersion}") //动态化仓库，实现自JavaDynamilizer
-//
-//        implementation("com.github.EB-wilson.JavaDynamilizer:core:V1.9-A1")
-        //implementation("com.github.EB-wilson.JavaDynamilizer:annotations:V1.9-A1")
-//
-        annotationProcessor ("com.github.Ovulam5480.UniverseCoreFork:annotations:2.5.0")//使用注解处理器
-        //annotationProcessor ("com.github.EB-wilson.JavaDynamilizer:annotations:V1.9-A1")
-
-        //implementation("com.github.EB-wilson:UniverseKit:graphic:1.3a")
-        compileOnly("com.github.EB-wilson:UniverseKit:1.4")
+        implementation("com.github.EB-wilson:UniverseKit:1.5")
     }
 
     val client = gradle.sharedServices.registerIfAbsent(MindustryClientPlugin.serviceName, MindustryClientService::class.java){}

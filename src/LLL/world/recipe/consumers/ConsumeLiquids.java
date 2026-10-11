@@ -1,17 +1,19 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import arc.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class ConsumeLiquids extends ConsumeLiquidBase{
+public class ConsumeLiquids<T extends Building & ConsumerBuildc> extends ConsumeLiquidBase<T>{
   private static final ObjectMap<Liquid, LiquidStack> TMP = new ObjectMap<>();
 
   public boolean portion = false;
@@ -30,8 +32,8 @@ public class ConsumeLiquids extends ConsumeLiquidBase{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumeLiquids cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumeLiquids<T> cons){
       TMP.clear();
       for(LiquidStack stack : consLiquids){
         TMP.put(stack.liquid, stack);
@@ -48,14 +50,14 @@ public class ConsumeLiquids extends ConsumeLiquidBase{
   }
 
   @Override
-  public void consume(ConsumerBuildc entity){
+  public void consume(T entity){
     if(portion) for(LiquidStack stack : consLiquids){
       entity.liquids.remove(stack.liquid, stack.amount * 60 * multiple(entity));
     }
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
     if(!portion) for(LiquidStack stack : consLiquids){
       entity.liquids.remove(stack.liquid, stack.amount * parent.delta(entity) * multiple(entity));
     }
@@ -76,7 +78,7 @@ public class ConsumeLiquids extends ConsumeLiquidBase{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){
+  public void build(T entity, Table table){
     for(LiquidStack stack : consLiquids){
       table.add(new ReqImage(stack.liquid.uiIcon,
         () -> entity.liquids != null && entity.liquids.get(stack.liquid) > 0)).padRight(8);
@@ -85,7 +87,7 @@ public class ConsumeLiquids extends ConsumeLiquidBase{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     if(entity.liquids == null) return 0;
     if(portion){
       for(LiquidStack stack : consLiquids){

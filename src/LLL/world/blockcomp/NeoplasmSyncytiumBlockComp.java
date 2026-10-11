@@ -1,4 +1,4 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import LLL.lib.multiblock.*;
 import LLL.lib.multiblock.extend.*;
@@ -8,7 +8,7 @@ import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
-public interface NeoplasmSyncytiumBlockModule extends MultiBlock, NeoplasmBlockModule{
+public interface NeoplasmSyncytiumBlockComp extends MultiBlock, NeoplasmBlockComp{
   default LinkBlock getLinkBlockType(Block block, int linkSize){
     return MultiBlockLib.linkNeoplasm[linkSize - 1];
   }
@@ -51,7 +51,7 @@ public interface NeoplasmSyncytiumBlockModule extends MultiBlock, NeoplasmBlockM
 
   default void initSyncytium(){
     Block self = self();
-    NeoplasmBlockModule selfAs = (NeoplasmBlockModule)self;
+    NeoplasmBlockComp selfAs = (NeoplasmBlockComp)self;
 
     self.size = 6;
     self.rotate = false;

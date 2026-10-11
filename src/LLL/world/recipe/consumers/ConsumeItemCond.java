@@ -1,18 +1,20 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import arc.*;
 import arc.func.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ConsumeItemCond extends ConsumeItemBase{
+public class ConsumeItemCond<T extends Building & ConsumerBuildc> extends ConsumeItemBase<T>{
   public float minRadioactivity, maxRadioactivity;
   public float minFlammability, maxFlammability;
   public float minCharge, maxCharge;
@@ -21,7 +23,7 @@ public class ConsumeItemCond extends ConsumeItemBase{
   public int usage;
   public Boolf<Item> filter;
 
-  public Item getCurrCons(ConsumerBuildc entity){
+  public Item getCurrCons(T entity){
     for(ItemStack stack : consItems){
       if(entity.items.get(stack.item) >= stack.amount) return stack.item;
     }
@@ -61,8 +63,8 @@ public class ConsumeItemCond extends ConsumeItemBase{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumeItemCond cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumeItemCond<T> cons){
       minRadioactivity = Math.min(cons.minRadioactivity, minRadioactivity);
       minFlammability = Math.min(cons.minFlammability, minFlammability);
       minCharge = Math.min(cons.minCharge, minCharge);
@@ -81,7 +83,7 @@ public class ConsumeItemCond extends ConsumeItemBase{
   }
 
   @Override
-  public void consume(ConsumerBuildc entity){
+  public void consume(T entity){
     ItemStack[] cons = getCons();
     if(cons.length == 0) return;
 
@@ -95,7 +97,7 @@ public class ConsumeItemCond extends ConsumeItemBase{
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
   }
 
   @Override
@@ -118,7 +120,7 @@ public class ConsumeItemCond extends ConsumeItemBase{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){
+  public void build(T entity, Table table){
     Seq<Item> list = content.items().select(l -> !l.isHidden() && filter.get(l));
     MultiReqImage image = new MultiReqImage();
     list.each(item -> {
@@ -130,7 +132,7 @@ public class ConsumeItemCond extends ConsumeItemBase{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     ItemStack[] cons = getCons();
     if(cons.length == 0) return 1;
 

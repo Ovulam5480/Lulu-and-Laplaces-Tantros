@@ -150,7 +150,7 @@ public class DistributionAdapters{
     }
   }
 
-  private static final ObjectMap<Class<?>, Adapter<?>> ADAPTERS = new ObjectMap<Class<?>, Adapter<?>>();
+  private static final ObjectMap<Class<?>, Adapter<?>> ADAPTERS = new ObjectMap<>();
 
   static{
     //
@@ -430,8 +430,8 @@ public class DistributionAdapters{
   ObjectMap<Class<?>, ObjectMap<String, Adapter<?>>> typeMap;
 
   public DistributionAdapters(){
-    this.map = new ObjectMap<Class<?>, Adapter<?>>();
-    this.typeMap = new ObjectMap<Class<?>, ObjectMap<String, Adapter<?>>>();
+    this.map = new ObjectMap<>();
+    this.typeMap = new ObjectMap<>();
     for(ObjectMap.Entry<Class<?>, Adapter<?>> e : ADAPTERS.entries())
       add(e.key, e.value);
   }
@@ -441,7 +441,7 @@ public class DistributionAdapters{
 
     ObjectMap<String, Adapter<?>> m = typeMap.get(adapter.type);
     if(m == null){
-      m = new ObjectMap<String, Adapter<?>>();
+      m = new ObjectMap<>();
       typeMap.put(adapter.type, m);
     }
     m.put(adapter.category, adapter);
@@ -465,7 +465,7 @@ public class DistributionAdapters{
   @SuppressWarnings({"rawtypes", "unchecked"})
   public String toString(Distribution distribution){
     Adapter adapter = map.get(distribution.getClass());
-    String args[] = adapter.toParameters(distribution);
+    String[] args = adapter.toParameters(distribution);
     String out = adapter.category;
     for(String a : args)
       out += "," + a;

@@ -1,5 +1,6 @@
 package LLL.world.blockcomp;
 
+import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.world.meta.*;
 import LLL.packet.resources.*;
@@ -32,8 +33,8 @@ import java.util.concurrent.atomic.*;
  * @author EBwilson
  * @since 1.0
  */
-public interface ProducerBlockComp extends ConsumerBlockComp{
-  static void buildRecipeSimple(BaseConsumers cons, BaseProducers prod, Table ta){
+public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends ConsumerBlockComp<T>{
+  static <T extends Building & ProducerBuildc> void buildRecipeSimple(BaseConsumers<T> cons, BaseProducers<T> prod, Table ta){
     boolean[] first = {true};
     cons.forAll(consume -> {
       if(!consume.hasIcons()) return;
@@ -68,7 +69,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
    * 生产清单的列表
    */
   @Annotations.BindField(value = "producers", initialize = "new arc.struct.Seq<>()")
-  default Seq<BaseProducers> producers(){
+  default Seq<BaseProducers<T>> producers(){
     return null;
   }
 
@@ -76,16 +77,16 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
    * 同样的，这也是一个指针，指向当前编辑的produce
    */
   @Annotations.BindField("produce")
-  default BaseProducers produce(){
+  default BaseProducers<T> produce(){
     return null;
   }
 
   @Annotations.BindField("produce")
-  default void produce(BaseProducers produce){
+  default void produce(BaseProducers<T> produce){
   }
 
   @Annotations.BindField(value = "optionalProducts", initialize = "new arc.struct.OrderedMap<>()")
-  default OrderedMap<BaseConsumers, BaseProducers> optionalProducts(){
+  default OrderedMap<BaseConsumers<T>, BaseProducers<T>> optionalProducts(){
     return null;
   }
 
@@ -144,12 +145,12 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
   }
 
   @Annotations.BindField(value = "craftTrigger")
-  default Cons craftTrigger(){
+  default Cons<T> craftTrigger(){
     return null;
   }
 
   @Annotations.BindField(value = "crafting")
-  default Cons crafting(){
+  default Cons<T> crafting(){
     return null;
   }
 
@@ -164,16 +165,16 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
   }
 
   @Annotations.BindField(value = "byproducts", initialize = "new arc.struct.OrderedMap<>()")
-  default OrderedMap<BaseConsumers, Byproduct> byproducts(){
+  default OrderedMap<BaseConsumers<T>, Byproduct> byproducts(){
     return null;
   }
 
   @Annotations.BindField(value = "boosts", initialize = "new arc.struct.ObjectFloatMap<>()")
-  default ObjectFloatMap<BaseConsumers> boosts(){
+  default ObjectFloatMap<BaseConsumers<T>> boosts(){
     return null;
   }
 
-  static <C extends Building & ConsumerBuildc, P extends Building & ProducerBuildc> void buildRecipe(Table table, BaseConsumers consumers, BaseProducers producers){
+  static <T extends Building & ProducerBuildc> void buildRecipe(Table table, BaseConsumers<T> consumers, BaseProducers<T> producers){
     Stats stats = new Stats();
 
     if(consumers != null){
@@ -245,7 +246,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
     int a = consumers().size;
     /*控制produce添加/移除配方以使配方同步*/
     while(a > b){
-      BaseProducers p = new BaseProducers();
+      BaseProducers<T> p = new BaseProducers<>();
       producers().add(p);
       b++;
     }
@@ -266,18 +267,18 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
       effectRange(block.size);
     }
 
-    if(producers().size > 0) for(BaseProducers prod : producers()){
+    if(producers().size > 0) for(BaseProducers<T> prod : producers()){
       outputItems(outputItems() | prod.get(ResourceType.item) != null);
       block.hasItems |= outputItems();
       block.hasLiquids |= block.outputsLiquid |= prod.get(ResourceType.liquid) != null;
-      block.hasPower |= block.outputsPower |= prod.get(ResourceType.power) != null && prod.<ProducePower>get(ResourceType.power).powerProduction != 0;
+      block.hasPower |= block.outputsPower |= prod.get(ResourceType.power) != null && prod.<ProducePower<T>>get(ResourceType.power).powerProduction != 0;
     }
 
-    for(BaseProducers producer : producers()){
+    for(BaseProducers<T> producer : producers()){
       block.outputsPayload |= producer.get(ResourceType.payload) != null;
     }
 
-    for(ObjectMap.Entry<BaseConsumers, BaseProducers> product : optionalProducts()){
+    for(ObjectMap.Entry<BaseConsumers<T>, BaseProducers<T>> product : optionalProducts()){
       product.value.forAll(baseProduce -> baseProduce.parent.cons = product.key);
     }
 
@@ -289,23 +290,23 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
   /**
    * 创建一张新的生产清单加入容器，并返回它
    */
-  default void newProduce(Cons<BaseProducers> cons){
-    BaseProducers produce = new BaseProducers<>();
+  default void newProduce(Cons<BaseProducers<T>> cons){
+    BaseProducers<T> produce = new BaseProducers<>();
     cons.get(produce);
     produce(produce);
     producers().add(produce);
   }
 
   default void newProduce(){
-    BaseProducers produce = new BaseProducers<>();
+    BaseProducers<T> produce = new BaseProducers<>();
     produce(produce);
     producers().add(produce);
   }
 
-  default void newOptionalProduct(Cons<BaseProducers> cons){
-    produce(new BaseProducers());
-    BaseProducers prod = produce();
-    newOptionalConsume((ProducerBuildc e, BaseConsumers c) -> {
+  default void newOptionalProduct(Cons<BaseProducers<T>> cons){
+    produce(new BaseProducers<>());
+    BaseProducers<T> prod = produce();
+    newOptionalConsume((T e, BaseConsumers<T> c) -> {
       prod.forAll(baseProduce -> {
         if(baseProduce.valid(e)) baseProduce.update(e);
         baseProduce.dump(e);
@@ -316,7 +317,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
     });
     prod.cons = consume();
     cons.get(prod);
-    consume().setConsTrigger((ProducerBuildc e) -> {
+    consume().setConsTrigger((T e) -> {
       prod.forAll(baseProduce -> {
         if(baseProduce.valid(e)) baseProduce.produce(e);
       });
@@ -346,7 +347,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
     byproducts().put(consume(), new Byproduct(item, chance, base));
 
     consume().addSelfAccess(ResourceType.item, item);
-    consume().setConsTrigger((ProducerBuildc e) -> {
+    consume().setConsTrigger((T e) -> {
       float chanceV = chance + base;
       while(chanceV >= 1){
         if(e.acceptItem(e, item)) e.offload(item);
@@ -355,7 +356,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
 
       if(rand().chance(chanceV)) if(e.acceptItem(e, item)) e.offload(item);
     });
-    Cons2<Stats, BaseConsumers> old = consume().display;
+    Cons2<Stats, BaseConsumers<T>> old = consume().display;
     consume().display = (s, c) -> s.add(Stat.output, t -> {
       old.get(s, c);
       t.row();
@@ -367,9 +368,9 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
     });
   }
 
-  default BaseConsumers newBooster(float boost){
-    Floatf[] fun = new Floatf[1];
-    newOptionalConsume((ProducerBuildc e, BaseConsumers c) -> {
+  default BaseConsumers<T> newBooster(float boost){
+    Floatf<T>[] fun = new Floatf[1];
+    newOptionalConsume((T e, BaseConsumers<T> c) -> {
       e.currBoost(fun[0]);
       e.mark(2);
     }, (s, c) -> {
@@ -389,7 +390,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
     }, c -> {
     });
 
-    BaseConsumers res = consume();
+    BaseConsumers<T> res = consume();
     boosts().put(res, boost);
 
     fun[0] = e -> {
@@ -406,7 +407,7 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
 
   @Annotations.MethodEntry(entryMethod = "setBars")
   default void setBarsCrafter(){
-    self().addBar("efficiency", (ProducerBuildc e) -> new Bar(
+    self().addBar("efficiency", (T e) -> new Bar(
       () -> Core.bundle.get("misc.efficiency") + ": " + Mathf.round(e.workEfficiency() * 100) + "%",
       () -> Pal.accent,
       e::workEfficiency
@@ -425,8 +426,8 @@ public interface ProducerBlockComp extends ConsumerBlockComp{
       t.add(Core.bundle.get("infos.touchShowDetails")).color(Color.gray).left();
       t.row();
       for(int i = 0; i < consumers().size; i++){
-        BaseConsumers cons = consumers().get(i);
-        BaseProducers prod = producers().get(i);
+        BaseConsumers<T> cons = consumers().get(i);
+        BaseProducers<T> prod = producers().get(i);
 
         Table details = new Table();
         buildRecipe(details, cons, prod);

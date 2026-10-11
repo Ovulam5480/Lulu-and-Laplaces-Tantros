@@ -1,11 +1,13 @@
 package LLL.world.modules;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.producers.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.io.*;
+import mindustry.gen.*;
 import mindustry.world.modules.*;
 
 /**
@@ -14,19 +16,19 @@ import mindustry.world.modules.*;
  * @author EBwilson
  */
 
-public class BaseProductModule extends BlockModule{
-  public final ProducerBuildc entity;
-  public BaseConsumeModule consumer;
-  public BaseProducers current;
+public class BaseProductModule<T extends Building & ProducerBuildc> extends BlockModule{
+  public final T entity;
+  public BaseConsumeModule<T> consumer;
+  public BaseProducers<T> current;
   public boolean valid;
 
-  public BaseProductModule(ProducerBuildc entity){
+  public BaseProductModule(T entity){
     this.entity = entity;
     consumer = entity.consumer();
     current = entity.produceCurrent() != -1 ? entity.getProducerBlock().producers().get(entity.produceCurrent()) : null;
   }
 
-  public Seq<BaseProducers> get(){
+  public Seq<BaseProducers<T>> get(){
     return entity.getProducerBlock().producers();
   }
 
@@ -36,7 +38,7 @@ public class BaseProductModule extends BlockModule{
 
   public float getPowerProduct(){
     if(current == null) return 0;
-    return current.<ProducePower>get(ResourceType.power).powerProduction * entity.consumer().powerOtherEff * (Mathf.num(entity.shouldConsume() && entity.consumeValid()) * ((BaseProduce)current.get(ResourceType.power)).multiple(entity));
+    return current.<ProducePower<T>>get(ResourceType.power).powerProduction * entity.consumer().powerOtherEff * (Mathf.num(entity.shouldConsume() && entity.consumeValid()) * ((BaseProduce)current.get(ResourceType.power)).multiple(entity));
   }
 
   public void setCurrent(){
@@ -69,7 +71,7 @@ public class BaseProductModule extends BlockModule{
     doDump(entity);
   }
 
-  public void doDump(ProducerBuildc entity){
+  public void doDump(T entity){
     if(current != null) current.forAll(c -> c.dump(entity));
   }
 

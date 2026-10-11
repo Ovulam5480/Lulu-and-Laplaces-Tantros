@@ -57,9 +57,9 @@ public class MessageDispatcher implements Telegraph{
     if(pool == null)
       throw new IllegalArgumentException("pool cannot be null");
     this.pool = pool;
-    this.queue = new PriorityQueue<Telegram>();
-    this.msgListeners = new IntMap<Seq<Telegraph>>();
-    this.msgProviders = new IntMap<Seq<TelegramProvider>>();
+    this.queue = new PriorityQueue<>();
+    this.msgListeners = new IntMap<>();
+    this.msgProviders = new IntMap<>();
   }
 
   /**
@@ -87,7 +87,7 @@ public class MessageDispatcher implements Telegraph{
     Seq<Telegraph> listeners = msgListeners.get(msg);
     if(listeners == null){
       // Associate an empty unordered array with the message code
-      listeners = new Seq<Telegraph>(false, 16);
+      listeners = new Seq<>(false, 16);
       msgListeners.put(msg, listeners);
     }
     listeners.add(listener);
@@ -128,7 +128,7 @@ public class MessageDispatcher implements Telegraph{
     Seq<TelegramProvider> providers = msgProviders.get(msg);
     if(providers == null){
       // Associate an empty unordered array with the message code
-      providers = new Seq<TelegramProvider>(false, 16);
+      providers = new Seq<>(false, 16);
       msgProviders.put(msg, providers);
     }
     providers.add(provider);

@@ -3,7 +3,7 @@ package LLL.world.neoplasm;
 import LLL.entities.gen.*;
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.type.neoplasm.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
@@ -23,7 +23,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class NeoplasmVessel extends Block implements NeoplasmBlockModule, TileSpriteBlockModule{
+public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpriteBlockModule{
   public static GrowItemFilter.VesselFlowTrigger trigger = new GrowItemFilter.VesselFlowTrigger();
   public float speed = 3f;
 
@@ -49,7 +49,7 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockModule, TileSp
 
   @Override
   public void initNeoplasticBlock(){
-    NeoplasmBlockModule.super.initNeoplasticBlock();
+    NeoplasmBlockComp.super.initNeoplasticBlock();
     replaceable = true;
   }
 
@@ -233,7 +233,7 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockModule, TileSp
 
     @Override
     public boolean canLink(Building other){
-      return other.team == team && other.block instanceof NeoplasmBlockModule;
+      return other.team == team && other.block instanceof NeoplasmBlockComp;
     }
 
 //        @Override

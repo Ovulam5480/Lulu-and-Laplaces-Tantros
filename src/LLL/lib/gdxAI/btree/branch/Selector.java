@@ -41,7 +41,7 @@ public class Selector<E> extends SingleRunningChildBranch<E>{
    * @param tasks the children of this task
    */
   public Selector(Task<E>... tasks){
-    super(new Seq<Task<E>>(tasks));
+    super(new Seq<>(tasks));
   }
 
   /**

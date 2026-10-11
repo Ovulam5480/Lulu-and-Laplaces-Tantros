@@ -1,4 +1,4 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.world.blockcomp.*;
 import arc.struct.*;

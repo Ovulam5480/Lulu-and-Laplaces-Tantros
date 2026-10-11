@@ -1,5 +1,6 @@
 package LLL.world.buildComp;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.blockcomp.*;
 import LLL.world.modules.*;
@@ -26,7 +27,7 @@ import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 
 @Annotations.EntityComponent
-abstract class ProducerBuildComp implements ConsumerBuildc{
+abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements ConsumerBuildc{
   @Annotations.Import
   int consumeCurrent;
 
@@ -44,7 +45,7 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
   @Annotations.Import
   boolean enabled = true;
   @Annotations.Import
-  BaseConsumeModule consumer;
+  BaseConsumeModule<T> consumer;
   @Annotations.Import
   Seq<LiquidStack> displayLiquids = new Seq<>();
 
@@ -53,7 +54,7 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
 
   public float progress, totalProgress, warmup;
   public float powerProdEfficiency;
-  public BaseProductModule producer;
+  public BaseProductModule<T> producer;
 
   private final Seq<Liquid> tempLiquid = new Seq<>();
 
@@ -68,8 +69,8 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
     return self();
   }
 
-  public ProducerBlockComp getProducerBlock(){
-    return (ProducerBlockComp)block;
+  public ProducerBlockComp<T> getProducerBlock(){
+    return (ProducerBlockComp<T>)block;
   }
 
   /**
@@ -103,9 +104,9 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
 
     if(updateRecipe() && producer.current != null){
       if(producer.current.get(ResourceType.item) != null)
-        outputItems = new Seq<>(producer.current.<ProduceItems>get(ResourceType.item).items).map(e -> e.item);
+        outputItems = new Seq<>(producer.current.<ProduceItems<T>>get(ResourceType.item).items).map(e -> e.item);
       if(producer.current.get(ResourceType.liquid) != null)
-        outputLiquids = new Seq<>(producer.current.<ProduceLiquids>get(ResourceType.liquid).liquids).map(e -> e.liquid);
+        outputLiquids = new Seq<>(producer.current.<ProduceLiquids<T>>get(ResourceType.liquid).liquids).map(e -> e.liquid);
     }
 
     for(ProducerBlockComp.Byproduct byproduct : getProducerBlock().byproducts().values()){
@@ -192,14 +193,14 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
   }
 
   public void craftTrigger(){
-    ProducerBlockComp b = getProducerBlock();
+    ProducerBlockComp<T> b = getProducerBlock();
     b.craftEffect().at(getX(), getY(), b.craftEffectColor());
     if(b.craftTrigger() != null) b.craftTrigger().get(self());
     if(b.craftedSound() != Sounds.none) b.craftedSound().at(x, y, 1, b.craftedSoundVolume());
   }
 
   public void onCraftingUpdate(){
-    ProducerBlockComp b = getProducerBlock();
+    ProducerBlockComp<T> b = getProducerBlock();
     if(Mathf.chanceDelta(b.updateEffectChance())){
       b.updateEffect().at(getX() + Mathf.range(b.effectRange() * 4f), getY() + Mathf.range(b.effectRange() * 4), b.updateEffectColor());
     }
@@ -302,14 +303,14 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
     tempLiquid.clear();
     if(consumeCurrent >= 0 && consumer.current != null){
       if(consumer.current.get(ResourceType.liquid) != null){
-        for(LiquidStack stack : consumer.current.<ConsumeLiquidBase>get(ResourceType.liquid).consLiquids){
+        for(LiquidStack stack : consumer.current.<ConsumeLiquidBase<T>>get(ResourceType.liquid).consLiquids){
           tempLiquid.add(stack.liquid);
         }
       }
     }
     if(consumeCurrent >= 0 && producer.current != null){
       if(producer.current.get(ResourceType.liquid) != null){
-        for(LiquidStack stack : producer.current.<ProduceLiquids>get(ResourceType.liquid).liquids){
+        for(LiquidStack stack : producer.current.<ProduceLiquids<T>>get(ResourceType.liquid).liquids){
           tempLiquid.add(stack.liquid);
         }
       }
@@ -345,8 +346,8 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
 
   @Annotations.Replace(5)
   public void buildConfiguration(Table table){
-    Seq<BaseProducers> producers = getProducerBlock().producers();
-    Seq<BaseConsumers> consumers = getProducerBlock().consumers();
+    Seq<BaseProducers<T>> producers = getProducerBlock().producers();
+    Seq<BaseConsumers<T>> consumers = getProducerBlock().consumers();
 
     if(getProducerBlock().producers().size > 1 && getProducerBlock().canSelect()){
       table.table(Tex.buttonTrans, prescripts -> {
@@ -358,8 +359,8 @@ abstract class ProducerBuildComp implements ConsumerBuildc{
         prescripts.pane(buttons -> {
           for(int i = 0; i < producers.size; i++){
             int s = i;
-            BaseProducers p = producers.get(i);
-            BaseConsumers c = consumers.get(i);
+            BaseProducers<T> p = producers.get(i);
+            BaseConsumers<T> c = consumers.get(i);
 
             if(c.selectable.get() == BaseConsumers.Visibility.hidden) continue;
 

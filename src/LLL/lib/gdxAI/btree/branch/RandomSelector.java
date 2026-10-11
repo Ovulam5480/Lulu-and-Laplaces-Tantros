@@ -40,7 +40,7 @@ public class RandomSelector<E> extends Selector<E>{
    * @param tasks the children of this task
    */
   public RandomSelector(Task<E>... tasks){
-    super(new Seq<Task<E>>(tasks));
+    super(new Seq<>(tasks));
   }
 
   /**

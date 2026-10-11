@@ -1,6 +1,6 @@
 package LLL.type.neoplasm;
 
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import arc.struct.*;
 import mindustry.*;

@@ -1,5 +1,6 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import arc.*;
 import arc.func.*;
 import arc.math.*;
@@ -7,13 +8,14 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ConsumeLiquidCond extends ConsumeLiquidBase{
+public class ConsumeLiquidCond<T extends Building & ConsumerBuildc> extends ConsumeLiquidBase<T>{
   public float minTemperature, maxTemperature;
   public float minFlammability, maxFlammability;
   public float minHeatCapacity, maxHeatCapacity;
@@ -27,7 +29,7 @@ public class ConsumeLiquidCond extends ConsumeLiquidBase{
   public Floatf<Liquid> usageMultiplier = e -> 1;
   public Floatf<Liquid> liquidEfficiency = l -> 1;
 
-  public Liquid getCurrCons(ConsumerBuildc entity){
+  public Liquid getCurrCons(T entity){
     for(LiquidStack liquid : consLiquids){
       if(entity.liquids.get(liquid.liquid) > 0.001f) return liquid.liquid;
     }
@@ -75,8 +77,8 @@ public class ConsumeLiquidCond extends ConsumeLiquidBase{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumeLiquidCond cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumeLiquidCond<T> cons){
       minTemperature = Math.min(cons.minTemperature, minTemperature);
       minFlammability = Math.min(cons.minFlammability, minFlammability);
       minHeatCapacity = Math.min(cons.minHeatCapacity, minHeatCapacity);
@@ -99,11 +101,11 @@ public class ConsumeLiquidCond extends ConsumeLiquidBase{
   }
 
   @Override
-  public void consume(ConsumerBuildc entity){
+  public void consume(T entity){
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
     LiquidStack[] cons = getCons();
     if(cons.length == 0) return;
 
@@ -138,7 +140,7 @@ public class ConsumeLiquidCond extends ConsumeLiquidBase{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){
+  public void build(T entity, Table table){
     Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));
     MultiReqImage image = new MultiReqImage();
     list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () ->
@@ -148,7 +150,7 @@ public class ConsumeLiquidCond extends ConsumeLiquidBase{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     LiquidStack[] cons = getCons();
     if(cons.length == 0) return 1;
 

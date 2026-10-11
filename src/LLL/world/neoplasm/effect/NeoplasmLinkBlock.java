@@ -1,21 +1,21 @@
 package LLL.world.neoplasm.effect;
 
 import LLL.lib.multiblock.extend.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmLinkBlock extends LinkBlock implements NeoplasmBlockModule{
+public class NeoplasmLinkBlock extends LinkBlock implements NeoplasmBlockComp{
   public NeoplasmLinkBlock(String name){
     super(name);
   }
 
   @Override
   public void initNeoplasticBlock(){
-    NeoplasmBlockModule.super.initNeoplasticBlock();
+    NeoplasmBlockComp.super.initNeoplasticBlock();
     replaceable = false;
   }
 

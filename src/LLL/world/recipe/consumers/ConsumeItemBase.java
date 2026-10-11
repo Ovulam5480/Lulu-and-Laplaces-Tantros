@@ -1,11 +1,13 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import arc.scene.ui.layout.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
-public abstract class ConsumeItemBase extends BaseConsume{
+public abstract class ConsumeItemBase<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
   public ItemStack[] consItems;
   public int displayLim = 4;
 

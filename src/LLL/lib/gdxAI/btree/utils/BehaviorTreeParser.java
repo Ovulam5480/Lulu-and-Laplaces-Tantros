@@ -66,7 +66,7 @@ public class BehaviorTreeParser<E>{
   public BehaviorTreeParser(DistributionAdapters distributionAdapters, int debugLevel, DefaultBehaviorTreeReader<E> reader){
     this.distributionAdapters = distributionAdapters;
     this.debugLevel = debugLevel;
-    btReader = reader == null ? new DefaultBehaviorTreeReader<E>() : reader;
+    btReader = reader == null ? new DefaultBehaviorTreeReader<>() : reader;
     btReader.setParser(this);
   }
 
@@ -120,7 +120,7 @@ public class BehaviorTreeParser<E>{
 
   protected BehaviorTree<E> createBehaviorTree(Task<E> root, E object){
     if(debugLevel > BehaviorTreeParser.DEBUG_LOW) printTree(root, 0);
-    return new BehaviorTree<E>(root, object);
+    return new BehaviorTree<>(root, object);
   }
 
   protected static <E> void printTree(Task<E> task, int indent){
@@ -141,7 +141,7 @@ public class BehaviorTreeParser<E>{
 
   public static class DefaultBehaviorTreeReader<E> extends BehaviorTreeReader{
 
-    private static final ObjectMap<String, String> DEFAULT_IMPORTS = new ObjectMap<String, String>();
+    private static final ObjectMap<String, String> DEFAULT_IMPORTS = new ObjectMap<>();
 
     static{
       Class<?>[] classes = new Class<?>[]{// @off - disable libgdx formatter
@@ -282,7 +282,7 @@ public class BehaviorTreeParser<E>{
 
     protected BehaviorTreeParser<E> btParser;
 
-    ObjectMap<Class<?>, Metadata> metadataCache = new ObjectMap<Class<?>, Metadata>();
+    ObjectMap<Class<?>, Metadata> metadataCache = new ObjectMap<>();
 
     Task<E> root;
     String subtreeName;
@@ -519,7 +519,7 @@ public class BehaviorTreeParser<E>{
       if(metadata == null)
         throw new RuntimeException(name + ": @TaskConstraint annotation not found in '" + task.getClass().getSimpleName()
           + "' class hierarchy");
-      return new StackedTask<E>(lineNumber, name, task, metadata);
+      return new StackedTask<>(lineNumber, name, task, metadata);
     }
 
     private Metadata findMetadata(Class<?> clazz){
@@ -628,9 +628,9 @@ public class BehaviorTreeParser<E>{
       }
     }
 
-    ObjectMap<String, String> userImports = new ObjectMap<String, String>();
+    ObjectMap<String, String> userImports = new ObjectMap<>();
 
-    ObjectMap<String, Subtree<E>> subtrees = new ObjectMap<String, Subtree<E>>();
+    ObjectMap<String, Subtree<E>> subtrees = new ObjectMap<>();
     Subtree<E> currentTree;
 
     int currentTreeStartIndent;
@@ -639,8 +639,8 @@ public class BehaviorTreeParser<E>{
     boolean isSubtreeRef;
     protected StackedTask<E> prevTask;
     protected StackedTask<E> guardChain;
-    protected Seq<StackedTask<E>> stack = new Seq<StackedTask<E>>();
-    ObjectSet<String> encounteredAttributes = new ObjectSet<String>();
+    protected Seq<StackedTask<E>> stack = new Seq<>();
+    ObjectSet<String> encounteredAttributes = new ObjectSet<>();
     boolean isGuard;
 
     StackedTask<E> getLastStackedTask(){
@@ -685,7 +685,7 @@ public class BehaviorTreeParser<E>{
       // Pop all task from the stack and check their minimum number of children
       popAndCheckMinChildren(0);
 
-      this.currentTree = new Subtree<E>(name);
+      this.currentTree = new Subtree<>(name);
       Subtree<E> oldTree = subtrees.put(name, currentTree);
       if(oldTree != null)
         throw new RuntimeException("A subtree named '" + name + "' is already defined");

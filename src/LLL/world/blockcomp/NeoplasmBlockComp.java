@@ -1,9 +1,9 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import LLL.*;
 import LLL.content.*;
 import LLL.content.extensions.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import mindustry.*;
@@ -17,7 +17,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @SuppressWarnings("unused")
-public interface NeoplasmBlockModule{
+public interface NeoplasmBlockComp{
   default Block getBlock(){
     return (Block)this;
   }

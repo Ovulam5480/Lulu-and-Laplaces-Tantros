@@ -1,5 +1,6 @@
 package LLL.world.recipe.producers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
@@ -14,20 +15,22 @@ import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.meta.*;
 
-public class ProducePayload extends BaseProduce{
+import java.util.*;
+
+public class ProducePayload<T extends Building & ProducerBuildc> extends BaseProduce<T>{
   private static final ObjectMap<UnlockableContent, PayloadStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;
   public PayloadStack[] payloads;
-  public Func2<ProducerBuildc, UnlockableContent, Payload> payloadMaker = this::makePayloadDef;
-  public Boolf2<ProducerBuildc, UnlockableContent> valid;
+  public Func2<T, UnlockableContent, Payload> payloadMaker = this::makePayloadDef;
+  public Boolf2<T, UnlockableContent> valid;
 
-  public ProducePayload(PayloadStack[] payloads, Boolf2<ProducerBuildc, UnlockableContent> valid){
+  public ProducePayload(PayloadStack[] payloads, Boolf2<T, UnlockableContent> valid){
     this.payloads = payloads;
     this.valid = valid;
   }
 
-  private Payload makePayloadDef(ProducerBuildc ent, UnlockableContent type){
+  private Payload makePayloadDef(T ent, UnlockableContent type){
     if(type instanceof UnitType unitType){
       Unit unit = unitType.create(ent.team);
       Events.fire(new EventType.UnitCreateEvent(unit, ent));
@@ -48,7 +51,7 @@ public class ProducePayload extends BaseProduce{
     ConsumePayload.buildPayloadIcons(table, payloads, displayLim);
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
+  @SuppressWarnings({"rawtypes"})
   @Override
   public void merge(BaseProduce other){
     if(other instanceof ProducePayload prod){
@@ -57,16 +60,16 @@ public class ProducePayload extends BaseProduce{
         TMP.put(stack.item, stack);
       }
 
-      for(PayloadStack stack : ((ProducePayload)prod).payloads){
+      for(PayloadStack stack : prod.payloads){
         TMP.get(stack.item, () -> new PayloadStack(stack.item, 0)).amount += stack.amount;
       }
 
-      payloads = TMP.values().toSeq().sort((a, b) -> a.item.id - b.item.id).toArray(PayloadStack.class);
+      payloads = TMP.values().toSeq().sort(Comparator.comparingInt(a -> a.item.id)).toArray(PayloadStack.class);
     }else throw new IllegalArgumentException("only merge consume with same type");
   }
 
   @Override
-  public void produce(ProducerBuildc entity){
+  public void produce(T entity){
     for(PayloadStack stack : payloads){
       for(int i = 0; i < stack.amount; i++){
         Payload payload = payloadMaker.get(entity, stack.item);
@@ -77,7 +80,7 @@ public class ProducePayload extends BaseProduce{
   }
 
   @Override
-  public boolean valid(ProducerBuildc entity){
+  public boolean valid(T entity){
     for(PayloadStack stack : payloads){
       if(!valid.get(entity, stack.item)) return false;
     }
@@ -85,7 +88,7 @@ public class ProducePayload extends BaseProduce{
   }
 
   @Override
-  public void update(ProducerBuildc entity){
+  public void update(T entity){
   }
 
   @Override

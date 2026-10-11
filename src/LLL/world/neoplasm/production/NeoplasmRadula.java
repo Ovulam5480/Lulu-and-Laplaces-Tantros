@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.production;
 
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
 
 //地面钻头
 @Annotations.ImplEntries
-public class NeoplasmRadula extends Block implements NeoplasmBlockModule{
+public class NeoplasmRadula extends Block implements NeoplasmBlockComp{
   public float hardnessDrillMultiplier = 50f;
   public int tier = 9;
   public float drillTime = 300;

@@ -1,5 +1,6 @@
 package LLL.world.modules;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.consumers.*;
@@ -7,6 +8,7 @@ import arc.func.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.io.*;
+import mindustry.gen.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 
@@ -15,22 +17,22 @@ import mindustry.world.modules.*;
  *
  * @author EBwilson
  */
-public class BaseConsumeModule extends BlockModule{
+public class BaseConsumeModule<T extends Building & ConsumerBuildc> extends BlockModule{
   private static final float[] ZERO = {0};
 
-  protected final ConsumerBuildc entity;
-  protected final ObjectMap<BaseConsumers, float[]> optProgress = new ObjectMap<>();
-  protected final ObjectMap<BaseConsumers, float[]> optEfficiency = new ObjectMap<>();
+  protected final T entity;
+  protected final ObjectMap<BaseConsumers<T>, float[]> optProgress = new ObjectMap<>();
+  protected final ObjectMap<BaseConsumers<T>, float[]> optEfficiency = new ObjectMap<>();
 
-  public BaseConsumers current;
-  public BaseConsumers optionalCurr;
+  public BaseConsumers<T> current;
+  public BaseConsumers<T> optionalCurr;
   public boolean valid;
 
   public float consEfficiency, powerOtherEff;
 
   private float powerCons;
 
-  public BaseConsumeModule(ConsumerBuildc entity){
+  public BaseConsumeModule(T entity){
     this.entity = entity;
     current = entity.getConsumerBlock().consumers() != null && entity.consumeCurrent() != -1 ?
       entity.getConsumerBlock().consumers().get(entity.consumeCurrent()) : null;
@@ -40,11 +42,11 @@ public class BaseConsumeModule extends BlockModule{
     if(current != null) current.forAll(c -> c.build(entity, table));
   }
 
-  public Seq<BaseConsumers> get(){
+  public Seq<BaseConsumers<T>> get(){
     return entity.getConsumerBlock().consumers().as();
   }
 
-  public Seq<BaseConsumers> getOptional(){
+  public Seq<BaseConsumers<T>> getOptional(){
     return entity.getConsumerBlock().optionalCons().as();
   }
 
@@ -68,7 +70,7 @@ public class BaseConsumeModule extends BlockModule{
     return !getOptional().isEmpty();
   }
 
-  public float getOptionalEff(BaseConsumers consumers){
+  public float getOptionalEff(BaseConsumers<T> consumers){
     return optEfficiency.get(consumers, ZERO)[0];
   }
 
@@ -91,14 +93,14 @@ public class BaseConsumeModule extends BlockModule{
     if(current != null){
       boolean preValid = valid();
 
-      for(Boolf<ConsumerBuildc> b : current.valid){
+      for(Boolf<T> b : current.valid){
         valid &= b.get(entity);
       }
       consEfficiency = powerOtherEff = valid ? 1 : 0;
       current.forAll(c -> {
         float eff = c.efficiency(entity);
         if(c instanceof ConsumePower){
-          powerCons += ((ConsumePower)c).requestedPower(entity);
+          powerCons += ((ConsumePower<T>)c).requestedPower(entity);
         }else powerOtherEff *= eff;
 
         consEfficiency *= eff;
@@ -120,13 +122,13 @@ public class BaseConsumeModule extends BlockModule{
 
   public void updateOptional(){
     if(getOptional() != null){
-      BaseConsumers cons;
+      BaseConsumers<T> cons;
       boolean onlyOne = entity.getConsumerBlock().oneOfOptionCons();
       for(int id = 0; id < getOptional().size; id++){
         cons = getOptional().get(id);
 
         float[] optionalEff = {1};
-        for(Boolf<ConsumerBuildc> b : cons.valid){
+        for(Boolf<T> b : cons.valid){
           optionalEff[0] *= b.get(entity) ? 1 : 0;
         }
         cons.forAll(c -> optionalEff[0] *= c.efficiency(entity));
@@ -138,7 +140,7 @@ public class BaseConsumeModule extends BlockModule{
           if(!entity.shouldConsumeOptions() || (!cons.optionalAlwaysValid && !valid)) continue;
           cons.forAll(c -> {
             c.update(entity);
-            if(c instanceof ConsumePower cp) powerCons += cp.requestedPower(entity);
+            if(c instanceof ConsumePower<T> cp) powerCons += cp.requestedPower(entity);
           });
 
           if(cons.craftTime > 0){
@@ -164,14 +166,14 @@ public class BaseConsumeModule extends BlockModule{
   /**
    * 获取指定索引的消耗列表
    */
-  public BaseConsumers get(int index){
+  public BaseConsumers<T> get(int index){
     return get().get(index);
   }
 
   /**
    * 获取指定索引处的可选消耗列表
    */
-  public BaseConsumers getOptional(int index){
+  public BaseConsumers<T> getOptional(int index){
     return index < getOptional().size ? getOptional().get(index) : null;
   }
 
@@ -181,7 +183,7 @@ public class BaseConsumeModule extends BlockModule{
   public void trigger(){
     if(current != null){
       current.forAll(c -> c.consume(entity));
-      for(Cons<ConsumerBuildc> trigger : current.triggers){
+      for(Cons<T> trigger : current.triggers){
         trigger.get(entity);
       }
     }
@@ -192,9 +194,9 @@ public class BaseConsumeModule extends BlockModule{
    */
   public void triggerOpt(int id){
     if(getOptional() != null && getOptional().size > id){
-      BaseConsumers cons = getOptional().get(id);
+      BaseConsumers<T> cons = getOptional().get(id);
       cons.forAll(c -> c.consume(entity));
-      for(Cons<ConsumerBuildc> trigger : cons.triggers){
+      for(Cons<T> trigger : cons.triggers){
         trigger.get(entity);
       }
     }

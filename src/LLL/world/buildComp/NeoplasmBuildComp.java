@@ -3,7 +3,7 @@ package LLL.world.buildComp;
 import LLL.entities.gen.*;
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.type.neoplasm.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
@@ -57,8 +57,8 @@ abstract class NeoplasmBuildComp implements SerializationGameEntityc, OvulamBuil
   public boolean thrombus;
   public boolean isSourceOrgan;
 
-  public NeoplasmBlockModule blockAs(){
-    return (NeoplasmBlockModule)block;
+  public NeoplasmBlockComp blockAs(){
+    return (NeoplasmBlockComp)block;
   }
 
   public PrefrontalCortex cortex(){

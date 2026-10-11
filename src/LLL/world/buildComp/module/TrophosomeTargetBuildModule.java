@@ -1,15 +1,15 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.lib.singularity.world.components.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
 import arc.struct.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
 import universecore.annotations.*;
 
 public interface TrophosomeTargetBuildModule extends PayloadBuildComp, Posc{
-  default TrophosomeTargetBlockModule blockAsTarget(){
-    return (TrophosomeTargetBlockModule)getBlock();
+  default TrophosomeTargetBlockComp blockAsTarget(){
+    return (TrophosomeTargetBlockComp)getBlock();
   }
 
   @Annotations.BindField(value = "requires", initialize = "new arc.struct.Seq<>()")

@@ -1,23 +1,25 @@
 package LLL.world.recipe;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import arc.struct.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 
-public class ConsFilter{
+public class ConsFilter<T extends Building & ConsumerBuildc>{
   public ObjectMap<ResourceType, ObjectSet<Content>> optionalFilter = new ObjectMap<>();
   public ObjectMap<ResourceType, ObjectSet<Content>> allFilter = new ObjectMap<>();
 
-  public void applyFilter(Iterable<BaseConsumers> consumers, Iterable<BaseConsumers> optional){
+  public void applyFilter(Iterable<BaseConsumers<T>> consumers, Iterable<BaseConsumers<T>> optional){
     if(optional != null){
-      for(BaseConsumers cons : optional){
+      for(BaseConsumers<T> cons : optional){
         handle(cons, optionalFilter);
         handle(cons, allFilter);
       }
     }
 
     if(consumers != null){
-      for(BaseConsumers cons : consumers){
+      for(BaseConsumers<T> cons : consumers){
         handle(cons, allFilter);
         for(ObjectMap.Entry<ResourceType, ObjectSet<Content>> access : cons.selfAccess){
           allFilter.get(access.key, ObjectSet::new).addAll();
@@ -35,7 +37,7 @@ public class ConsFilter{
    * @param acceptAll 是否接受所有清单的需求
    * @return 布尔值，是否接受此对象
    */
-  public boolean filter(ConsumerBuildc entity, ResourceType type, Content target, boolean acceptAll){
+  public boolean filter(T entity, ResourceType type, Content target, boolean acceptAll){
     if(optionalFilter.containsKey(type) && optionalFilter.get(type).contains(target)) return true;
 
     if(acceptAll) return allFilter.containsKey(type) && allFilter.get(type).contains(target);
@@ -43,7 +45,7 @@ public class ConsFilter{
     return entity.consumer().current != null && entity.consumer().current.filter(type, target);
   }
 
-  private void handle(BaseConsumers cons, ObjectMap<ResourceType, ObjectSet<Content>> map){
+  private void handle(BaseConsumers<T> cons, ObjectMap<ResourceType, ObjectSet<Content>> map){
     cons.forAll(c -> {
       if((c.filter()) != null){
         ObjectSet<Content> all = allFilter.get(c.type(), ObjectSet::new);

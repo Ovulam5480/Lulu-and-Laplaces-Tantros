@@ -1,7 +1,6 @@
-package LLL.world.blocks.module;
+package LLL.world.buildComp.module;
 
 import LLL.world.blockcomp.*;
-import LLL.world.blocks.module.block.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.*;
@@ -31,8 +30,8 @@ public interface TileSpriteBuildModule extends BuildCompBase{
   int[] indexX = {1, 0, -1, -1, -1, 0, 1, 1};
   int[] indexY = {-1, -1, -1, 0, 1, 1, 1, 0};
 
-  default TileSpriteBlockModule getModule(){
-    return (TileSpriteBlockModule)getBlock();
+  default TileSpriteBlockComp getModule(){
+    return (TileSpriteBlockComp)getBlock();
   }
 
   @Annotations.BindField("spriteMask")

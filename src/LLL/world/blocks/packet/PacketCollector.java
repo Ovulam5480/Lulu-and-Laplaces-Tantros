@@ -5,7 +5,7 @@ import LLL.entities.gen.*;
 import LLL.io.*;
 import LLL.packet.*;
 import LLL.world.blocks.entity.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;

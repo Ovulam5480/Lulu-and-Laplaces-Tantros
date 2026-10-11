@@ -2,7 +2,7 @@ package LLL.world.blocks.distribution;
 
 import LLL.packet.*;
 import LLL.packet.ResourceStacks.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;

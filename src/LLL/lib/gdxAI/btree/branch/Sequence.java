@@ -50,7 +50,7 @@ public class Sequence<E> extends SingleRunningChildBranch<E>{
    * @param tasks the children of this task
    */
   public Sequence(Task<E>... tasks){
-    super(new Seq<Task<E>>(tasks));
+    super(new Seq<>(tasks));
   }
 
   @Override

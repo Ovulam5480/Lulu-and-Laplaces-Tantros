@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.production;
 
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -15,7 +15,7 @@ import mindustry.world.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmPholas extends Block implements NeoplasmBlockModule{
+public class NeoplasmPholas extends Block implements NeoplasmBlockComp{
   public int tier = 9;
   public float drillTime = 100f;
   public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();

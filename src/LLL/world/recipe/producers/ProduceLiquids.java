@@ -1,16 +1,18 @@
 package LLL.world.recipe.producers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
 import arc.graphics.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
-public class ProduceLiquids extends BaseProduce{
+public class ProduceLiquids<T extends Building & ProducerBuildc> extends BaseProduce<T>{
   private static final ObjectMap<Liquid, LiquidStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;
@@ -21,13 +23,13 @@ public class ProduceLiquids extends BaseProduce{
     this.liquids = liquids;
   }
 
-  public ProduceLiquids portion(){
+  public ProduceLiquids<T> portion(){
     this.portion = true;
     return this;
   }
 
   @Override
-  public void buildBars(ProducerBuildc entity, Table bars){
+  public void buildBars(T entity, Table bars){
     for(LiquidStack stack : liquids){
       bars.add(new Bar(
         () -> stack.liquid.localizedName,
@@ -54,8 +56,8 @@ public class ProduceLiquids extends BaseProduce{
   }
 
   @Override
-  public void merge(BaseProduce other){
-    if(other instanceof ProduceLiquids cons){
+  public void merge(BaseProduce<T> other){
+    if(other instanceof ProduceLiquids<T> cons){
       TMP.clear();
       for(LiquidStack stack : liquids){
         TMP.put(stack.liquid, stack);
@@ -72,14 +74,14 @@ public class ProduceLiquids extends BaseProduce{
   }
 
   @Override
-  public void produce(ProducerBuildc entity){
+  public void produce(T entity){
     if(portion) for(LiquidStack stack : liquids){
       entity.handleLiquid(entity, stack.liquid, stack.amount * 60);
     }
   }
 
   @Override
-  public void update(ProducerBuildc entity){
+  public void update(T entity){
     if(!portion) for(LiquidStack stack : liquids){
       float amount = stack.amount * parent.cons.delta(entity) * multiple(entity);
       amount = Math.min(amount, entity.block.liquidCapacity - entity.liquids.get(stack.liquid));
@@ -88,7 +90,7 @@ public class ProduceLiquids extends BaseProduce{
   }
 
   @Override
-  public void dump(ProducerBuildc entity){
+  public void dump(T entity){
     for(LiquidStack stack : liquids){
       if(entity.liquids.get(stack.liquid) > 0.01f) entity.dumpLiquid(stack.liquid);
     }
@@ -109,7 +111,7 @@ public class ProduceLiquids extends BaseProduce{
   }
 
   @Override
-  public boolean valid(ProducerBuildc entity){
+  public boolean valid(T entity){
     if(entity.liquids == null) return false;
 
     boolean res = false;

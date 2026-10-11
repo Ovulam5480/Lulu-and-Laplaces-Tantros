@@ -1,4 +1,4 @@
-//package LLL.world.blocks.module;
+//package LLL.world.buildComp.module;
 //
 //import LLL.content.ResourceType;
 //import LLL.entities.gen.FactoryBuildc;
@@ -12,7 +12,7 @@
 //import mindustry.type.Item;
 //import universecore.annotations.Annotations;
 //
-/// /需要对物品进行消耗的工厂模块, 休眠超过一定时间则凋亡为血管
+////需要对物品进行消耗的工厂模块, 休眠超过一定时间则凋亡为血管
 //public interface NeoplasmOrganModule extends NeoplasmBuildModule, FactoryBuildc {
 //    @Annotations.BindField("degenerate")
 //    default void setDegenerate(float degenerate){}

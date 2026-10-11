@@ -1,5 +1,6 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.packet.resources.*;
 import arc.*;
@@ -17,7 +18,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 
-public class ConsumeFloor extends BaseConsume{
+public class ConsumeFloor<T extends Building & ConsumerBuildc & FloorCrafterBuildc> extends BaseConsume<T>{
   public final ObjectFloatMap<Floor> floorEff = new ObjectFloatMap<>();
 
   public float baseEfficiency = 1;
@@ -79,8 +80,8 @@ public class ConsumeFloor extends BaseConsume{
   }
 
   @Override
-  public void merge(BaseConsume baseConsume){
-    if(baseConsume instanceof ConsumeFloor cons){
+  public void merge(BaseConsume<T> baseConsume){
+    if(baseConsume instanceof ConsumeFloor<T> cons){
       for(ObjectFloatMap.Entry<Floor> entry : cons.floorEff){
         floorEff.put(entry.key, floorEff.get(entry.key, 1) * entry.value);
       }
@@ -91,12 +92,12 @@ public class ConsumeFloor extends BaseConsume{
   }
 
   @Override
-  public void consume(ConsumerBuildc t){
+  public void consume(T t){
     //no action
   }
 
   @Override
-  public void update(ConsumerBuildc t){
+  public void update(T t){
     //no action
   }
 
@@ -128,10 +129,10 @@ public class ConsumeFloor extends BaseConsume{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){/*none*/}
+  public void build(T entity, Table table){/*none*/}
 
   @Override
-  public void buildBars(ConsumerBuildc t, Table bars){
+  public void buildBars(T t, Table bars){
     bars.row();
     bars.add(new Bar(
       () -> Core.bundle.get("infos.floorEfficiency") + ": " + Strings.autoFixed(Mathf.round(efficiency(t) * 100), 0) + "%",
@@ -142,7 +143,7 @@ public class ConsumeFloor extends BaseConsume{
   }
 
   @Override
-  public float efficiency(ConsumerBuildc t){
+  public float efficiency(T t){
     return getEff(t.floorCount());
   }
 

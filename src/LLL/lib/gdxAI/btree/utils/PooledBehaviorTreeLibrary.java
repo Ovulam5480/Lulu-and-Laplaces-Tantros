@@ -14,7 +14,7 @@ import arc.util.pooling.*;
  */
 @SuppressWarnings("rawtypes")
 public class PooledBehaviorTreeLibrary extends BehaviorTreeLibrary{
-  protected ObjectMap<String, Pool<BehaviorTree>> pools = new ObjectMap<String, Pool<BehaviorTree>>();
+  protected ObjectMap<String, Pool<BehaviorTree>> pools = new ObjectMap<>();
 
   /**
    * retrieve pool by tree reference, create it if not already exists.

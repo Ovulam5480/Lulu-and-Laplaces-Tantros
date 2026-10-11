@@ -1,5 +1,6 @@
 package LLL.world.buildComp;
 
+import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.packet.resources.*;
 import LLL.world.blockcomp.*;
@@ -31,7 +32,7 @@ import static LLL.world.blockcomp.ConsumerBlockComp.*;
 import static mindustry.Vars.*;
 
 @Annotations.EntityComponent
-abstract class ConsumerBuildComp implements OvulamBuildingc{
+abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements OvulamBuildingc{
   @Annotations.Import
   LiquidModule liquids;
   @Annotations.Import
@@ -47,7 +48,7 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
   @Annotations.Import
   boolean enabled = true;
 
-  BaseConsumeModule consumer;
+  BaseConsumeModule<T> consumer;
 
   int consumeCurrent;
 
@@ -75,7 +76,7 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
 
     if(getConsumerBlock().consumers().size == 1) consumeCurrent = 0;
 
-    consumer = new BaseConsumeModule(self());
+    consumer = new BaseConsumeModule<>(self());
   }
 
   @Override
@@ -93,13 +94,13 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
   }
 
   public void updateEffectiveBefore(){
-    Seq<BaseConsumers> consumers = getConsumerBlock().consumers();
+    Seq<BaseConsumers<T>> consumers = getConsumerBlock().consumers();
     getConsumerBlock().consumers();
 
     updateRecipe = false;
     if(!recipeSelected && getConsumerBlock().autoSelect() && consumer.hasConsume() && (consumer.current == null || !consumer.valid())){
       int f = -1;
-      for(BaseConsumers ignored : consumers){
+      for(BaseConsumers<T> ignored : consumers){
         int n = select % consumers.size;
         if(consumer.valid(n) && consumers.get(n).selectable.get() == BaseConsumers.Visibility.usable){
           f = n;
@@ -136,8 +137,8 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
   /**
    * 获得该块的ConsumerBlock
    */
-  public ConsumerBlockComp getConsumerBlock(){
-    return (ConsumerBlockComp)block;
+  public ConsumerBlockComp<T> getConsumerBlock(){
+    return (ConsumerBlockComp<T>)block;
   }
 
   /**
@@ -198,11 +199,11 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
     return 1;
   }
 
-  public float optionalConsEff(BaseConsumers consumers){
+  public float optionalConsEff(BaseConsumers<T> consumers){
     return optionalConsEffConsumer(consumers);
   }
 
-  public float optionalConsEffConsumer(BaseConsumers consumers){
+  public float optionalConsEffConsumer(BaseConsumers<T> consumers){
     return consumer.getOptionalEff(consumers);
   }
 
@@ -269,7 +270,7 @@ abstract class ConsumerBuildComp implements OvulamBuildingc{
     displayLiquids.clear();
     tempLiquids.clear();
     if(consumeCurrent >= 0 && consumer.current != null && consumer.current.get(ResourceType.liquid) != null){
-      for(LiquidStack stack : consumer.current.<ConsumeLiquidBase>get(ResourceType.liquid).consLiquids){
+      for(LiquidStack stack : consumer.current.<ConsumeLiquidBase<T>>get(ResourceType.liquid).consLiquids){
         tempLiquids.add(stack.liquid);
       }
     }

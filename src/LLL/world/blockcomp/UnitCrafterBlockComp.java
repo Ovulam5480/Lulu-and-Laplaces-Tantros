@@ -1,17 +1,19 @@
 package LLL.world.blockcomp;
 
+import LLL.entities.gen.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.consumers.*;
 import LLL.world.recipe.producers.*;
 import arc.struct.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import universe.util.reflect.*;
 import universe.util.reflect.accessor.*;
 import universecore.annotations.*;
 
-public interface UnitCrafterBlockComp extends PayloadCrafterBlockComp{
+public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc> extends PayloadCrafterBlockComp<T>{
   FieldAccessor<UnitType, ItemStack[]> totalRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "totalRequirements");
   FieldAccessor<UnitType, ItemStack[]> cachedRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "cachedRequirements");
   FieldAccessor<UnitType, ItemStack[]> firstRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "firstRequirements");
@@ -23,10 +25,9 @@ public interface UnitCrafterBlockComp extends PayloadCrafterBlockComp{
 
   @Annotations.MethodEntry(entryMethod = "init")
   default void initUnitRequirements(){
-    for(BaseConsumers consumer : consumers()){
+    for(BaseConsumers<T> consumer : consumers()){
       consumer.forAll(consume -> {
-        if(consume instanceof OvulamConsumePayload){
-          OvulamConsumePayload<T> c = (OvulamConsumePayload<T>)consume;
+        if(consume instanceof OvulamConsumePayload<T> c){
           for(PayloadStack payloadStack : c.payloads){
             accepts().put(payloadStack.item, Math.max(payloadStack.amount, accepts().get(payloadStack.item, 0)));
           }
@@ -34,9 +35,9 @@ public interface UnitCrafterBlockComp extends PayloadCrafterBlockComp{
       });
     }
 
-    for(BaseProducers producer : producers()){
+    for(BaseProducers<T> producer : producers()){
       producer.forAll(produce -> {
-        if(!(produce instanceof ProducePayload p)){
+        if(!(produce instanceof ProducePayload<T> p)){
           return;
         }
 
@@ -46,9 +47,9 @@ public interface UnitCrafterBlockComp extends PayloadCrafterBlockComp{
           ItemSeq seq = new ItemSeq();
 
           producer.cons.forAll(consume -> {
-            if(consume instanceof ConsumeItemBase i){
+            if(consume instanceof ConsumeItemBase<T> i){
               seq.add(i.consItems);
-            }else if(consume instanceof OvulamConsumePayload cp){
+            }else if(consume instanceof OvulamConsumePayload<T> cp){
               for(PayloadStack stack : cp.payloads){
                 ItemStack[] requirements;
 

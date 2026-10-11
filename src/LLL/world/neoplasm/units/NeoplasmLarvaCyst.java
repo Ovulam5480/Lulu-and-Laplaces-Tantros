@@ -1,7 +1,11 @@
 package LLL.world.neoplasm.units;
 
 import LLL.content.*;
+import LLL.entities.gen.*;
 import LLL.lib.singularity.world.consumers.*;
+import LLL.world.blockcomp.*;
+import LLL.world.neoplasm.crafting.*;
+import LLL.world.recipe.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -25,7 +29,7 @@ import static mindustry.Vars.*;
 import static mindustry.world.blocks.payloads.PayloadBlock.*;
 
 @Annotations.ImplEntries
-public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockModule, UnitCrafterBlockComp{
+public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockComp, UnitCrafterBlockComp{
   protected ObjectIntMap<UnlockableContent> accepts = new ObjectIntMap<>();
 
   public float degenerateTime = 60 * 60;
@@ -50,10 +54,10 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockMod
 
   @Override
   public void afterInit(){
-    NeoplasmBlockModule.super.afterInit();
+    NeoplasmBlockComp.super.afterInit();
 
     for(BaseConsumers consumer : consumers){
-      for(BaseConsume<? extends ConsumerBuildComp> baseConsume : consumer.all()){
+      for(BaseConsume<? extends ConsumerBuildc> baseConsume : consumer.all()){
         if(baseConsume instanceof OvulamConsumePayload){
           OvulamConsumePayload<NeoplasmLarvaCystBuild> c = (OvulamConsumePayload<NeoplasmLarvaCystBuild>)baseConsume;
           for(PayloadStack payloadStack : c.payloads){

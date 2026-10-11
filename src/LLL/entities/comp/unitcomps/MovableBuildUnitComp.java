@@ -2,8 +2,8 @@ package LLL.entities.comp.unitcomps;
 
 import LLL.entities.gen.*;
 import LLL.graphics.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -29,8 +29,8 @@ public abstract class MovableBuildUnitComp implements BlockUnitc, MDTXc, Syncc, 
 
   boolean isModule;
 
-  public MovableBlockModule blockAs(){
-    return (MovableBlockModule)tile.block;
+  public MovableBlockComp blockAs(){
+    return (MovableBlockComp)tile.block;
   }
 
   @Annotations.Replace
@@ -44,7 +44,7 @@ public abstract class MovableBuildUnitComp implements BlockUnitc, MDTXc, Syncc, 
 
     hitSize(tile.block.size * tilesize);
     set(tile);
-    isModule = tile.block instanceof MovableBlockModule;
+    isModule = tile.block instanceof MovableBlockComp;
     if(isModule){
       ((MovableBuildModule)tile).unitSelf(self());
     }

@@ -3,6 +3,7 @@ package LLL;
 import LLL.content.*;
 import LLL.content.extensions.*;
 import LLL.entities.*;
+import LLL.entities.gen.*;
 import LLL.graphics.*;
 import LLL.io.*;
 import LLL.lib.seam.*;

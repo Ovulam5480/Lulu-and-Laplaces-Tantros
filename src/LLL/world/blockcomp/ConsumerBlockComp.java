@@ -1,6 +1,7 @@
 package LLL.world.blockcomp;
 
 import LLL.content.*;
+import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.packet.resources.*;
 import LLL.world.recipe.*;
@@ -24,7 +25,7 @@ import universecore.annotations.Annotations.*;
  * @author EBwilson
  * @since 1.0
  */
-public interface ConsumerBlockComp extends BlockComp{
+public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends BlockComp{
   String liquidsStr = Iconc.liquidWater + Core.bundle.get("fragment.bars.liquids");
   String recipeIndfo = Core.bundle.get("fragment.buttons.selectPrescripts");
 
@@ -83,7 +84,7 @@ public interface ConsumerBlockComp extends BlockComp{
    * 方块的消耗的清单列表
    */
   @BindField(value = "consumers", initialize = "new arc.struct.Seq<>()")
-  default Seq<BaseConsumers> consumers(){
+  default Seq<BaseConsumers<T>> consumers(){
     return null;
   }
 
@@ -91,24 +92,24 @@ public interface ConsumerBlockComp extends BlockComp{
    * 这是一个指针，用于标记当前编辑的consume
    */
   @BindField("consume")
-  default BaseConsumers consume(){
+  default BaseConsumers<T> consume(){
     return null;
   }
 
   @BindField("consume")
-  default void consume(BaseConsumers consume){
+  default void consume(BaseConsumers<T> consume){
   }
 
   /**
    * 方块的可选消耗的清单列表
    */
   @BindField(value = "optionalCons", initialize = "new arc.struct.Seq<>()")
-  default Seq<BaseConsumers> optionalCons(){
+  default Seq<BaseConsumers<T>> optionalCons(){
     return null;
   }
 
   @BindField(value = "consFilter", initialize = "new LLL.world.consumers.ConsFilter()")
-  default ConsFilter filter(){
+  default ConsFilter<T> filter(){
     return null;
   }
 
@@ -120,7 +121,7 @@ public interface ConsumerBlockComp extends BlockComp{
 //        self.solid = true;
 //        self.sync = true;
 //        appliedConfig(self);
-//        self.config(byte[].class, (ConsumerBuildc e, byte[] code) -> {
+//        self.config(byte[].class, (T e, byte[] code) -> {
 //            if (code.length == 0) return;
 //            parseConfigObjects(e, DataPackable.readObject(code, e));
 //        });
@@ -134,10 +135,10 @@ public interface ConsumerBlockComp extends BlockComp{
       self.saveConfig = true;
     }
 
-    Seq<BaseConsumers> consume = new Seq<>();
+    Seq<BaseConsumers<T>> consume = new Seq<>();
     if(consumers().size > 0) consume.addAll(consumers());
     if(optionalCons().size > 0) consume.addAll(optionalCons());
-    for(BaseConsumers cons : consume){
+    for(BaseConsumers<T> cons : consume){
       if(cons.get(ResourceType.item) != null){
         self.hasItems = true;
         if(cons.craftTime == 0) cons.time(90f);
@@ -146,7 +147,7 @@ public interface ConsumerBlockComp extends BlockComp{
       self.hasPower |= self.consumesPower |= cons.get(ResourceType.power) != null;
     }
 
-    for(BaseConsumers consumer : consumers()){
+    for(BaseConsumers<T> consumer : consumers()){
       self.acceptsPayload |= consumer.get(ResourceType.payload) != null;
     }
   }
@@ -160,12 +161,12 @@ public interface ConsumerBlockComp extends BlockComp{
 
     if(block.consumesPower){
       block.consumePowerDynamic(e -> {
-        ConsumerBuildc entity = (ConsumerBuildc)e;
+        T entity = (T)e;
         if(entity.consumer().current == null) return 0f;
         if(entity.tile.build == null || entity.consumeCurrent() == -1 || !entity.consumer().excludeValid(ResourceType.power))
           return 0f;
 
-        ConsumePower cons = entity.consumer().current.<ConsumePower>get(ResourceType.power);
+        ConsumePower<T> cons = entity.consumer().current.<ConsumePower<T>>get(ResourceType.power);
         if(cons == null) return 0;
 
         if(cons.buffered){
@@ -180,33 +181,33 @@ public interface ConsumerBlockComp extends BlockComp{
   @Annotations.MethodEntry(entryMethod = "init")
   default void initFilter(){
     filter().applyFilter(consumers(), optionalCons());
-    for(BaseConsumers consumer : consumers()){
+    for(BaseConsumers<T> consumer : consumers()){
       consumer.initFilter();
     }
   }
 
-  default void newConsume(Cons<BaseConsumers> cons){
-    BaseConsumers consume = new BaseConsumers(false);
+  default void newConsume(Cons<BaseConsumers<T>> cons){
+    BaseConsumers<T> consume = new BaseConsumers<>(false);
     cons.get(consume);
     consumers().add(consume);
     consume(consume);
   }
 
   default void newConsume(){
-    BaseConsumers consume = new BaseConsumers(false);
+    BaseConsumers<T> consume = new BaseConsumers<>(false);
     consumers().add(consume);
     consume(consume);
   }
 
-  default void newOptionalConsume(Cons<BaseConsumers> cons){
-    BaseConsumers consume = new BaseConsumers(true);
+  default void newOptionalConsume(Cons<BaseConsumers<T>> cons){
+    BaseConsumers<T> consume = new BaseConsumers<>(true);
     cons.get(consume);
     optionalCons().add(consume);
     consume(consume);
   }
 
-  default void newOptionalConsume(Cons2<ConsumerBuildc, BaseConsumers> validDef, Cons2<Stats, BaseConsumers> displayDef, Cons<BaseConsumers> cons){
-    BaseConsumers consume = new BaseConsumers(true){{
+  default void newOptionalConsume(Cons2<T, BaseConsumers<T>> validDef, Cons2<Stats, BaseConsumers<T>> displayDef, Cons<BaseConsumers> cons){
+    BaseConsumers<T> consume = new BaseConsumers<>(true){{
       optionalDef = validDef;
       display = displayDef;
     }};
@@ -216,7 +217,7 @@ public interface ConsumerBlockComp extends BlockComp{
   }
 
   default void appliedConfig(Block self){
-    self.config(Integer.class, (ConsumerBuildc e, Integer i) -> {
+    self.config(Integer.class, (T e, Integer i) -> {
       if(consumers().size > 1){
         if(canSelect()) e.recipeSelected(true);
         e.reset();
@@ -226,13 +227,13 @@ public interface ConsumerBlockComp extends BlockComp{
         }else e.consumeCurrent(i);
       }
     });
-    self.configClear((ConsumerBuildc e) -> {
+    self.configClear((T e) -> {
       e.recipeSelected(false);
       e.consumeCurrent(0);
     });
   }
 
-  default void parseConfigObjects(ConsumerBuildc e, Object obj){
+  default void parseConfigObjects(T e, Object obj){
   }
 
   @Annotations.MethodEntry(entryMethod = "setStats", context = "stats -> stats")
@@ -257,7 +258,7 @@ public interface ConsumerBlockComp extends BlockComp{
     if(!optionalCons().isEmpty()){
       stats.add(UncStat.optionalInputs, t -> {
         t.left().row();
-        for(BaseConsumers con : optionalCons()){
+        for(BaseConsumers<T> con : optionalCons()){
           t.table(SglDrawConst.grayUIAlpha, ta -> {
             ta.left().defaults().left();
             ProducerBlockComp.buildRecipe(ta, con, null);

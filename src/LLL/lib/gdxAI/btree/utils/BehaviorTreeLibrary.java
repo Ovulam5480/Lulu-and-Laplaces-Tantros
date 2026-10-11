@@ -85,7 +85,7 @@ public class BehaviorTreeLibrary{
   private BehaviorTreeLibrary(FileHandleResolver resolver, AssetManager assetManager, int parseDebugLevel){
     this.resolver = resolver;
 //		this.assetManager = assetManager;
-    this.repository = new ObjectMap<String, BehaviorTree<?>>();
+    this.repository = new ObjectMap<>();
     this.parser = new BehaviorTreeParser(parseDebugLevel);
   }
 

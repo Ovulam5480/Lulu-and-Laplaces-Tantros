@@ -1,7 +1,7 @@
 package LLL.entities.ai;
 
 import LLL.content.extensions.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.entities.units.*;

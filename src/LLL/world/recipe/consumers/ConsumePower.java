@@ -1,5 +1,6 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import arc.*;
 import arc.func.*;
@@ -16,14 +17,14 @@ import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 /*仅仅保存消耗参数，能量消耗本身实际应用仍为默认consumes*/
-public class ConsumePower extends BaseConsume{
+public class ConsumePower<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
   public float usage;
   public float capacity;
   public boolean buffered;
 
   public boolean showIcon;
 
-  Seq<ConsumePower> others = new Seq<>(ConsumePower.class);
+  Seq<ConsumePower<T>> others = new Seq<>(ConsumePower.class);
 
   public ConsumePower(float usage, float capacity){
     this.usage = usage;
@@ -63,18 +64,18 @@ public class ConsumePower extends BaseConsume{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumePower cons){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumePower<T> cons){
       buffered |= cons.buffered;
       capacity += cons.capacity;
 
-      others.add((ConsumePower)cons);
+      others.add(cons);
       return;
     }
     throw new IllegalArgumentException("only merge consume with same type");
   }
 
-  public float requestedPower(ConsumerBuildc entity){
+  public float requestedPower(T entity){
     float res = usage;
     for(ConsumePower other : others.items){
       if(other == null) continue;
@@ -84,7 +85,7 @@ public class ConsumePower extends BaseConsume{
   }
 
   @Override
-  public void buildBars(ConsumerBuildc entity, Table bars){
+  public void buildBars(T entity, Table bars){
     Boolp buffered = () -> entity.block.consPower.buffered;
     Floatp capacity = () -> entity.block.consPower.capacity;
     bars.add(new Bar(
@@ -96,15 +97,15 @@ public class ConsumePower extends BaseConsume{
   }
 
   @Override
-  public void build(ConsumerBuildc tile, Table table){
+  public void build(T tile, Table table){
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     if(entity.power == null) return 0;
     if(buffered){
       return entity.power.status > 0 ? 1 : 0;
@@ -119,7 +120,7 @@ public class ConsumePower extends BaseConsume{
   }
 
   @Override
-  public void consume(ConsumerBuildc entity){
+  public void consume(T entity){
   }
 
   @Override

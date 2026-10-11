@@ -4,8 +4,8 @@ import LLL.content.*;
 import LLL.content.blocks.*;
 import LLL.type.*;
 import LLL.type.neoplasm.*;
-import LLL.world.blocks.module.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.neoplasm.*;
 import arc.*;
 import arc.func.*;
@@ -28,7 +28,7 @@ import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockModule, TrophosomeTargetBlockModule{
+public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockComp, TrophosomeTargetBlockComp{
   public float[] pixDis = {30, 51, 73, 95, 116, 134};
 
   public TextureRegion[] neuronPetals;

@@ -1,11 +1,11 @@
-package LLL.world.blocks.module.block;
+package LLL.world.blockcomp;
 
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import universecore.annotations.*;
 
 @SuppressWarnings("unused")
-public interface TileSpriteBlockModule{
+public interface TileSpriteBlockComp{
   TextureRegion getToSplit();
 
   @Annotations.BindField("splitRegions")

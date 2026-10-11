@@ -3,7 +3,7 @@ package LLL.world.blocks.entity;
 import LLL.*;
 import LLL.content.extensions.*;
 import LLL.entities.gen.*;
-import LLL.world.blocks.module.block.*;
+import LLL.world.blockcomp.*;
 import arc.*;
 import arc.func.*;
 import arc.math.geom.*;
@@ -19,7 +19,7 @@ import mindustry.world.meta.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class TileEntityBlock extends LegacyBlock implements MultiSizeBlock{
+public class TileEntityBlock extends LegacyBlock implements MultiSizeBlockComp{
   public Prov<TileEntityc> entityProvider;
   public float entityLayer = Layer.blockOver;
 

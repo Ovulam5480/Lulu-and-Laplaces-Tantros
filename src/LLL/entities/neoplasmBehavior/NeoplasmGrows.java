@@ -4,7 +4,7 @@ import LLL.content.*;
 import LLL.content.blocks.*;
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.util.*;
-import LLL.world.blocks.module.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.neoplasm.*;
 import LLL.world.neoplasm.production.*;
 import arc.math.geom.*;

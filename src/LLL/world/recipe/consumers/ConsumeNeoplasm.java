@@ -1,12 +1,15 @@
 package LLL.world.recipe.consumers;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
+import LLL.world.buildComp.module.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.world.meta.*;
 
-public class ConsumeNeoplasm extends BaseConsume{
+public class ConsumeNeoplasm<T extends Building & ConsumerBuildc & NeoplasmBuildc> extends BaseConsume<T>{
   public float amount;
 
   public ConsumeNeoplasm(float amount){
@@ -24,18 +27,18 @@ public class ConsumeNeoplasm extends BaseConsume{
   }
 
   @Override
-  public void merge(BaseConsume other){
-    if(other instanceof ConsumeNeoplasm con){
+  public void merge(BaseConsume<T> other){
+    if(other instanceof ConsumeNeoplasm<T> con){
       amount += con.amount;
     }
   }
 
   @Override
-  public void consume(ConsumerBuildc entity){
+  public void consume(T entity){
   }
 
   @Override
-  public void update(ConsumerBuildc entity){
+  public void update(T entity){
     entity.neoplasm().removeClamp(amount);
   }
 
@@ -45,12 +48,12 @@ public class ConsumeNeoplasm extends BaseConsume{
   }
 
   @Override
-  public void build(ConsumerBuildc entity, Table table){
+  public void build(T entity, Table table){
 
   }
 
   @Override
-  public float efficiency(ConsumerBuildc entity){
+  public float efficiency(T entity){
     return entity.neoplasm().has(amount) ? 1 : 0;
   }
 

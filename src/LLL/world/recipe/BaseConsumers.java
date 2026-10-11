@@ -1,5 +1,6 @@
 package LLL.world.recipe;
 
+import LLL.entities.gen.*;
 import LLL.packet.resources.*;
 import LLL.util.uncUtil.*;
 import LLL.world.recipe.consumers.*;
@@ -8,6 +9,7 @@ import arc.scene.event.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.ctype.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
@@ -17,12 +19,12 @@ import mindustry.world.meta.*;
  * @author EBwilson
  */
 
-public class BaseConsumers{
+public class BaseConsumers<T extends Building & ConsumerBuildc>{
   /**
    * 是否为可选消耗项
    */
   public final boolean optional;
-  protected final ObjectMap<ResourceType, BaseConsume> cons = new ObjectMap<>();
+  protected final ObjectMap<ResourceType, BaseConsume<T>> cons = new ObjectMap<>();
   protected final ObjectMap<ResourceType, ObjectSet<Content>> filter = new ObjectMap<>();
   protected final ObjectMap<ResourceType, ObjectSet<Content>> otherFilter = new ObjectMap<>();
   protected final ObjectMap<ResourceType, ObjectSet<Content>> selfAccess = new ObjectMap<>();
@@ -38,35 +40,35 @@ public class BaseConsumers{
   /**
    * 可选列表可用时将随更新执行的目标函数
    */
-  public Cons2<ConsumerBuildc, BaseConsumers> optionalDef = (entity, cons) -> {
+  public Cons2<T, BaseConsumers<T>> optionalDef = (entity, cons) -> {
   };
   /**
    * 在统计信息显示自定义内容的函数
    */
-  public Cons2<Stats, BaseConsumers> display = (stats, cons) -> {
+  public Cons2<Stats, BaseConsumers<T>> display = (stats, cons) -> {
   };
   /**
    * 是否用自定义的display覆盖默认的条目显示
    */
   public boolean customDisplayOnly;
   public Prov<Visibility> selectable = () -> Visibility.usable;
-  public Floatf<ConsumerBuildc> consDelta = e -> e.delta() * e.consEfficiency();
+  public Floatf<T> consDelta = e -> e.delta() * e.consEfficiency();
   /**
    * 本消耗的可用控制器
    */
-  public Seq<Boolf<ConsumerBuildc>> valid = new Seq<>();
+  public Seq<Boolf<T>> valid = new Seq<>();
   /**
    * 消耗触发器，在消耗的trigger()方法执行时触发
    */
-  public Seq<Cons<ConsumerBuildc>> triggers = new Seq<>();
+  public Seq<Cons<T>> triggers = new Seq<>();
 
-  public BaseConsumers(boolean optional){
+  public BaseConsumers(boolean optional)  {
     this.optional = optional;
   }
 
   public void initFilter(){
     filter.clear();
-    for(ObjectMap.Entry<ResourceType, BaseConsume> entry : cons){
+    for(ObjectMap.Entry<ResourceType, BaseConsume<T>> entry : cons){
       Seq<Content> cont = entry.value.filter();
       if(cont != null) filter.get(entry.key, ObjectSet::new).addAll(cont);
     }
@@ -83,75 +85,75 @@ public class BaseConsumers{
     selfAccess.get(type, ObjectSet::new).add(content);
   }
 
-  public BaseConsumers time(float time){
+  public BaseConsumers<T> time(float time){
     this.craftTime = time;
     showTime = time > 0;
     return this;
   }
 
-  public BaseConsumers overdriveValid(boolean valid){
+  public BaseConsumers<T> overdriveValid(boolean valid){
     this.consDelta = valid ?
       e -> e.delta() * e.consEfficiency() :
       e -> Time.delta * e.consEfficiency();
     return this;
   }
 
-  public BaseConsumers setConsDelta(Floatf<ConsumerBuildc> delta){
+  public BaseConsumers<T> setConsDelta(Floatf<T> delta){
     this.consDelta = delta;
     return this;
   }
 
-  public BaseConsumers consValidCondition(Boolf<ConsumerBuildc> cond){
+  public BaseConsumers<T> consValidCondition(Boolf<T> cond){
     this.valid.add(cond);
     return this;
   }
 
-  public BaseConsumers setConsTrigger(Cons<ConsumerBuildc> cond){
+  public BaseConsumers<T> setConsTrigger(Cons<T> cond){
     this.triggers.add(cond);
     return this;
   }
 
-  public float delta(ConsumerBuildc entity){
+  public float delta(T entity){
     return optional ? entity.delta() * entity.optionalConsEff(this) * Math.max(1, entity.consEfficiency()) : consDelta.get(entity);
   }
 
-  public ConsumeItems item(Item item, int amount){
+  public ConsumeItems<T> item(Item item, int amount){
     return items(new ItemStack(item, amount));
   }
 
-  public ConsumeItems items(ItemStack... items){
-    return add(new ConsumeItems(items));
+  public ConsumeItems<T> items(ItemStack... items){
+    return add(new ConsumeItems<>(items));
   }
 
-  public ConsumeLiquids liquid(Liquid liquid, float amount){
+  public ConsumeLiquids<T> liquid(Liquid liquid, float amount){
     return liquids(new LiquidStack(liquid, amount));
   }
 
-  public ConsumeLiquids liquids(LiquidStack... liquids){
-    return add(new ConsumeLiquids(liquids));
+  public ConsumeLiquids<T> liquids(LiquidStack... liquids){
+    return add(new ConsumeLiquids<>(liquids));
   }
 
-  public ConsumePower power(float usage){
-    return add(new ConsumePower(usage, 0));
+  public ConsumePower<T> power(float usage){
+    return add(new ConsumePower<>(usage, 0));
   }
 
-  public ConsumePower power(float usage, float capacity){
-    return add(new ConsumePower(usage, capacity));
+  public ConsumePower<T> power(float usage, float capacity){
+    return add(new ConsumePower<>(usage, capacity));
   }
 
-  public ConsumePower powerCond(float usage, float capacity, Boolf<ConsumerBuildc> cons){
-    return add(new ConsumePower(usage, capacity){
+  public ConsumePower<T> powerCond(float usage, float capacity, Boolf<T> cons){
+    return add(new ConsumePower<>(usage, capacity){
       @Override
-      public float requestedPower(ConsumerBuildc entity){
+      public float requestedPower(T entity){
         return cons.get(entity) ? super.requestedPower(entity) : 0f;
       }
     });
   }
 
-  public ConsumePower powerDynamic(Floatf<ConsumerBuildc> cons, float capacity, Cons<Stats> statBuilder){
-    return add(new ConsumePower(0, capacity){
+  public ConsumePower<T> powerDynamic(Floatf<T> cons, float capacity, Cons<Stats> statBuilder){
+    return add(new ConsumePower<>(0, capacity){
       @Override
-      public float requestedPower(ConsumerBuildc entity){
+      public float requestedPower(T entity){
         return cons.get(entity);
       }
 
@@ -162,12 +164,12 @@ public class BaseConsumers{
     });
   }
 
-  public ConsumePower powerBuffer(float usage, float capacity){
-    return add(new ConsumePower(usage, capacity));
+  public ConsumePower<T> powerBuffer(float usage, float capacity){
+    return add(new ConsumePower<>(usage, capacity));
   }
 
-  public <N extends BaseConsume> N add(N consume){
-    BaseConsume c = cons.get(consume.type());
+  public <N extends BaseConsume<T>> N add(N consume){
+    BaseConsume<T> c = cons.get(consume.type());
     if(c == null){
       cons.put(consume.type(), consume);
       consume.parent = this;
@@ -176,22 +178,22 @@ public class BaseConsumers{
     return (N)c;
   }
 
-  public <N extends BaseConsume> N get(ResourceType type){
+  public <N extends BaseConsume<T>> N get(ResourceType type){
     return (N)cons.get(type);
   }
 
-  public Seq<BaseConsume> all(Seq<BaseConsume> out){
+  public Seq<BaseConsume<T>> all(Seq<BaseConsume<T>> out){
     for(ResourceType type : ResourceType.all){
-      BaseConsume c = cons.get(type);
+      BaseConsume<T> c = cons.get(type);
       if(c != null) out.add(c);
     }
 
     return out;
   }
 
-  public void forAll(Cons<BaseConsume> ccons){
+  public void forAll(Cons<BaseConsume<T>> ccons){
     for(ResourceType type : ResourceType.all){
-      BaseConsume c = cons.get(type);
+      BaseConsume<T> c = cons.get(type);
       if(c != null) ccons.get(c);
     }
   }

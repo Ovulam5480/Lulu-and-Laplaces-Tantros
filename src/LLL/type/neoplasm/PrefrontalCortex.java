@@ -2,6 +2,7 @@ package LLL.type.neoplasm;
 
 import LLL.*;
 import LLL.content.blocks.*;
+import LLL.entities.gen.*;
 import LLL.entities.neoplasmBehavior.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.type.*;
