@@ -1,16 +1,17 @@
 package LLL.world.modules;
 
 import LLL.world.*;
+import LLL.world.buildComp.module.*;
 import mindustry.world.modules.*;
 
 public class ResourcePowerModule extends PowerModule{
-  public ResourceBuildModule building;
+  public ResourceBuildComp building;
 
   {
     graph = new OvulamPowerGraph();
   }
 
-  public ResourcePowerModule(ResourceBuildModule building){
+  public ResourcePowerModule(ResourceBuildComp building){
     this.building = building;
   }
 }

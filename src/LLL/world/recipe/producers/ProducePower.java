@@ -1,7 +1,7 @@
 package LLL.world.recipe.producers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
 import arc.func.*;
@@ -12,7 +12,7 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
-public class ProducePower<T extends Building & ProducerBuildc> extends BaseProduce<T>{
+public class ProducePower<T extends Building & ProducerBuildc<T>> extends BaseProduce<T>{
   public float powerProduction;
   public boolean showIcon = true;
 

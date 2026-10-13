@@ -1,6 +1,6 @@
 package LLL.world.AAAtodo;
 
-import LLL.world.blockcomp.*;
+import LLL.world.buildComp.*;
 import arc.func.*;
 import arc.struct.*;
 import mindustry.gen.*;
@@ -16,6 +16,10 @@ public interface Takeable extends BuildCompBase{
   @Annotations.BindField(value = "heaps", initialize = "new arc.struct.ObjectMap()")
   default ObjectMap<String, Heaps<?>> heaps(){
     return null;
+  }
+
+  @Annotations.BindField("heaps")
+  default void heaps(ObjectMap<String, Heaps<?>> value){
   }
 
   /**

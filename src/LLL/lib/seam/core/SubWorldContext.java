@@ -46,10 +46,7 @@ public class SubWorldContext{
   private EntityGroup<Building> hostBuild;
   private EntityGroup<Syncc> hostSync;
   private EntityGroup<Drawc> hostDraw;
-  private EntityGroup<Fire> hostFire;
-  private EntityGroup<Puddle> hostPuddle;
   private EntityGroup<WeatherState> hostWeather;
-  private EntityGroup<WorldLabel> hostLabel;
   private EntityGroup<PowerGraphUpdaterc> hostPowerGraph;
 
   // Local state
@@ -105,10 +102,7 @@ public class SubWorldContext{
     hostBuild = Groups.build;
     hostSync = Groups.sync;
     hostDraw = Groups.draw;
-    hostFire = Groups.fire;
-    hostPuddle = Groups.puddle;
     hostWeather = Groups.weather;
-    hostLabel = Groups.label;
     hostPowerGraph = Groups.powerGraph;
 
     Vars.world = localWorld;
@@ -137,10 +131,7 @@ public class SubWorldContext{
     Groups.build = subworld.build;
     Groups.sync = subworld.sync;
     Groups.draw = subworld.draw;
-    Groups.fire = subworld.fire;
-    Groups.puddle = subworld.puddle;
     Groups.weather = subworld.weather;
-    Groups.label = subworld.label;
     Groups.powerGraph = subworld.powerGraph;
 
     localEvents.begin();
@@ -186,10 +177,7 @@ public class SubWorldContext{
     Groups.build = hostBuild;
     Groups.sync = hostSync;
     Groups.draw = hostDraw;
-    Groups.fire = hostFire;
-    Groups.puddle = hostPuddle;
     Groups.weather = hostWeather;
-    Groups.label = hostLabel;
     Groups.powerGraph = hostPowerGraph;
 
     hostWorld = null;
@@ -214,10 +202,7 @@ public class SubWorldContext{
     hostBuild = null;
     hostSync = null;
     hostDraw = null;
-    hostFire = null;
-    hostPuddle = null;
     hostWeather = null;
-    hostLabel = null;
     hostPowerGraph = null;
   }
 

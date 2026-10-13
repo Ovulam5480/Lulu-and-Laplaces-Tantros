@@ -1,7 +1,7 @@
 package LLL.world.recipe.producers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import arc.*;
 import arc.graphics.*;
 import arc.math.*;
@@ -15,7 +15,7 @@ import java.util.*;
 
 import static LLL.world.recipe.consumers.ConsumeItemBase.*;
 
-public class ProduceItems<T extends Building & ProducerBuildc> extends BaseProduce<T>{
+public class ProduceItems<T extends Building & ProducerBuildc<T>> extends BaseProduce<T>{
   private static final ObjectMap<Item, ItemStack> TMP = new ObjectMap<>();
 
   public boolean showPerSecond = true;

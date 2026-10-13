@@ -19,12 +19,20 @@ public interface ChainsBlockComp{
     return 0;
   }
 
+  @Annotations.BindField("maxChainsWidth")
+  default void maxWidth(int value){
+  }
+
   /**
    * 一个连续结构的最大y轴跨度
    */
   @Annotations.BindField("maxChainsHeight")
   default int maxHeight(){
     return 0;
+  }
+
+  @Annotations.BindField("maxChainsHeight")
+  default void maxHeight(int value){
   }
 
   /**

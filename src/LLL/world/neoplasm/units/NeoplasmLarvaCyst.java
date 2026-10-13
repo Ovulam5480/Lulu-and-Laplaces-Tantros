@@ -1,11 +1,10 @@
 package LLL.world.neoplasm.units;
 
 import LLL.content.*;
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.lib.singularity.world.consumers.*;
 import LLL.world.blockcomp.*;
-import LLL.world.neoplasm.crafting.*;
-import LLL.world.recipe.*;
+import LLL.world.buildComp.module.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -15,21 +14,16 @@ import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
-import universecore.util.handler.*;
-import universecore.world.consumers.*;
-import universecore.world.producers.*;
 
 import static mindustry.Vars.*;
 import static mindustry.world.blocks.payloads.PayloadBlock.*;
 
 @Annotations.ImplEntries
-public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockComp, UnitCrafterBlockComp{
+public class NeoplasmLarvaCyst extends Block implements UnitCrafterBlockComp<PayloadCrafterBuildBuilding>, NeoplasmBlockComp{
   protected ObjectIntMap<UnlockableContent> accepts = new ObjectIntMap<>();
 
   public float degenerateTime = 60 * 60;
@@ -42,86 +36,14 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
     liquidCapacity = 50;
     rotate = false;
 
-    autoSelect = true;
-    canSelect = false;
-    shouldConfig = false;
-    warmupSpeed = 0.008f;
+    autoSelect(true);
+    canSelect(false);
+    shouldConfig(false);
+    warmupSpeed(0.008f);
 
     solid = false;
 
-    craftedSound = OvulamSounds.spawnSounds.random();
-  }
-
-  @Override
-  public void afterInit(){
-    NeoplasmBlockComp.super.afterInit();
-
-    for(BaseConsumers consumer : consumers){
-      for(BaseConsume<? extends ConsumerBuildc> baseConsume : consumer.all()){
-        if(baseConsume instanceof OvulamConsumePayload){
-          OvulamConsumePayload<NeoplasmLarvaCystBuild> c = (OvulamConsumePayload<NeoplasmLarvaCystBuild>)baseConsume;
-          for(PayloadStack payloadStack : c.payloads){
-            accepts.put(payloadStack.item, Math.max(payloadStack.amount, accepts.get(payloadStack.item, 0)));
-          }
-        }
-      }
-    }
-  }
-
-  @Override
-  public void initProduct(){
-    super.initProduct();
-
-    for(BaseProducers producer : producers()){
-      for(BaseProduce<?> produce : producer.all()){
-        if(produce instanceof ProducePayload p){
-
-          if(p.payloads.length == 1
-            && ((p.payloads[0].item instanceof UnitType u && u.getFirstRequirements() == null)
-            || p.payloads[0].item instanceof Block b && b.requirements.length == 0)){
-            ItemSeq seq = new ItemSeq();
-
-            for(BaseConsume<? extends ConsumerBuildComp> consume : producer.cons.all()){
-              if(consume instanceof ConsumeItemBase i){
-                seq.add(i.consItems);
-              }else if(consume instanceof OvulamConsumePayload cp){
-                for(PayloadStack stack : cp.payloads){
-                  ItemStack[] requirements;
-
-                  if(stack.item instanceof Block b){
-                    requirements = b.requirements;
-                  }else if(stack.item instanceof UnitType u){
-                    requirements = u.getFirstRequirements();
-                  }else{
-                    requirements = new ItemStack[0];
-                  }
-
-                  for(ItemStack itemStack : requirements){
-                    seq.add(itemStack.item, itemStack.amount * stack.amount);
-                  }
-                }
-              }
-            }
-
-            Seq<ItemStack> requirementSeq = new Seq<>();
-
-            for(ItemStack stack : seq){
-              requirementSeq.add(new ItemStack(stack.item, stack.amount / p.payloads[0].amount));
-            }
-
-            ItemStack[] requirements = requirementSeq.toArray(ItemStack.class);
-
-            if(p.payloads[0].item instanceof UnitType u){
-              FieldHandler.setValueDefault(u, "totalRequirements", requirements);
-              FieldHandler.setValueDefault(u, "cachedRequirements", requirements);
-              FieldHandler.setValueDefault(u, "firstRequirements", requirements);
-            }else if(p.payloads[0].item instanceof Block b){
-              b.requirements = requirements;
-            }
-          }
-        }
-      }
-    }
+    craftedSound(OvulamSounds.spawnSounds.random());
   }
 
   @Override
@@ -138,13 +60,32 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
   }
 
   //NeoplasmOrganBuild
-  public class NeoplasmLarvaCystBuild extends PayloadCrafterBuildNeoplasmBuildBuilding{
+  public class NeoplasmLarvaCystBuild extends PayloadCrafterBuildBuilding implements NeoplasmBuildComp{
+    public float degenerate;
+
+    public float degenerate(){
+      return degenerate;
+    }
+
+    @Override
+    public void update(){
+      super.update();
+      if(neuron() != null){
+        if(warmup() > 0.01f){
+          degenerate = 0;
+        }else{
+          degenerate += Time.delta;
+          if(degenerate > getDegenerateTime()) suicide();
+        }
+      }
+    }
+
     @Override
     public void craftTrigger(){
       super.craftTrigger();
 
       while(payloads().get() instanceof UnitPayload u
-        && !filter().filter(this, ConsumeType.payload, u.content(), true)
+        && !filter().filter(this, ResourceType.payload, u.content(), true)
         && (u.unit.type.flying || !solid)){
         payloads().take().dump();
       }
@@ -159,7 +100,7 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
 
       return acceptsPayload
         && inputting() == null
-        && (!consumer.hasConsume() || filter().filter(this, ConsumeType.payload, payload.content(), true))
+        && (!consumer.hasConsume() || filter().filter(this, ResourceType.payload, payload.content(), true))
         && payloads().amountOf(payload.content()) < accepts.get(payload.content(), 0);
     }
 
@@ -193,19 +134,19 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
       }
 
       for(Payload payload : payloads().iterate()){
-        payload.update(null, getBuilding());
+        payload.update(null, this);
       }
 
       Vec2 offset = outputtingOffset();
       Building targetTile;
       boolean front = false;
       if(Math.max(Math.abs(offset.x), Math.abs(offset.y)) <= getBlock().size / 2f * tilesize + 0.5f){
-        targetTile = getBuilding().front();
+        targetTile = this.front();
         front = true;
-      }else targetTile = Vars.world.buildWorld(getBuilding().x + offset.x, getBuilding().y + offset.y);
+      }else targetTile = Vars.world.buildWorld(this.x + offset.x, this.y + offset.y);
 
       boolean canDump = targetTile == null || !targetTile.tile.solid();
-      boolean canMove = targetTile != null && (targetTile.block.acceptsPayload || targetTile.block.outputsPayload) && targetTile.interactable(getBuilding().team);
+      boolean canMove = targetTile != null && (targetTile.block.acceptsPayload || targetTile.block.outputsPayload) && targetTile.interactable(this.team);
 
       if(!outputLocking() && (canDump || canMove)) popPayload();
 
@@ -226,9 +167,9 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
 
       if(outputProgress >= 0.999f){
         if(canMove){
-          if(targetTile.acceptPayload(getBuilding(), outputting())){
+          if(targetTile.acceptPayload(this, outputting())){
             float rot = outputting().rotation();
-            targetTile.handlePayload(getBuilding(), outputting());
+            targetTile.handlePayload(this, outputting());
 
             if(!front && targetTile instanceof PayloadBlock.PayloadBlockBuild<?> build){
               build.payload.set(build.x, build.y, rot);
@@ -255,7 +196,6 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
       return Vec2.ZERO;
     }
 
-    @Override
     public float getDegenerateTime(){
       return degenerateTime;
     }
@@ -265,7 +205,7 @@ public class NeoplasmLarvaCyst extends NeoplasmOrgan implements NeoplasmBlockCom
       if(outputLocking()) return;
 
       for(Payload payload : payloads().iterate()){
-        if(!filter().filter(this, SglConsumeType.payload, payload.content(), false)){
+        if(!filter().filter(this, ResourceType.payload, payload.content(), false)){
           outputting(payload);
           outputLocking(true);
           stackAlpha(0);

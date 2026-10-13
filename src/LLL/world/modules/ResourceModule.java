@@ -1,6 +1,7 @@
 package LLL.world.modules;
 
 import LLL.type.resourceStacks.*;
+import LLL.world.buildComp.module.*;
 import arc.struct.*;
 import arc.util.io.*;
 import mindustry.gen.*;
@@ -15,10 +16,10 @@ public class ResourceModule extends BlockModule{
   public LiquidModule liquidModule;
   public PowerModule powerModule;
 
-  protected final ResourceBuildModule building;
+  protected final ResourceBuildComp building;
 
   public ResourceModule(Building building){
-    this.building = building instanceof ResourceBuildModule rm ? rm : null;
+    this.building = building instanceof ResourceBuildComp rm ? rm : null;
 
     resourceTypeMap = new Seq[ResourceStackManager.resourceClasses.size - 2];
     for(int i = 0; i < ResourceStackManager.resourceClasses.size - 2; i++){

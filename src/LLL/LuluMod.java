@@ -3,25 +3,20 @@ package LLL;
 import LLL.content.*;
 import LLL.content.extensions.*;
 import LLL.entities.*;
-import LLL.entities.gen.*;
 import LLL.graphics.*;
 import LLL.io.*;
 import LLL.lib.seam.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
 import LLL.type.neoplasm.*;
+import LLL.type.resourceStacks.*;
 import LLL.ui.*;
 import LLL.util.uncUtil.handler.*;
 import LLL.world.*;
 import arc.*;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.scene.*;
-import arc.util.*;
 import mindustry.*;
-import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.mod.*;
@@ -68,22 +63,22 @@ public class LuluMod extends Mod{
 
         @Override
         public void draw(){
-          int w = Core.graphics.getWidth();
-          int h = Core.graphics.getHeight();
-
-          buffer.resize(w / 4, h);
-          buffer.begin(Color.clear);
-          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
-          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h, 9 * 32 * 2, 9 * 32 * 2);
-          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
-          buffer.end();
-
-          Tmp.tr1.set(buffer.getTexture());
-          Draw.scl(4);
-          Draw.rect(Tmp.tr1, w / 2f, h / 2f);
-          Draw.scl();
-          Tmp.r1.setCentered(w / 2f, h / 2f, Tmp.tr1.width, Tmp.tr1.height);
-          Lines.rect(Tmp.r1);
+//          int w = Core.graphics.getWidth();
+//          int h = Core.graphics.getHeight();
+//
+//          buffer.resize(w / 4, h);
+//          buffer.begin(Color.clear);
+//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
+//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h, 9 * 32 * 2, 9 * 32 * 2);
+//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
+//          buffer.end();
+//
+//          Tmp.tr1.set(buffer.getTexture());
+//          Draw.scl(4);
+//          Draw.rect(Tmp.tr1, w / 2f, h / 2f);
+//          Draw.scl();
+//          Tmp.r1.setCentered(w / 2f, h / 2f, Tmp.tr1.width, Tmp.tr1.height);
+//          Lines.rect(Tmp.r1);
 
 
 //          OvulamShaders.test.apply();
@@ -194,13 +189,13 @@ public class LuluMod extends Mod{
   }
 
   public static void registerResources(){
-    for(ResourceStack<?, ?, ?> instance : ResourceStackManager.all){
+    for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
       instance.register();
     }
   }
 
   public static void initResources(){
-    for(ResourceStack<?, ?, ?> instance : ResourceStackManager.all){
+    for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
       instance.init();
     }
   }

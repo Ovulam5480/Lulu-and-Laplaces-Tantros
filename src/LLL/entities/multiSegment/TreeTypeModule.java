@@ -16,6 +16,10 @@ public interface TreeTypeModule{
     return null;
   }
 
+  @Annotations.BindField("node")
+  default void node(IntMap<Seq<TreeTypePart>> value){
+  }
+
   default void initModule(){
     node().values().toArray().each(a -> a.each(part -> {
       if(part.type == null) part.type = this;

@@ -1,7 +1,7 @@
 package LLL.entities.comp.utilcomps;
 
+import LLL.ctype.packet.*;
 import LLL.io.*;
-import LLL.packet.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;

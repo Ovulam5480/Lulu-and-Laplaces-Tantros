@@ -1,7 +1,7 @@
 package LLL.world.recipe.consumers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import arc.func.*;
 import arc.scene.ui.layout.*;
@@ -10,7 +10,7 @@ import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
 
-public abstract class BaseConsume<T extends Building & ConsumerBuildc>{
+public abstract class BaseConsume<T extends Building & ConsumerBuildc<T>>{
   public BaseConsumers<T> parent;
   public Floatf<T> consMultiplier;
 

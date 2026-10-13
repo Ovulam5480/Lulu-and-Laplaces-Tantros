@@ -42,7 +42,7 @@ public class OvulamUnitTypes{
   //public static @Annotations.EntityDef(value = {Unitc.class, TentacleOwnerc.class}) UnitType head;
 
   public static void load(){
-    daw = EntityRegistry.content("daw", FrameBuilderPacketUnitUnit.class, name -> new PacketUnitType(name){{
+    daw = new PacketUnitType("daw"){{
       health = 500;
       hitSize = 16f;
 
@@ -53,7 +53,7 @@ public class OvulamUnitTypes{
       drag = 0.05f;
       buildSpeed = 1f;
       flying = true;
-    }});
+    }};
 
     manganeseTorpedo = new MissileUnitType("manganese-torpedo"){{
       speed = 2.5f;
@@ -87,7 +87,7 @@ public class OvulamUnitTypes{
       }});
     }};
 
-    neoplasmTraixBuildUnit = EntityRegistry.content("flying-build-unit", MovableBuildUnitUnit.class, name -> new UnitType(name){{
+    neoplasmTraixBuildUnit = new UnitType("flying-build-unit"){{
       health = 100;
       hidden = true;
 
@@ -105,9 +105,9 @@ public class OvulamUnitTypes{
 
       envEnabled = Env.any;
       envDisabled = Env.none;
-    }});
+    }};
 
-    boostBuildUnit = EntityRegistry.content("boost-build-unit", MovableBuildUnitUnit.class, name -> new UnitType(name){{
+    boostBuildUnit = new UnitType("boost-build-unit"){{
       health = 100;
       canBoost = true;
       wobble = false;
@@ -122,9 +122,9 @@ public class OvulamUnitTypes{
       physics = false;
 
       controller = u -> new FlyingBuildUnitAI();
-    }});
+    }};
 
-    inertiaBuildUnit = EntityRegistry.content("inertia-build-unit", HitboxEntityCollisionInertiaDamageMovableBuildUnitUnit.class, name -> new UnitType(name){{
+    inertiaBuildUnit = new UnitType("inertia-build-unit"){{
       speed = 0;
       hidden = true;
       useUnitCap = false;
@@ -132,23 +132,23 @@ public class OvulamUnitTypes{
       canBoost = true;
 
       drag = 0.05f;
-    }});
+    }};
 
-    amphiprioninae = EntityRegistry.content("amphiprioninae", SeizePayloadUnit.class, name -> new UnitType(name){{
+    amphiprioninae = new UnitType("amphiprioninae"){{
       flying = true;
       aiController = SeizePayloadAI::new;
       health = 3000f;
 
       payloadCapacity = (3 * 3) * tilePayload;
-    }});
+    }};
 
-//        rollingBuildUnit = EntityRegistry.content("rolling-build-unit", RollCubeUnitMovableBuildUnitUnit.class, name -> new RollCubeUnitType(name){{
+//        rollingBuildUnit = new RollCubeUnitType("rolling-build-unit"){{
 //            deceiveAccurateDelay = true;
 //            deceiveMulti = 2f;
 //            useUnitCap = false;
 //
 //            controller = u -> new FlyingBuildUnitAI();
-//        }});
+//        }}
 
     amphiblastula = new SpongeUnitTupe("amphiblastula"){{
       range = 35 * 8;
@@ -424,37 +424,37 @@ public class OvulamUnitTypes{
       }});
     }};
 
-    trophosomeCalcium = EntityRegistry.content("trophosome-calcium", CrawlUnit.class, name -> new NeoplasmUnitType(name){{
+    trophosomeCalcium = new NeoplasmUnitType("trophosome-calcium"){{
       controller = u -> new TrophosomeAI();
       speed = 1f;
       hitSize = 8f;
       health = 150;
       stepSoundVolume = 0.4f;
-    }});
+    }};
 
-    trophosomePhosphorus = EntityRegistry.content("trophosome-phosphorus", CrawlUnit.class, name -> new NeoplasmUnitType(name){{
+    trophosomePhosphorus = new NeoplasmUnitType("trophosome-phosphorus"){{
       controller = u -> new TrophosomeAI();
       speed = 1f;
       hitSize = 8f;
       health = 150;
       stepSoundVolume = 0.4f;
-    }});
+    }};
 
-    trophosomeSilicon = EntityRegistry.content("trophosome-silicon", CrawlUnit.class, name -> new NeoplasmUnitType(name){{
+    trophosomeSilicon = new NeoplasmUnitType("trophosome-silicon"){{
       controller = u -> new TrophosomeAI();
       speed = 1f;
       hitSize = 8f;
       health = 150;
       stepSoundVolume = 0.4f;
-    }});
+    }};
 
-    trophosomeFerrum = EntityRegistry.content("trophosome-ferrum", CrawlUnit.class, name -> new NeoplasmUnitType(name){{
+    trophosomeFerrum = new NeoplasmUnitType("trophosome-ferrum"){{
       controller = u -> new TrophosomeAI();
       speed = 1f;
       hitSize = 8f;
       health = 150;
       stepSoundVolume = 0.4f;
-    }});
+    }};
 
     trophosomeUnitTypes.put(OvulamItems.calcium, trophosomeCalcium);
     trophosomeUnitTypes.put(OvulamItems.phosphorus, trophosomePhosphorus);

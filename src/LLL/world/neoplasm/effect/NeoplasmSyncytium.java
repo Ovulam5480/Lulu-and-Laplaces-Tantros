@@ -11,6 +11,6 @@ public class NeoplasmSyncytium extends NeoplasmGanglion implements NeoplasmSyncy
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmSyncytiumBuild extends NeoplasmGanglionBuild implements NeoplasmSyncytiumBuildModule{
+  public class NeoplasmSyncytiumBuild extends NeoplasmGanglionBuild implements NeoplasmSyncytiumBuildComp{
   }
 }

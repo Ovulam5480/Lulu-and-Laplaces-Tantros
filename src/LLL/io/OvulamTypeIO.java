@@ -1,29 +1,27 @@
 package LLL.io;
 
 import LLL.*;
-import LLL.content.*;
+import LLL.content.extensions.*;
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
+import LLL.type.resourceStacks.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;
+import mindustry.*;
 import mindustry.gen.*;
 import mindustry.io.*;
 
 @SuppressWarnings("unused")
 @Annotations.TypeIOHandler
 public class OvulamTypeIO{
-  TypeIO typeIO;
-
   public static void writePacketType(Writes writes, PacketType packetType){
-    writes.str(packetType.name);
+    writes.s(packetType.id);
   }
 
   public static PacketType readPacketType(Reads reads){
-    String name = reads.str();
-    //todo ohnoPacketType
-    return OvulamPacketTypes.packetTypes.find(pt -> pt.name.equals(name));
+    return Vars.content.getByID(OvulamContentType.packetType.value, reads.s());
   }
 
   public static void writePacketOwner(Writes writes, Teamc teamc){

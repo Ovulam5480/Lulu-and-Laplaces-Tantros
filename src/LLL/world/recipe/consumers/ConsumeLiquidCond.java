@@ -15,7 +15,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ConsumeLiquidCond<T extends Building & ConsumerBuildc> extends ConsumeLiquidBase<T>{
+public class ConsumeLiquidCond<T extends Building & ConsumerBuildc<T>> extends ConsumeLiquidBaseR<T>{
   public float minTemperature, maxTemperature;
   public float minFlammability, maxFlammability;
   public float minHeatCapacity, maxHeatCapacity;

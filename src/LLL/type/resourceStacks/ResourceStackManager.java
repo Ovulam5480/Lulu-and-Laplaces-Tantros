@@ -17,7 +17,7 @@ public class ResourceStackManager{
   //Item.class -> ItemResourceStack
   public static ObjectMap<Class<?>, ResourceStack<?>> instanceMap = new ObjectMap<>();
   //Item.class -> copper,lead, ...
-  public static ObjectMap<Class<?>, Seq<?>> resourceInstances = new ObjectMap<>();
+  public static ObjectMap<Class<?>, Seq<? extends UnlockableContent>> resourceInstances = new ObjectMap<>();
   //Item.class, Liquid.class, ...
   public static Seq<Class<?>> resourceClasses = new Seq<>();
 

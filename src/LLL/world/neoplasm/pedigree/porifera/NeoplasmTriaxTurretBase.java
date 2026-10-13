@@ -55,7 +55,7 @@ public class NeoplasmTriaxTurretBase extends NeoplasmMetamorphicCyst implements 
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmTriaxTurretBaseBuild extends NeoplasmMetamorphicCystBuild implements NeoplasmBuildModule{
+  public class NeoplasmTriaxTurretBaseBuild extends NeoplasmMetamorphicCystBuild implements NeoplasmBuildComp{
     public IntMap<BlockUnitc> turrets = new IntMap<>();
     public float constructTime;
     public float overrideTime;

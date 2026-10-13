@@ -13,7 +13,7 @@ public class NeoplasmEnvironmentState{
   private float planetAttributes;
   private final float defaultNeoplasmDecay = 0.2f;
 
-  private final Seq<NeoplasmBuildModule> all = new Seq<>();
+  private final Seq<NeoplasmBuildComp> all = new Seq<>();
 
   public NeoplasmEnvironmentState(){
     Events.run(EventType.Trigger.update, () -> {
@@ -21,7 +21,7 @@ public class NeoplasmEnvironmentState{
 
       if(neoplasmEnvironment != newWeatherAttributes){
         all.each(n -> {
-          n.setEnvironmentHandler(newWeatherAttributes / 60f * (newWeatherAttributes > 0 ? n.blockAs().neoplasmAbsorbMulti() : n.blockAs().neoplasmDecayMulti()));
+          n.environmentHandler(newWeatherAttributes / 60f * (newWeatherAttributes > 0 ? n.blockAs().neoplasmAbsorbMulti() : n.blockAs().neoplasmDecayMulti()));
         });
 
         neoplasmEnvironment = newWeatherAttributes;
@@ -60,12 +60,12 @@ public class NeoplasmEnvironmentState{
     return weatherAttributes + planetAttributes;
   }
 
-  public void add(NeoplasmBuildModule module){
+  public void add(NeoplasmBuildComp module){
     all.add(module);
-    module.setEnvironmentHandler(neoplasmEnvironment / 60f * (neoplasmEnvironment > 0 ? module.blockAs().neoplasmAbsorbMulti() : module.blockAs().neoplasmDecayMulti()));
+    module.environmentHandler(neoplasmEnvironment / 60f * (neoplasmEnvironment > 0 ? module.blockAs().neoplasmAbsorbMulti() : module.blockAs().neoplasmDecayMulti()));
   }
 
-  public void remove(NeoplasmBuildModule module){
+  public void remove(NeoplasmBuildComp module){
     all.remove(module);
   }
 

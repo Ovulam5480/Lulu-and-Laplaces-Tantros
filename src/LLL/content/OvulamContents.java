@@ -4,7 +4,6 @@ import LLL.content.extensions.*;
 import LLL.content.tantros.*;
 import LLL.entities.gen.*;
 import LLL.lib.multiblock.*;
-import mindustry.gen.*;
 
 public class OvulamContents{
   public static void load(){
@@ -22,6 +21,7 @@ public class OvulamContents{
     OvulamResource.load();
     OvulamPacketTypes.load();
     OvulamUnitTypes.load();
+    EntityRegistry.registerUnits();
     FactoryRecipes.load();
     OvulamBlocks.load();
     OvulamLoadouts.load();

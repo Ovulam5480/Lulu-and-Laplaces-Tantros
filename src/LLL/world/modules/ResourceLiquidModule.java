@@ -1,12 +1,13 @@
 package LLL.world.modules;
 
+import LLL.world.buildComp.module.*;
 import mindustry.type.*;
 import mindustry.world.modules.*;
 
 public class ResourceLiquidModule extends LiquidModule{
-  public ResourceBuildModule building;
+  public ResourceBuildComp building;
 
-  public ResourceLiquidModule(ResourceBuildModule building){
+  public ResourceLiquidModule(ResourceBuildComp building){
     this.building = building;
   }
 

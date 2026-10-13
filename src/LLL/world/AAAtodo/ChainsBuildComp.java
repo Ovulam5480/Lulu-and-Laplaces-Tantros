@@ -1,7 +1,7 @@
 package LLL.world.AAAtodo;
 
-import LLL.world.blockcomp.*;
 import LLL.world.blocks.*;
+import LLL.world.buildComp.*;
 import LLL.world.modules.*;
 import arc.struct.*;
 import arc.util.io.*;
@@ -27,12 +27,20 @@ public interface ChainsBuildComp extends BuildCompBase, Posc, Iterable<ChainsBui
     return null;
   }
 
+  @Annotations.BindField("loadingInvalidPos")
+  default void loadingInvalidPos(IntSet value){
+  }
+
   /**
    * 链式结构的容器，是连续结构保存和行为触发的核心
    */
   @Annotations.BindField("chains")
   default ChainsModule chains(){
     return null;
+  }
+
+  @Annotations.BindField("chains")
+  default void chains(ChainsModule value){
   }
 
   default ChainsBlockComp getChainsBlock(){

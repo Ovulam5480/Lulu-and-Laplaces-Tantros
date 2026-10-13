@@ -1,12 +1,12 @@
 package LLL.world.recipe;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import arc.struct.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
 
-public class ConsFilter<T extends Building & ConsumerBuildc>{
+public class ConsFilter<T extends Building & ConsumerBuildc<T>>{
   public ObjectMap<ResourceType, ObjectSet<Content>> optionalFilter = new ObjectMap<>();
   public ObjectMap<ResourceType, ObjectSet<Content>> allFilter = new ObjectMap<>();
 

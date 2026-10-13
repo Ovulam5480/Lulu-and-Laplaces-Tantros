@@ -168,7 +168,7 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
 
       if(contain(nx, ny)){
         Building b = Vars.world.build(nx, ny);
-        if(b instanceof NeoplasmBuildModule m){
+        if(b instanceof NeoplasmBuildComp m){
           if(m.neuron() == neuron){
             if(m.neoplasmActivity()){
               hasActivity = true;
@@ -267,7 +267,7 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
     }
   }
 
-  void getRemoved(NeoplasmBuildModule build){
+  void getRemoved(NeoplasmBuildComp build){
     if(build.neuron().isAdded()){
       //外围
       for(Point2 edge : build.getBlock().getEdges()){
@@ -342,7 +342,7 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
             continue;
           }
 
-          if(!(n.build instanceof NeoplasmBuildModule m)){
+          if(!(n.build instanceof NeoplasmBuildComp m)){
             n.getLinkedTilesAs(n.block(), tile -> {
               structure.remove(tile.x, tile.y);
             });
@@ -352,7 +352,7 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
 
           if(m.getBlock().isMultiblock() || !m.neuronValid()){
             if(!m.neuronValid()){
-              m.setNeuronValid(true);
+              m.neuronValid(true);
               added.add(m.getBuilding());
             }
 
@@ -400,8 +400,8 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
               Tile tile = Vars.world.tile(nx, ny);
               stack.add(tile);
 
-              if(tile.build instanceof NeoplasmBuildModule m){
-                m.setNeuronValid(false);
+              if(tile.build instanceof NeoplasmBuildComp m){
+                m.neuronValid(false);
               }
             }
           }
@@ -629,7 +629,7 @@ public class NeoplasmPermeate implements SaveFileReader.CustomChunk, Visible{
   }
 
   private static boolean hasVacancy(GridIntMap<Integer> grid, int x, int y){
-    return !(grid.containsKey(x, y) && Vars.world.build(x, y) instanceof NeoplasmBuildModule m && m.neuron() != null);
+    return !(grid.containsKey(x, y) && Vars.world.build(x, y) instanceof NeoplasmBuildComp m && m.neuron() != null);
   }
 
   private static int getMinIndexD4(GridIntMap<Integer> grid, int x, int y){

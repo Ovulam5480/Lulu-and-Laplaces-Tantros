@@ -26,13 +26,17 @@ public interface MultiBlock{
     return false;
   }
 
+  @Annotations.BindField("canMirror")
+  default void canMirror(boolean value){
+  }
+
   @Annotations.BindField(value = "linkValues", initialize = "new arc.struct.IntSeq()")
   default IntSeq linkValues(){
     return null;
   }
 
   @Annotations.BindField(value = "linkValues")
-  default void setLinkValues(IntSeq values){
+  default void linkValues(IntSeq values){
   }
 
   @Annotations.BindField(value = "linkBlockPos", initialize = "new arc.struct.Seq<>()")
@@ -40,9 +44,17 @@ public interface MultiBlock{
     return null;
   }
 
+  @Annotations.BindField("linkBlockPos")
+  default void linkBlockPos(Seq<Point2> value){
+  }
+
   @Annotations.BindField(value = "linkBlockSize", initialize = "new arc.struct.IntSeq()")
   default IntSeq linkBlockSize(){
     return null;
+  }
+
+  @Annotations.BindField("linkBlockSize")
+  default void linkBlockSize(IntSeq value){
   }
 
   int[] rotations = {0, 1, 2, 3, 0, 1, 2, 3};

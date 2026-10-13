@@ -65,20 +65,20 @@ public class NeoplasmBehavior{
 
   public boolean tryPlaceBlock(Tile tile, Block toPlace, int rotation){
     tile.getLinkedTilesAs(toPlace, tempTiles);
-    if(tempTiles.contains(t -> (t.build instanceof NeoplasmBuildModule m && !m.neuronValid()))){
+    if(tempTiles.contains(t -> (t.build instanceof NeoplasmBuildComp m && !m.neuronValid()))){
       return false;
     }
 
     if(neuron.cortex.validPlace(toPlace, neuron.team, tile.x, tile.y, 0)){
       tile.getLinkedTilesAs(toPlace, t -> {
-        if(t.build instanceof NeoplasmBuildModule m){
+        if(t.build instanceof NeoplasmBuildComp m){
           m.suicide();
         }
       });
 
       if(toPlace instanceof MultiBlock mb){
         mb.linkTiles(tile.x, tile.y, toPlace.size, 0).each(t -> {
-          if(t.build instanceof NeoplasmBuildModule m){
+          if(t.build instanceof NeoplasmBuildComp m){
             m.suicide();
           }
         });
@@ -92,7 +92,7 @@ public class NeoplasmBehavior{
   }
 
   public void suicide(Tile tile){
-    if(tile.build instanceof NeoplasmBuildModule m){
+    if(tile.build instanceof NeoplasmBuildComp m){
       m.suicide();
     }
   }

@@ -59,7 +59,7 @@ public class OvulamBiomes{
           tile.floor = within(grain, 0.2f, 0.35f) ? Blocks.yellowStone : Blocks.rhyolite;
 
           if(cn1 > 0.95f){
-            OvulamPacketTypes.lodePacket.create(null, x * 8, y * 8).copyResourceStacks(lodes, Mathf.curve(cn1, 0.94f));
+            OvulamPacketTypes.itemLodePacket.create(null, x * 8, y * 8).copyResourceStacks(lodes, Mathf.curve(cn1, 0.94f));
             return;
           }
 

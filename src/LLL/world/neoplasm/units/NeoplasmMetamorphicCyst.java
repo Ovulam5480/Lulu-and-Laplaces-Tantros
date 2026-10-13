@@ -1,6 +1,6 @@
 package LLL.world.neoplasm.units;
 
-import LLL.packet.resources.*;
+import LLL.ctype.*;
 import LLL.world.blockcomp.*;
 import LLL.world.buildComp.module.*;
 import mindustry.ctype.*;
@@ -18,7 +18,7 @@ public class NeoplasmMetamorphicCyst extends NeoplasmLarvaCyst implements Tropho
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmMetamorphicCystBuild extends NeoplasmLarvaCystBuild implements TrophosomeTargetBuildModule{
+  public class NeoplasmMetamorphicCystBuild extends NeoplasmLarvaCystBuild implements TrophosomeTargetBuildComp{
     @Override
     public void suicide(){
       super.suicide();

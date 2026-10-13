@@ -1,9 +1,9 @@
 package LLL.world.blocks.packet;
 
 import LLL.*;
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
 import LLL.io.*;
-import LLL.packet.*;
 import LLL.world.blocks.entity.*;
 import LLL.world.buildComp.module.*;
 import arc.math.geom.*;
@@ -51,7 +51,7 @@ public class PacketCollector extends PacketBlock{
   }
 
   @Annotations.ImplEntries
-  public class PacketCollectorBuild extends PacketBlockBuild implements PacketSelectionTableBuildModule{
+  public class PacketCollectorBuild extends PacketBlockBuild implements PacketSelectionTableBuildComp{
     public @Nullable PacketEntry target;
     public OvulamTypeIO.PacketEntryBox targetBox;
     private int targetId;

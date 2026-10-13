@@ -5,7 +5,6 @@ import LLL.content.*;
 import LLL.entities.gen.*;
 import LLL.graphics.*;
 import LLL.world.blockcomp.*;
-import LLL.world.buildComp.*;
 import LLL.world.buildComp.module.*;
 import LLL.world.recipe.*;
 import arc.*;
@@ -29,16 +28,13 @@ import mindustry.world.blocks.storage.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 import universecore.annotations.*;
-import universecore.components.blockcomp.*;
-import universecore.world.consumers.*;
-import universecore.world.producers.*;
 
 import static LLL.content.tantros.LaplacesTantros.*;
 import static mindustry.Vars.*;
 
 @SuppressWarnings("unused")
 @Annotations.ImplEntries
-public class CoreBackflow extends CoreBlock implements MovableBlockModule, ResourceBlockModule{
+public class CoreBackflow extends CoreBlock implements MovableBlockComp, ResourceBlockModule{
   public UnitType movableBlockType = OvulamUnitTypes.boostBuildUnit;
 
   public ConsFilter consFilter = new ConsFilter();
@@ -113,7 +109,7 @@ public class CoreBackflow extends CoreBlock implements MovableBlockModule, Resou
   @Override
   public void displayExtra(Table table){
     for(int i = 0; i < consumers.size; i++){
-      FactoryBlockComp.buildRecipe(table, consumers.get(i), producers.get(i));
+      ProducerBlockComp.buildRecipe(table, consumers.get(i), producers.get(i));
     }
   }
 
@@ -166,7 +162,7 @@ public class CoreBackflow extends CoreBlock implements MovableBlockModule, Resou
   }
 
   @Annotations.ImplEntries
-  public class CoreBackflowBuilding extends CoreBuild implements MovableBuildModule, ResourceBuildModule{
+  public class CoreBackflowBuilding extends CoreBuild implements MovableBuildComp, ResourceBuildComp{
     public int tableId;
     protected Interval interval;
 

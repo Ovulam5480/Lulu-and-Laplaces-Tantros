@@ -16,6 +16,10 @@ public interface Transform{
     return null;
   }
 
+  @Annotations.BindField("tempTrans")
+  default void parentTrans(Mat3D value){
+  }
+
   @Annotations.BindField("parTransformed")
   default boolean parTransformed(){
     return false;
@@ -58,6 +62,10 @@ public interface Transform{
     return null;
   }
 
+  @BindField("tmpQuat")
+  default void tmpQuat(Quat value){
+  }
+
   @BindField("x")
   default float getX(){
     return 0;
@@ -78,21 +86,21 @@ public interface Transform{
   }
 
   @BindField("x")
-  default void setX(float x){
+  default void x(float x){
   }
 
   @BindField("y")
-  default void setY(float y){
+  default void y(float y){
   }
 
   @BindField("z")
-  default void setZ(float z){
+  default void z(float z){
   }
 
   default void setPosition(float x, float y, float z){
-    setX(x);
-    setY(y);
-    setZ(z);
+    x(x);
+    y(y);
+    z(z);
   }
 
   default void setPosition(Vec3 vec3){
@@ -127,21 +135,21 @@ public interface Transform{
   }
 
   @BindField("eulerX")
-  default void setEulerX(float x){
+  default void eulerX(float x){
   }
 
   @BindField("eulerY")
-  default void setEulerY(float y){
+  default void eulerY(float y){
   }
 
   @BindField("eulerZ")
-  default void setEulerZ(float z){
+  default void eulerZ(float z){
   }
 
   default void setEuler(float x, float y, float z){
-    setEulerX(x);
-    setEulerY(y);
-    setEulerZ(z);
+    eulerX(x);
+    eulerY(y);
+    eulerZ(z);
   }
 
   default void setEuler(Vec3 vec3){
@@ -176,21 +184,21 @@ public interface Transform{
   }
 
   @BindField("scaleX")
-  default void setScaleX(float x){
+  default void scaleX(float x){
   }
 
   @BindField("scaleY")
-  default void setScaleY(float y){
+  default void scaleY(float y){
   }
 
   @BindField("scaleZ")
-  default void setScaleZ(float z){
+  default void scaleZ(float z){
   }
 
   default void setScale(float x, float y, float z){
-    setScaleX(x);
-    setScaleY(y);
-    setScaleZ(z);
+    scaleX(x);
+    scaleY(y);
+    scaleZ(z);
   }
 
   default void setScale(Vec3 vec3){

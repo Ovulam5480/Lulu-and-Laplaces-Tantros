@@ -1,9 +1,10 @@
 package LLL.world.blockcomp;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.world.meta.*;
-import LLL.packet.resources.*;
+import LLL.util.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.producers.*;
 import arc.*;
@@ -33,8 +34,8 @@ import java.util.concurrent.atomic.*;
  * @author EBwilson
  * @since 1.0
  */
-public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends ConsumerBlockComp<T>{
-  static <T extends Building & ProducerBuildc> void buildRecipeSimple(BaseConsumers<T> cons, BaseProducers<T> prod, Table ta){
+public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> extends ConsumerBlockComp<T>{
+  static <T extends Building & ProducerBuildc<T>> void buildRecipeSimple(BaseConsumers<T> cons, BaseProducers<T> prod, Table ta){
     boolean[] first = {true};
     cons.forAll(consume -> {
       if(!consume.hasIcons()) return;
@@ -73,6 +74,10 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
+  @Annotations.BindField("producers")
+  default void producers(Seq<BaseProducers<T>> value){
+  }
+
   /**
    * 同样的，这也是一个指针，指向当前编辑的produce
    */
@@ -90,9 +95,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
+  @Annotations.BindField("optionalProducts")
+  default void optionalProducts(OrderedMap<BaseConsumers<T>, BaseProducers<T>> value){
+  }
+
   @Annotations.BindField(value = "rand", initialize = "new arc.math.Rand()")
   default Rand rand(){
     return null;
+  }
+
+  @Annotations.BindField("rand")
+  default void rand(Rand value){
   }
 
   @Annotations.BindField(value = "updateEffectChance", initialize = "0.04f")
@@ -100,9 +113,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return 0;
   }
 
+  @Annotations.BindField("updateEffectChance")
+  default void updateEffectChance(float value){
+  }
+
   @Annotations.BindField(value = "updateEffect", initialize = "mindustry.content.Fx.none")
   default Effect updateEffect(){
     return null;
+  }
+
+  @Annotations.BindField("updateEffect")
+  default void updateEffect(Effect value){
   }
 
   @Annotations.BindField(value = "updateEffectColor", initialize = "arc.graphics.Color.white")
@@ -110,14 +131,26 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
+  @Annotations.BindField("updateEffectColor")
+  default void updateEffectColor(Color value){
+  }
+
   @Annotations.BindField(value = "craftEffect", initialize = "mindustry.content.Fx.none")
   default Effect craftEffect(){
     return null;
   }
 
+  @Annotations.BindField("craftEffect")
+  default void craftEffect(Effect value){
+  }
+
   @Annotations.BindField(value = "craftEffectColor", initialize = "arc.graphics.Color.white")
   default Color craftEffectColor(){
     return null;
+  }
+
+  @Annotations.BindField("craftEffectColor")
+  default void craftEffectColor(Color value){
   }
 
   @Annotations.BindField(value = "effectRange", initialize = "-1")
@@ -134,9 +167,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
+  @Annotations.BindField("craftedSound")
+  default void craftedSound(Sound value){
+  }
+
   @Annotations.BindField(value = "craftedSoundVolume", initialize = "0.5f")
   default float craftedSoundVolume(){
     return 0;
+  }
+
+  @Annotations.BindField("craftedSoundVolume")
+  default void craftedSoundVolume(float value){
   }
 
   @Annotations.BindField(value = "shouldConfig", initialize = "false")
@@ -144,9 +185,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return false;
   }
 
+  @Annotations.BindField("shouldConfig")
+  default void shouldConfig(boolean value){
+  }
+
   @Annotations.BindField(value = "craftTrigger")
   default Cons<T> craftTrigger(){
     return null;
+  }
+
+  @Annotations.BindField("craftTrigger")
+  default void craftTrigger(Cons<T> value){
   }
 
   @Annotations.BindField(value = "crafting")
@@ -154,9 +203,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
+  @Annotations.BindField("crafting")
+  default void crafting(Cons<T> value){
+  }
+
   @Annotations.BindField(value = "warmupSpeed", initialize = "0.02f")
   default float warmupSpeed(){
     return 0;
+  }
+
+  @Annotations.BindField("warmupSpeed")
+  default void warmupSpeed(float value){
   }
 
   @Annotations.BindField(value = "stopSpeed", initialize = "0.02f")
@@ -164,9 +221,17 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return 0;
   }
 
+  @Annotations.BindField("stopSpeed")
+  default void stopSpeed(float value){
+  }
+
   @Annotations.BindField(value = "byproducts", initialize = "new arc.struct.OrderedMap<>()")
   default OrderedMap<BaseConsumers<T>, Byproduct> byproducts(){
     return null;
+  }
+
+  @Annotations.BindField("byproducts")
+  default void byproducts(OrderedMap<BaseConsumers<T>, Byproduct> value){
   }
 
   @Annotations.BindField(value = "boosts", initialize = "new arc.struct.ObjectFloatMap<>()")
@@ -174,7 +239,11 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     return null;
   }
 
-  static <T extends Building & ProducerBuildc> void buildRecipe(Table table, BaseConsumers<T> consumers, BaseProducers<T> producers){
+  @Annotations.BindField("boosts")
+  default void boosts(ObjectFloatMap<BaseConsumers<T>> value){
+  }
+
+  static <C extends Building & ConsumerBuildc<C>, P extends Building & ProducerBuildc<P>> void buildRecipe(Table table, BaseConsumers<C> consumers, BaseProducers<P> producers){
     Stats stats = new Stats();
 
     if(consumers != null){
@@ -212,30 +281,23 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc> extends 
     }
   }
 
-  /**
-   * 常规的工厂类方块，具有强大的consume-produce制造系统的近乎全能的制造类方块
-   */
-//    public NormalCrafter(String name) {
-//        super(name);
-//        update = true;
-//        solid = true;
-//        sync = true;
-//    ambientSound = Sounds.machine;
-//        ambientSoundVolume = 0.03f;
-//        flags = EnumSet.of(BlockFlag.factory);
-//    }
-//    @Annotations.MethodEntry(entryMethod = "<init>")
-//    default void constructFactory() {
-//        Block self = (Block) this;
-//        //self.ambientSound = Sounds.machine;
-//        self.ambientSoundVolume = 0.03f;
-//        self.flags = EnumSet.of(BlockFlag.factory);
-//        appliedConfig(self);
-//        self.config(byte[].class, (T e, byte[] code) -> {
-//            if (code.length == 0) return;
-//            parseConfigObjects(e, DataPackable.readObject(code, e));
-//        });
-//    }
+
+  @Override
+  default void constructFactory(){
+    Block self = (Block)this;
+    self.update = true;
+    self.consumesPower = false;
+    self.solid = true;
+    self.sync = true;
+    //self.ambientSound = Sounds.machine;
+    self.ambientSoundVolume = 0.03f;
+    self.flags = EnumSet.of(BlockFlag.factory);
+    appliedConfig(self);
+    self.config(byte[].class, (T e, byte[] code) -> {
+      if(code.length == 0) return;
+      parseConfigObjects(e, DataPackable.readObject(code, e));
+    });
+  }
 
   /**
    * 初始化匹配消耗生产列表，在init()最后调用

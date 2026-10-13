@@ -2,10 +2,10 @@ package LLL.content.blocks;
 
 import LLL.content.*;
 import LLL.content.extensions.*;
-import LLL.lib.singularity.world.consumers.*;
+import LLL.world.blocks.crafter.*;
 import LLL.world.blocks.packet.*;
 import LLL.world.blocks.production.*;
-import LLL.world.consumers.*;
+import LLL.world.recipe.consumers.*;
 import mindustry.type.*;
 
 public class UnderWater{
@@ -31,12 +31,12 @@ public class UnderWater{
       researchCost = ItemStack.with(OvulamItems.ferroManganese, 10);
 
       newConsume();
-      consume.add(new SglConsumeFloor<FloorCrafterBuild>(OvulamAttributes.gasHydrate, 1f / (size * size)){{
+      consume().add(new ConsumeFloor<>(OvulamAttributes.gasHydrate, 1f / (size * size)){{
         baseEfficiency = 0;
       }});
-      consume.time(180);
+      consume().time(180);
       newProduce();
-      produce.item(OvulamItems.gasHydrate, 1);
+      produce().item(OvulamItems.gasHydrate, 1);
     }};
   }
 }

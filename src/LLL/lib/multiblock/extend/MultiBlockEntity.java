@@ -22,7 +22,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "linkCreated")
-  default void setLinkCreated(boolean created){
+  default void linkCreated(boolean created){
   }
 
   @Annotations.BindField(value = "linkValid", initialize = "true")
@@ -31,7 +31,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "linkValid")
-  default void setLinkValid(boolean valid){
+  default void linkValid(boolean valid){
   }
 
   @Annotations.BindField(value = "linkEntities", initialize = "new arc.struct.Seq<>()")
@@ -40,7 +40,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "linkEntities")
-  default void setLinkEntities(Seq<Building> entities){
+  default void linkEntities(Seq<Building> entities){
   }
 
   @Annotations.BindField(value = "linkProximityMap", initialize = "new arc.struct.Seq<>()")
@@ -49,7 +49,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "linkProximityMap")
-  default void setLinkProximityMap(Seq<Building[]> map){
+  default void linkProximityMap(Seq<Building[]> map){
   }
 
   @Annotations.BindField(value = "dumpIndex", initialize = "0")
@@ -58,7 +58,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "dumpIndex")
-  default void setDumpIndex(int index){
+  default void dumpIndex(int index){
   }
 
   @Annotations.BindField(value = "teamPos")
@@ -67,7 +67,7 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "teamPos")
-  default void setTeamPos(Tile pos){
+  default void teamPos(Tile pos){
   }
 
   @Annotations.BindField(value = "statusPos")
@@ -76,12 +76,12 @@ public interface MultiBlockEntity{
   }
 
   @Annotations.BindField(value = "statusPos")
-  default void setStatusPos(Tile pos){
+  default void statusPos(Tile pos){
   }
 
   @Annotations.MethodEntry(entryMethod = "created")
   default void initMultiBlockEntity(){
-    setLinkProximityMap(new Seq<>());
+    linkProximityMap(new Seq<>());
   }
 
   @Annotations.MethodEntry(entryMethod = "updateTile")
@@ -191,7 +191,7 @@ public interface MultiBlockEntity{
 
   @Annotations.MethodEntry(entryMethod = "incrementDump", paramTypes = "int -> prox", override = true)
   default void incrementDumpMultiBlock(int prox){
-    setDumpIndex(((dumpIndex() + 1) % prox));
+    dumpIndex(((dumpIndex() + 1) % prox));
   }
 
   @Annotations.MethodEntry(entryMethod = "onProximityUpdate")
@@ -208,8 +208,8 @@ public interface MultiBlockEntity{
     int rotation = build.rotation;
 
     MultiBlock multiBlock = (MultiBlock)block;
-    setLinkEntities(multiBlock.setLinkBuild(build, block, tile, team, size, rotation));
-    setLinkCreated(true);
+    linkEntities(multiBlock.setLinkBuild(build, block, tile, team, size, rotation));
+    linkCreated(true);
     updateLinkProximity();
   }
 
@@ -275,7 +275,7 @@ public interface MultiBlockEntity{
     int rotation = build.rotation;
 
     Tile teamPos = world.tile(build.tileX() + multiBlock.teamOverlayPos(size, rotation).x, build.tileY() + multiBlock.teamOverlayPos(size, rotation).y);
-    setTeamPos(teamPos);
+    teamPos(teamPos);
 
     if(teamPos != null){
       Draw.color(build.team.color);
@@ -293,7 +293,7 @@ public interface MultiBlockEntity{
     int rotation = build.rotation;
 
     Tile statusPos = world.tile(build.tileX() + multiBlock.statusOverlayPos(size, rotation).x, build.tileY() + multiBlock.statusOverlayPos(size, rotation).y);
-    setStatusPos(statusPos);
+    statusPos(statusPos);
 
     if(block.enableDrawStatus && block.consumers.length > 0){
       float multiplier = block.size > 1 ? 1 : 0.64F;

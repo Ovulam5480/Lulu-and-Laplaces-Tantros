@@ -1,5 +1,6 @@
 package LLL.content.extensions;
 
+import LLL.world.blockcomp.*;
 import arc.func.*;
 import arc.struct.*;
 import mindustry.*;
@@ -15,7 +16,7 @@ public class OvulamBlockFlags{
 
   public static BlockFlag trophosomeTarget = add("trophosomeTarget");
   public static BlockFlag buildPayloadProducer = add("buildPayloadProducer", b -> {
-    return b instanceof BlockProducer || b instanceof PayloadSource || b instanceof PayloadCrafter;
+    return b instanceof BlockProducer || b instanceof PayloadSource || b instanceof PayloadCrafterBlockComp<?>;
   });
   public static BlockFlag payloadConsumer = add("payloadConsumer", b -> {
     return b instanceof PayloadDeconstructor;

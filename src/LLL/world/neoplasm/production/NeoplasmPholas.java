@@ -62,7 +62,7 @@ public class NeoplasmPholas extends Block implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmPholasBuild extends Building implements NeoplasmBuildModule{
+  public class NeoplasmPholasBuild extends Building implements NeoplasmBuildComp{
     public ItemSeq drillItems = new ItemSeq();
     public float warmup, time;
 

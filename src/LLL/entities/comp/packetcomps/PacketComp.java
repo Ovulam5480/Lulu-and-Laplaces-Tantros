@@ -1,9 +1,9 @@
 package LLL.entities.comp.packetcomps;
 
 import LLL.*;
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.type.resourceStacks.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
@@ -15,7 +15,7 @@ abstract class PacketComp implements Hitboxc, Velc, Rotc, MDTXc{
   @Annotations.Import
   float hitSize;
   PacketType packetType;
-  Seq<ResourceStack<?, ?, ?>> resources = new Seq<>();
+  Seq<ResourceStack<?>> resources = new Seq<>();
   Teamc owner;
 
   private Object typeCache;
@@ -31,17 +31,17 @@ abstract class PacketComp implements Hitboxc, Velc, Rotc, MDTXc{
     resources.each(ResourceStack::update);
   }
 
-  public void copyResourceStacks(Seq<ResourceStack<?, ?, ?>> stacks){
+  public void copyResourceStacks(Seq<ResourceStack<?>> stacks){
     resources.clear();
-    for(ResourceStack<?, ?, ?> resource : stacks){
+    for(ResourceStack<?> resource : stacks){
       resources.add(resource.copy());
     }
   }
 
-  public void copyResourceStacks(Seq<ResourceStack<?, ?, ?>> stacks, float multi){
+  public void copyResourceStacks(Seq<ResourceStack<?>> stacks, float multi){
     resources.clear();
-    for(ResourceStack<?, ?, ?> resource : stacks){
-      ResourceStack<?, ?, ?> copy = resource.copy();
+    for(ResourceStack<?> resource : stacks){
+      ResourceStack<?> copy = resource.copy();
       copy.amount *= multi;
 
       resources.add(copy);
@@ -64,7 +64,7 @@ abstract class PacketComp implements Hitboxc, Velc, Rotc, MDTXc{
     packetType.unpack(self(), entityc, amount);
   }
 
-  boolean unpack(@Nullable Entityc entityc, ResourceStack<?, ?, ?> item, float amount){
+  boolean unpack(@Nullable Entityc entityc, ResourceStack<?> item, float amount){
     if(resources.contains(item)){
       return packetType.unpack(self(), entityc, amount, item);
     }

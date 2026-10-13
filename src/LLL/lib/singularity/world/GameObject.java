@@ -9,7 +9,7 @@ public interface GameObject extends Transform{
   }
 
   @Annotations.BindField("entityID")
-  default void setID(int index){
+  default void id(int index){
   }
 
   void update();

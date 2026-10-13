@@ -38,7 +38,7 @@ public abstract class TreeComp implements Posc, Rotc, Drawc{
 //            manager = new TreeManager(module, parent);
 //        }
 
-    for(int item : module.node().keys().toArray().items){
+    for(int item : module.node().keys().toSeq().items){
       if(item > serialNumber){
         module.node().get(item).each(part -> {
           if(part.immediatelyAdd) spawnChild(part);

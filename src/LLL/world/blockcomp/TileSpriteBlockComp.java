@@ -14,12 +14,12 @@ public interface TileSpriteBlockComp{
   }
 
   @Annotations.BindField("splitRegions")
-  default void setSplitRegions(Seq<TextureRegion> splitRegions){
+  default void splitRegions(Seq<TextureRegion> splitRegions){
   }
 
   @Annotations.MethodEntry(entryMethod = "load")
   default void splitRegions(){
-    setSplitRegions(new Seq<>());
+    splitRegions(new Seq<>());
 
     TextureRegion[][] regions = getToSplit().split(32, 32);
     for(int i = 0; i < 4; i++){

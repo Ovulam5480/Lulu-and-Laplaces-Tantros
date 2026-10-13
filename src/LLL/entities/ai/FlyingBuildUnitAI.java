@@ -32,12 +32,12 @@ public class FlyingBuildUnitAI extends CommandAI{
     float engageRange = unit.type.range - 10f;
 
     boolean move = true, isFinalPoint = commandQueue.size == 0;
-    vecOut.set(targetPos);
-    vecMovePos.set(targetPos);
+    moveTarget.set(targetPos);
+    offsetedDestination.set(targetPos);
 
     //the enter payload command requires an exact position
     if(group != null && group.valid && groupIndex < group.units.size && command != UnitCommand.enterPayloadCommand){
-      vecMovePos.add(group.positions[groupIndex * 2], group.positions[groupIndex * 2 + 1]);
+      offsetedDestination.add(group.positions[groupIndex * 2], group.positions[groupIndex * 2 + 1]);
     }
 
     if(unit.isGrounded()){
@@ -69,15 +69,15 @@ public class FlyingBuildUnitAI extends CommandAI{
         timeSpentBlocked = 0f;
       }
 
-      move = //controlPath.getPathPosition(unit, vecMovePos, targetPos, vecOut, noFound) &&
+      move = //controlPath.getPathPosition(unit, offsetedDestination, targetPos, moveTarget, noFound) &&
         (!blockingUnit || timeSpentBlocked > maxBlockTime);
 
-      alwaysArrive = vecOut.epsilonEquals(unit.tileX() * tilesize, unit.tileY() * tilesize);
+      alwaysArrive = moveTarget.epsilonEquals(unit.tileX() * tilesize, unit.tileY() * tilesize);
       //we've reached the final point if the returned coordinate is equal to the supplied input
-      isFinalPoint &= vecMovePos.epsilonEquals(vecOut, 4.1f);
+      isFinalPoint &= offsetedDestination.epsilonEquals(moveTarget, 4.1f);
 
       //if the path is invalid, stop trying and record the end as unreachable
-      if(unit.team.isAI() && (noFound[0] || unit.isPathImpassable(World.toTile(vecMovePos.x), World.toTile(vecMovePos.y)))){
+      if(unit.team.isAI() && unit.isPathImpassable(World.toTile(offsetedDestination.x), World.toTile(offsetedDestination.y))){
         if(attackTarget instanceof Building build){
           unreachableBuildings.addUnique(build.pos());
         }
@@ -86,22 +86,22 @@ public class FlyingBuildUnitAI extends CommandAI{
         return;
       }
     }else{
-      vecOut.set(vecMovePos);
+      moveTarget.set(offsetedDestination);
     }
 
     if(unit.type.canBoost){
-      unit.updateBoosting(!unit.within(vecMovePos, 1f));
+      unit.updateBoosting(!unit.within(offsetedDestination, 1f));
       move &= unit.elevation >= 1;
     }
 
     if(move){
-      moveTo(vecOut,
+      moveTo(moveTarget,
         unit.isGrounded() ? 0f :
           attackTarget != null ? engageRange : 0f,
         unit.isFlying() ? 40f : 100f, false, null, isFinalPoint || alwaysArrive);
     }
 
-    if(unit.within(vecMovePos, 1f)){
+    if(unit.within(offsetedDestination, 1f)){
       if(commandQueue.isEmpty()){
         if(unit.elevation <= 0.01f) ((MovableBuildUnitc)unit).tile().set(targetPos);
       }else{

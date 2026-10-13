@@ -5,7 +5,6 @@ import LLL.lib.singularity.ui.fragments.entityinfo.*;
 import arc.files.*;
 import arc.util.*;
 import arc.util.serialization.*;
-import universecore.util.handler.*;
 
 import java.io.*;
 import java.lang.annotation.*;
@@ -309,7 +308,12 @@ public class ModConfig{
 
   private static <T> T firstEnum(Class<T> type){
     if(!type.isEnum()) throw new RuntimeException("class " + type + " was not an enum");
-    return MethodHandler.invokeDefault(type, "values");
+
+    try{
+      return (T)type.getMethod("values").invoke(null);
+    }catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+      throw new RuntimeException(e);
+    }
   }
 
   public void reset(){

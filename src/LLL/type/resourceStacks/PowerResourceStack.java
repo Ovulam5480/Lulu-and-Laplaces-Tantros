@@ -1,15 +1,17 @@
 package LLL.type.resourceStacks;
 
 import LLL.content.*;
+import LLL.content.extensions.*;
 import LLL.content.resourceTypes.*;
 import LLL.world.blocks.packet.*;
 import arc.struct.*;
 import arc.util.io.*;
+import mindustry.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
 public class PowerResourceStack extends ResourceStack<Power>{
-  public static Seq<Power> powers = new Seq<>();
+  public Seq<Power> powers;
 
   @Override
   public String name(){
@@ -33,7 +35,7 @@ public class PowerResourceStack extends ResourceStack<Power>{
 
   @Override
   public void init(){
-    ResourceStackManager.init(Power.class, powers);
+    ResourceStackManager.init(Power.class, powers = Vars.content.getBy(OvulamContentType.power.value));
   }
 
   @Override

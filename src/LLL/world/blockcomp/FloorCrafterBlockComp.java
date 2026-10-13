@@ -1,6 +1,7 @@
 package LLL.world.blockcomp;
 
-import LLL.packet.resources.*;
+import LLL.ctype.*;
+import LLL.entities.gen.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
@@ -13,7 +14,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import universecore.annotations.*;
 
-public interface FloorCrafterBlockComp extends ProducerBlockComp{
+public interface FloorCrafterBlockComp<T extends Building & FloorCrafterBuildc<T>> extends ProducerBlockComp<T>{
   Table iconsTable = new Table();
 
   @Annotations.MethodEntry(entryMethod = "drawPlace", paramTypes = {"int -> x", "int -> y", "int -> rotation", "boolean -> valid"})
@@ -25,8 +26,8 @@ public interface FloorCrafterBlockComp extends ProducerBlockComp{
 
     Tile t = Vars.world.tile(x, y);
     if(t != null){
-      for(BaseConsumers consumer : consumers()){
-        ConsumeFloor cons = consumer.get(ResourceType.floor);
+      for(BaseConsumers<T> consumer : consumers()){
+        ConsumeFloor<T> cons = consumer.get(ResourceType.floor);
         if(cons != null){
           c++;
           eff = cons.getEff(getFloors(t, block));
@@ -34,18 +35,18 @@ public interface FloorCrafterBlockComp extends ProducerBlockComp{
       }
 
       if(c == 0) eff = 1;
-      for(ObjectFloatMap.Entry<BaseConsumers> boost : boosts()){
-        ConsumeFloor cons = boost.key.get(ResourceType.floor);
+      for(ObjectFloatMap.Entry<BaseConsumers<T>> boost : boosts()){
+        ConsumeFloor<T> cons = boost.key.get(ResourceType.floor);
         if(cons != null){
           c++;
           eff *= cons.getEff(getFloors(t, block));
         }
       }
 
-      for(ObjectMap.Entry<BaseConsumers, BaseProducers> product : optionalProducts()){
+      for(ObjectMap.Entry<BaseConsumers<T>, BaseProducers<T>> product : optionalProducts()){
         if(!valid && !product.key.optionalAlwaysValid) continue;
 
-        ConsumeFloor cons = product.key.get(ResourceType.floor);
+        ConsumeFloor<T> cons = product.key.get(ResourceType.floor);
         if(cons != null){
           float optEff = cons.getEff(getFloors(t, block));
           if(optEff <= 0) continue;
@@ -72,7 +73,7 @@ public interface FloorCrafterBlockComp extends ProducerBlockComp{
     );
   }
 
-  private static <T extends Building & FloorCrafterBuildc> Table buildIconsTable(ObjectMap.Entry<BaseConsumers, BaseProducers> product){
+  private static <T extends Building & FloorCrafterBuildc<T>> Table buildIconsTable(ObjectMap.Entry<BaseConsumers<T>, BaseProducers<T>> product){
     iconsTable.clear();
 
     boolean[] first = {true};
@@ -98,15 +99,15 @@ public interface FloorCrafterBlockComp extends ProducerBlockComp{
     float eff = 0;
     int c = 0;
 
-    for(ObjectMap.Entry<BaseConsumers, BaseProducers> product : optionalProducts()){
-      ConsumeFloor cons = product.key.get(ResourceType.floor);
+    for(ObjectMap.Entry<BaseConsumers<T>, BaseProducers<T>> product : optionalProducts()){
+      ConsumeFloor<T> cons = product.key.get(ResourceType.floor);
       if(cons != null){
         if(product.key.optionalAlwaysValid && cons.getEff(getFloors(tile, block)) > 0) return true;
       }
     }
 
-    for(BaseConsumers consumer : consumers()){
-      ConsumeFloor cons = consumer.get(ResourceType.floor);
+    for(BaseConsumers<T> consumer : consumers()){
+      ConsumeFloor<T> cons = consumer.get(ResourceType.floor);
       if(cons != null){
         c++;
         eff = cons.getEff(getFloors(tile, block));
@@ -114,8 +115,8 @@ public interface FloorCrafterBlockComp extends ProducerBlockComp{
     }
 
     if(c == 0) eff = 1;
-    for(ObjectFloatMap.Entry<BaseConsumers> boost : boosts()){
-      ConsumeFloor cons = boost.key.get(ResourceType.floor);
+    for(ObjectFloatMap.Entry<BaseConsumers<T>> boost : boosts()){
+      ConsumeFloor<T> cons = boost.key.get(ResourceType.floor);
       if(cons != null){
         c++;
         eff *= cons.getEff(getFloors(tile, block));

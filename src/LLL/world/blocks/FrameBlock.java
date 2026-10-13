@@ -1,11 +1,15 @@
 package LLL.world.blocks;
 
+import LLL.entities.gen.*;
+import LLL.world.blockcomp.*;
+import arc.func.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.world.*;
 import mindustry.world.blocks.*;
 
-public class FrameBlock extends PayloadCrafter{
+public class FrameBlock extends Block implements PayloadCrafterBlockComp{
   public Block replacedBlock = Blocks.copperWallLarge;
   public float requiredProgress = 0.5f;
   public float requiredProgressRound = 0.05f;
@@ -69,7 +73,7 @@ public class FrameBlock extends PayloadCrafter{
     }
   }
 
-  public class FrameBlockBuild extends PayloadCrafterBuild{
+  public class FrameBlockBuild extends PayloadCrafterBuildBuilding{
     @Override
     public void craftTrigger(){
 

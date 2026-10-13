@@ -4,6 +4,7 @@ import LLL.*;
 import LLL.content.*;
 import LLL.graphics.*;
 import LLL.world.blockcomp.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -61,7 +62,7 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
   }
 
   @Annotations.ImplEntries
-  public class CoreCausalityBuild extends CoreBuild implements ResourceBuildModule{
+  public class CoreCausalityBuild extends CoreBuild implements ResourceBuildComp{
     private static final Rand rand = new Rand();
 
     @Override

@@ -1,7 +1,7 @@
 package LLL.world.buildComp;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.blockcomp.*;
 import LLL.world.modules.*;
 import LLL.world.recipe.*;
@@ -27,7 +27,7 @@ import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 
 @Annotations.EntityComponent
-abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements ConsumerBuildc{
+abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> implements ConsumerBuildc<T>{
   @Annotations.Import
   int consumeCurrent;
 
@@ -61,11 +61,11 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
   public Seq<Item> outputItems;
   public Seq<Liquid> outputLiquids;
 
-  public Floatf<?> currBoost = e -> 1;
+  public Floatf<T> currBoost = e -> 1;
   public float real;
   public int mark;
 
-  public ProducerBuildc getProducerBuild(){
+  public ProducerBuildc<T> getProducerBuild(){
     return self();
   }
 
@@ -94,26 +94,6 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
     producer.update();
   }
 
-  @Override
-  public void updateTile(){
-    real = Mathf.lerpDelta(real, currBoost.get(self()), 0.05f);
-
-    if(mark > 0 && --mark <= 0){
-      currBoost = e -> 1;
-    }
-
-    if(updateRecipe() && producer.current != null){
-      if(producer.current.get(ResourceType.item) != null)
-        outputItems = new Seq<>(producer.current.<ProduceItems<T>>get(ResourceType.item).items).map(e -> e.item);
-      if(producer.current.get(ResourceType.liquid) != null)
-        outputLiquids = new Seq<>(producer.current.<ProduceLiquids<T>>get(ResourceType.liquid).liquids).map(e -> e.liquid);
-    }
-
-    for(ProducerBlockComp.Byproduct byproduct : getProducerBlock().byproducts().values()){
-      dump(byproduct.item);
-    }
-  }
-
   public void updateFactory(){
     /*当未选择配方时不进行更新*/
     if(produceCurrent() == -1 || producer.current == null){
@@ -139,14 +119,34 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
 
       craftTrigger();
     }
+
+    real = Mathf.lerpDelta(real, currBoost.get(self()), 0.05f);
+
+    if(mark > 0 && --mark <= 0){
+      currBoost = e -> 1;
+    }
+
+    if(updateRecipe() && producer.current != null){
+      if(producer.current.get(ResourceType.item) != null)
+        outputItems = new Seq<>(producer.current.<ProduceItems<T>>get(ResourceType.item).items).map(e -> e.item);
+      if(producer.current.get(ResourceType.liquid) != null)
+        outputLiquids = new Seq<>(producer.current.<ProduceLiquids<T>>get(ResourceType.liquid).liquids).map(e -> e.liquid);
+    }
+
+    for(ProducerBlockComp.Byproduct byproduct : getProducerBlock().byproducts().values()){
+      dump(byproduct.item);
+    }
   }
 
-//    @Override
-//    public NormalCrafter.NormalCrafterBuild create(Block block, Team team) {
-//        super.create(block, team);
-//        producer = new SglProductModule(this);
-//        return this;
-//    }
+  @Override
+  public void afterCreate(){
+    createProducer();
+  }
+
+
+  public void createProducer(){
+    producer = new BaseProductModule<>(self());
+  }
 
   /**
    * 当前生产是否可用
@@ -213,44 +213,36 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
 //      return loopSoundVolume*workEfficiency();
 //    }
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public float consEfficiency(){
-    return consEfficiencyCraft();
+    return consEfficiencyProducer();
   }
 
-  public float consEfficiencyCraft(){
-    return real * consEfficiencyFactory() * warmup;
+  public float consEfficiencyProducer(){
+    return real * consEfficiencyConsumer() * warmup;
   }
 
-  public float consEfficiencyFactory(){
-    return consEfficiencyEffective() * warmup;
-  }
-
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public boolean shouldConsume(){
-    return shouldConsumeCraft();
+    return shouldConsumeProducer();
   }
 
-  public boolean shouldConsumeCraft(){
-    return shouldConsumeFactory() && productValid();
+  public boolean shouldConsumeProducer(){
+    return shouldConsumeConsumer() && productValid();
   }
 
-  public boolean shouldConsumeFactory(){
-    return getProducerBuild().shouldConsume() && productValid();
-  }
-
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public BlockStatus status(){
-    return statusCraft();
+    return statusProducer();
   }
 
-  public BlockStatus statusCraft(){
+  public BlockStatus statusProducer(){
     if(getProducerBlock().autoSelect() && !getProducerBlock().canSelect() && consumeCurrent == -1)
       return BlockStatus.noInput;
-    return statusEffective();
+    return statusConsumer();
   }
 
   @Annotations.Replace(2)
@@ -271,14 +263,14 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
 
   public abstract boolean dump(Item item);
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public Seq<Item> outputItems(){
     if(consumeCurrent == -1) return null;
     return outputItems;
   }
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public Seq<Liquid> outputLiquids(){
     if(consumeCurrent == -1) return null;
@@ -294,7 +286,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
     }
   }
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public void updateDisplayLiquid(){
     if(!block.hasLiquids) return;
@@ -303,7 +295,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
     tempLiquid.clear();
     if(consumeCurrent >= 0 && consumer.current != null){
       if(consumer.current.get(ResourceType.liquid) != null){
-        for(LiquidStack stack : consumer.current.<ConsumeLiquidBase<T>>get(ResourceType.liquid).consLiquids){
+        for(LiquidStack stack : consumer.current.<ConsumeLiquidBaseR<T>>get(ResourceType.liquid).consLiquids){
           tempLiquid.add(stack.liquid);
         }
       }
@@ -344,7 +336,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
     }
   }
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   public void buildConfiguration(Table table){
     Seq<BaseProducers<T>> producers = getProducerBlock().producers();
     Seq<BaseConsumers<T>> consumers = getProducerBlock().consumers();
@@ -384,7 +376,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
 
   public abstract void configure(Object value);
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public double sense(LAccess sensor){
     return senseCrafter(sensor);
@@ -406,14 +398,14 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc> implements
     recipeSelected(read.bool());
   }
 
-  @Annotations.Replace(5)
+  @Annotations.Replace(2)
   @Override
   public void reset(){
-    resetCrafter();
+    resetProducer();
   }
 
-  public void resetCrafter(){
-    resetEffective();
+  public void resetProducer(){
+    resetConsumer();
     progress = 0;
   }
 }

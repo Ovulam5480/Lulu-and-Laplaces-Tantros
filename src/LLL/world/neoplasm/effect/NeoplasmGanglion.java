@@ -40,7 +40,7 @@ public class NeoplasmGanglion extends CoreBlock implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmGanglionBuild extends CoreBuild implements NeoplasmBuildModule{
+  public class NeoplasmGanglionBuild extends CoreBuild implements NeoplasmBuildComp{
     @Override
     public void drawSelect(){
       block.drawOverlay(x, y, rotation);

@@ -28,7 +28,7 @@ public class PacketSource extends PacketBlock{
   }
 
   @Annotations.ImplEntries
-  public class PacketSourceBuild extends PacketBlockBuild implements ControlBlock, PacketSelectionTableBuildModule{
+  public class PacketSourceBuild extends PacketBlockBuild implements ControlBlock, PacketSelectionTableBuildComp{
     public @Nullable BlockUnitc unit;
 
     @Override

@@ -1,7 +1,7 @@
 package LLL.world.recipe;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.producers.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -17,7 +17,7 @@ import java.util.*;
  *
  * @author EBwilson
  */
-public class BaseProducers<T extends Building & ProducerBuildc>{
+public class BaseProducers<T extends Building & ProducerBuildc<T>>{
   final static Color TRANS = new Color(0, 0, 0, 0);
 
   protected final ObjectMap<ResourceType, BaseProduce<T>> prod = new ObjectMap<>();

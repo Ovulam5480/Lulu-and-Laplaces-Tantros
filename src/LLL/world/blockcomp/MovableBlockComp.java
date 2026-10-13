@@ -20,9 +20,17 @@ public interface MovableBlockComp{
     return false;
   }
 
+  @Annotations.BindField("drawThrusters")
+  default void drawThrusters(boolean value){
+  }
+
   @Annotations.BindField("movableBlockType")
   default UnitType movableBlockType(){
     return null;
+  }
+
+  @Annotations.BindField("movableBlockType")
+  default void movableBlockType(UnitType value){
   }
 
   @Annotations.BindField("thruster1")
@@ -31,7 +39,7 @@ public interface MovableBlockComp{
   }
 
   @Annotations.BindField("thruster1")
-  default void setThruster1(TextureRegion thruster1){
+  default void thruster1(TextureRegion thruster1){
   }
 
   @Annotations.BindField("thruster2")
@@ -40,13 +48,13 @@ public interface MovableBlockComp{
   }
 
   @Annotations.BindField("thruster2")
-  default void setThruster2(TextureRegion thruster2){
+  default void thruster2(TextureRegion thruster2){
   }
 
   default void loadThrusters(){
     if(drawThrusters()){
-      setThruster1(Core.atlas.has(getBlock().name + "-thruster1") ? Core.atlas.find(getBlock().name + "-thruster1") : Core.atlas.find(LuluMod.modName + "thruster1"));
-      setThruster2(Core.atlas.has(getBlock().name + "-thruster2") ? Core.atlas.find(getBlock().name + "-thruster2") : Core.atlas.find(LuluMod.modName + "thruster2"));
+      thruster1(Core.atlas.has(getBlock().name + "-thruster1") ? Core.atlas.find(getBlock().name + "-thruster1") : Core.atlas.find(LuluMod.modName + "thruster1"));
+      thruster2(Core.atlas.has(getBlock().name + "-thruster2") ? Core.atlas.find(getBlock().name + "-thruster2") : Core.atlas.find(LuluMod.modName + "thruster2"));
     }
   }
 }

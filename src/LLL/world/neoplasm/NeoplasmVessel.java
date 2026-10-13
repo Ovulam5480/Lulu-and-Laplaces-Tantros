@@ -3,6 +3,7 @@ package LLL.world.neoplasm;
 import LLL.entities.gen.*;
 import LLL.entities.neoplasmBehavior.neoplasmGrow.*;
 import LLL.type.neoplasm.*;
+import LLL.world.blockcomp.*;
 import LLL.world.buildComp.module.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
@@ -23,7 +24,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpriteBlockModule{
+public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpriteBlockComp{
   public static GrowItemFilter.VesselFlowTrigger trigger = new GrowItemFilter.VesselFlowTrigger();
   public float speed = 3f;
 
@@ -64,7 +65,7 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpri
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmVesselBuild extends DisplayFlowBuildingBuilding implements NeoplasmBuildModule, TileSpriteBuildModule{
+  public class NeoplasmVesselBuild extends DisplayFlowBuildingBuilding implements NeoplasmBuildComp, TileSpriteBuildComp{
     public float progress;
     public @Nullable Item current;
     public @Nullable Building next;
@@ -206,10 +207,10 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpri
 
     @Override
     public void updateNeoplasmScale(){
-      setNeoplasmScale(Mathf.approach(neoplasmScale(), 1f, blockAs().neoplasmScaleSpeed() * Time.delta));
+      neoplasmScale(Mathf.approach(neoplasmScale(), 1f, blockAs().neoplasmScaleSpeed() * Time.delta));
       if(Mathf.equal(neoplasmScale(), 1f, 0.01f)){
-        setUpdateScale(false);
-        setNeoplasmScale(1);
+        updateScale(false);
+        neoplasmScale(1);
       }
     }
 
@@ -245,7 +246,7 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpri
 //                timer--;
 //            }
 //
-//            setDumpLiquidTimer(timer);
+//            dumpLiquidTimer(timer);
 //        }
 
     @Override
@@ -278,7 +279,7 @@ public class NeoplasmVessel extends Block implements NeoplasmBlockComp, TileSpri
     @Override
     public void configureNeuron(Unit builder, Object value){
       if(value instanceof NeoplasmNeuron.NeoplasmNeuronBuild neuron){
-        setNeuron(neuron);
+        neuron(neuron);
         neuron.cortex.addStructure(this);
         cortex().handleOwnedBlock(this, tileX(), tileY(), getBuilding().rotation, true);
         updateProximity();

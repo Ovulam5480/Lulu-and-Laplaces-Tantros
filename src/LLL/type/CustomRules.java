@@ -1,8 +1,6 @@
 package LLL.type;
 
-import LLL.entities.neoplasmBehavior.*;
 import arc.*;
-import arc.func.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.editor.*;

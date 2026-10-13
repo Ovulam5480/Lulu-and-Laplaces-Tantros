@@ -1,7 +1,7 @@
 package LLL;
 
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
 import arc.*;
 import arc.math.*;
 import arc.math.geom.*;

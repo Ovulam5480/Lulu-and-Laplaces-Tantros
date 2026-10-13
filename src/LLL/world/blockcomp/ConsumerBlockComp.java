@@ -1,9 +1,10 @@
 package LLL.world.blockcomp;
 
 import LLL.content.*;
+import LLL.ctype.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.packet.resources.*;
+import LLL.util.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
@@ -25,7 +26,7 @@ import universecore.annotations.Annotations.*;
  * @author EBwilson
  * @since 1.0
  */
-public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends BlockComp{
+public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> extends BlockComp{
   String liquidsStr = Iconc.liquidWater + Core.bundle.get("fragment.bars.liquids");
   String recipeIndfo = Core.bundle.get("fragment.buttons.selectPrescripts");
 
@@ -34,9 +35,17 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends 
     return false;
   }
 
+  @Annotations.BindField("autoSelect")
+  default void autoSelect(boolean value){
+  }
+
   @Annotations.BindField(value = "canSelect", initialize = "true")
   default boolean canSelect(){
     return false;
+  }
+
+  @Annotations.BindField("canSelect")
+  default void canSelect(boolean value){
   }
 
   @Annotations.BindField(value = "outputItems", initialize = "false")
@@ -56,12 +65,20 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends 
     return false;
   }
 
+  @Annotations.BindField("independenceInventory")
+  default void independenceInventory(boolean value){
+  }
+
   /**
    * 独立的液体储罐，为true所有液体具有独立的容量，否则共用液体空间
    */
   @Annotations.BindField(value = "independenceLiquidTank", initialize = "true")
   default boolean independenceLiquidTank(){
     return false;
+  }
+
+  @Annotations.BindField("independenceLiquidTank")
+  default void independenceLiquidTank(boolean value){
   }
 
   /**
@@ -72,6 +89,10 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends 
     return false;
   }
 
+  @Annotations.BindField("oneOfOptionCons")
+  default void oneOfOptionCons(boolean value){
+  }
+
   /**
    * 是否显示液体槽
    */
@@ -80,12 +101,20 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends 
     return false;
   }
 
+  @Annotations.BindField("displayLiquid")
+  default void displayLiquid(boolean value){
+  }
+
   /**
    * 方块的消耗的清单列表
    */
-  @BindField(value = "consumers", initialize = "new arc.struct.Seq<>()")
+  @BindField(value = "recipeConsumers", initialize = "new arc.struct.Seq<>()")
   default Seq<BaseConsumers<T>> consumers(){
     return null;
+  }
+
+  @BindField(value = "recipeConsumers", initialize = "new arc.struct.Seq<>()")
+  default void consumers(Seq<BaseConsumers<T>> value){
   }
 
   /**
@@ -108,24 +137,32 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc> extends 
     return null;
   }
 
-  @BindField(value = "consFilter", initialize = "new LLL.world.consumers.ConsFilter()")
+  @BindField("optionalCons")
+  default void optionalCons(Seq<BaseConsumers<T>> value){
+  }
+
+  @BindField(value = "consFilter", initialize = "new LLL.world.recipe.ConsFilter<>()")
   default ConsFilter<T> filter(){
     return null;
   }
 
-//    @Annotations.MethodEntry(entryMethod = "<init>")
-//    default void constructFactory() {
-//        Block self = (Block) this;
-//        self.update = true;
-//        self.consumesPower = false;
-//        self.solid = true;
-//        self.sync = true;
-//        appliedConfig(self);
-//        self.config(byte[].class, (T e, byte[] code) -> {
-//            if (code.length == 0) return;
-//            parseConfigObjects(e, DataPackable.readObject(code, e));
-//        });
-//    }
+  @BindField("consFilter")
+  default void filter(ConsFilter<T> value){
+  }
+
+  @Annotations.MethodEntry(entryMethod = "init")
+  default void constructFactory(){
+    Block self = (Block)this;
+    self.update = true;
+    self.consumesPower = false;
+    self.solid = true;
+    self.sync = true;
+    appliedConfig(self);
+    self.config(byte[].class, (T e, byte[] code) -> {
+      if(code.length == 0) return;
+      parseConfigObjects(e, DataPackable.readObject(code, e));
+    });
+  }
 
   @Annotations.MethodEntry(entryMethod = "init", insert = Annotations.InsertPosition.HEAD)
   default void initFactory(){

@@ -2,6 +2,7 @@ package LLL.ui;
 
 import LLL.content.tantros.*;
 import LLL.util.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.modules.*;
 import arc.*;
 import arc.func.*;
@@ -172,8 +173,8 @@ public class LaplacesTantrosDialog extends Dialog implements PlanetRenderer.Plan
     return currentSector.near().contains(sector);
   }
 
-  public @Nullable ResourceBuildModule findCore(){
-    return (ResourceBuildModule)Vars.state.teams.get(Vars.state.rules.defaultTeam).cores.find(c -> c instanceof ResourceBuildModule);
+  public @Nullable ResourceBuildComp findCore(){
+    return (ResourceBuildComp)Vars.state.teams.get(Vars.state.rules.defaultTeam).cores.find(c -> c instanceof ResourceBuildComp);
   }
 
   public void abandon(){

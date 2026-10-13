@@ -219,7 +219,7 @@ public class Stage3D{
         Gl.cullFace(shaderProgram.cullFunc);
       }else Gl.disable(Gl.cullFace);
 
-      for(OrderedSet<RendererObject>.OrderedSetIterator iterator = entry.value.iterator(); iterator.hasNext(); ){
+      for(OrderedSet.OrderedSetIterator<RendererObject> iterator = entry.value.iterator(); iterator.hasNext(); ){
         RendererObject object = iterator.next();
         Material material = object.material();
         ShaderProgram shader = material.shader;
@@ -248,7 +248,7 @@ public class Stage3D{
       if(!shaderProgram.renderValid) continue;
       if(lastMat != null) lastMat.blitDepth(shaderProgram.gBuffer);
       shaderProgram.begin();
-      for(OrderedSet<RendererObject>.OrderedSetIterator iterator = entry.value.iterator(); iterator.hasNext(); ){
+      for(OrderedSet.OrderedSetIterator<RendererObject> iterator = entry.value.iterator(); iterator.hasNext(); ){
         RendererObject object = iterator.next();
         Material material = object.material();
         ShaderProgram shader = material.shader;
@@ -295,7 +295,7 @@ public class Stage3D{
   }
 
   public void add(GameObject object){
-    object.setID(objectIndex++);
+    object.id(objectIndex++);
     objects.add(object);
     if(object instanceof RendererObject rendObj){
       renderObjects.add(rendObj);

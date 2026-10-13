@@ -27,6 +27,10 @@ public interface ExtraVariableComp{
     return null;
   }
 
+  @Annotations.BindField("extraVar")
+  default void extra(Map<String, Object> value){
+  }
+
   /**
    * 获取动态变量的值，如果变量不存在，则返回null
    *

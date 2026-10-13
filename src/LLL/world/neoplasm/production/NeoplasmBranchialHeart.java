@@ -27,7 +27,7 @@ public class NeoplasmBranchialHeart extends Block implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmBranchialHeartBuild extends Building implements NeoplasmBuildModule{
+  public class NeoplasmBranchialHeartBuild extends Building implements NeoplasmBuildComp{
     public float neoplasmScale;
 
     @Override

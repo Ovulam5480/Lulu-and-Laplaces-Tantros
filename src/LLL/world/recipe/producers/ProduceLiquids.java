@@ -1,7 +1,7 @@
 package LLL.world.recipe.producers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
 import arc.graphics.*;
@@ -12,7 +12,9 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
-public class ProduceLiquids<T extends Building & ProducerBuildc> extends BaseProduce<T>{
+import java.util.*;
+
+public class ProduceLiquids<T extends Building & ProducerBuildc<T>> extends BaseProduce<T>{
   private static final ObjectMap<Liquid, LiquidStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;
@@ -52,7 +54,7 @@ public class ProduceLiquids<T extends Building & ProducerBuildc> extends BasePro
 
   @Override
   public void buildIcons(Table table){
-    ConsumeLiquidBase.buildLiquidIcons(table, liquids, false, displayLim);
+    ConsumeLiquidBaseR.buildLiquidIcons(table, liquids, false, displayLim);
   }
 
   @Override
@@ -67,7 +69,7 @@ public class ProduceLiquids<T extends Building & ProducerBuildc> extends BasePro
         TMP.get(stack.liquid, () -> new LiquidStack(stack.liquid, 0)).amount += stack.amount;
       }
 
-      liquids = TMP.values().toSeq().sort((a, b) -> a.liquid.id - b.liquid.id).toArray(LiquidStack.class);
+      liquids = TMP.values().toSeq().sort(Comparator.comparingInt(a -> a.liquid.id)).toArray(LiquidStack.class);
       return;
     }
     throw new IllegalArgumentException("only merge production with same type");

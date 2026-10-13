@@ -67,7 +67,7 @@ public class NeoplasmGrows{
 
   public static GrowLeafTask growArterius(){
     return new GrowOwnedBlocksSelect<NeoplasmVessel.NeoplasmVesselBuild>(Neoplasm.neoplasmArterius, Neoplasm.neoplasmVessel, v -> {
-      for(NeoplasmBuildModule child : v.children()){
+      for(NeoplasmBuildComp child : v.children()){
         //v.neoplasm().amount() / v.getBlock().liquidCapacity > child.neoplasm().amount() / child.getBlock().liquidCapacity
         if(v.neoplasm().amount() * child.getBlock().liquidCapacity > child.neoplasm().amount() * v.getBlock().liquidCapacity){
           return true;

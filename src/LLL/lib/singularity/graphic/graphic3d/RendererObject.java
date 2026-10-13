@@ -15,6 +15,10 @@ public interface RendererObject extends GameObject{
     return null;
   }
 
+  @Annotations.BindField("boundBox")
+  default void bounds(BoundingBox value){
+  }
+
   default BoundingBox getTransformedBounds(BoundingBox result, Mat3D tmp){
     result.set(bounds());
     Mat3D trn = getAbsTransform(tmp);

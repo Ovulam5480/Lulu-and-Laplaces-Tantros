@@ -1,14 +1,11 @@
 package LLL.content.resourceTypes;
 
 import LLL.content.extensions.*;
-import LLL.type.resourceStacks.*;
 import mindustry.ctype.*;
 
 public class Power extends UnlockableContent{
   public Power(String name){
     super(name);
-
-    PowerResourceStack.powers.add(this);
   }
 
   @Override

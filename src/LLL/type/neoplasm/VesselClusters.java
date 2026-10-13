@@ -2,6 +2,7 @@ package LLL.type.neoplasm;
 
 import LLL.lib.multiblock.extend.*;
 import LLL.type.*;
+import LLL.world.buildComp.module.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
@@ -21,7 +22,7 @@ public class VesselClusters implements Visible{
     initVisible();
   }
 
-  void updateVesselLiquid(NeoplasmBuildc build){
+  void updateVesselLiquid(NeoplasmBuildComp build){
     if(build.children().size == 0) return;
 
     boolean isSync = build instanceof LinkBlock.LinkBuild;
@@ -33,7 +34,7 @@ public class VesselClusters implements Visible{
     NeoplasmLiquidModule liquids = build.neoplasm();
     had = has = liquids.amount();
 
-    for(NeoplasmBuildc child : build.children()){
+    for(NeoplasmBuildComp child : build.children()){
       if(isSync){
         boolean isSyncChild = child instanceof LinkBlock.LinkBuild;
 
@@ -85,16 +86,16 @@ public class VesselClusters implements Visible{
     liquids.add(has - had);
   }
 
-  void updateVesselLiquidBranchParent(NeoplasmBuildc build){
+  void updateVesselLiquidBranchParent(NeoplasmBuildComp build){
     if(build.parent() == null || build instanceof NeoplasmNeuron.NeoplasmNeuronBuild) return;
 
-    float capacity = build.block.liquidCapacity;
+    float capacity = build.getBlock().liquidCapacity;
     float has, had;
 
     NeoplasmLiquidModule liquids = build.neoplasm();
     had = has = liquids.amount();
 
-    NeoplasmBuildc parent = build.parent();
+    NeoplasmBuildComp parent = build.parent();
     if(parent.parent() == build){
       return;
     }
@@ -128,13 +129,13 @@ public class VesselClusters implements Visible{
     drawVesselLiquid(neuron, sour);
   }
 
-  private void drawVesselLiquid(NeoplasmBuildc build, Color color){
+  private void drawVesselLiquid(NeoplasmBuildComp build, Color color){
     if(build.children().size == 0) return;
 
     boolean isSync = build instanceof LinkBlock.LinkBuild;
     LinkBlock.LinkBuild asLink = isSync ? (LinkBlock.LinkBuild)build : null;
 
-    for(NeoplasmBuildc child : build.children()){
+    for(NeoplasmBuildComp child : build.children()){
       if(!Tmp.r1.set(camera).grow(child.getBlock().clipSize).contains(child.x(), child.y())){
         continue;
       }

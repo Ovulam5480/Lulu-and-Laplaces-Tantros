@@ -20,7 +20,7 @@ public class UncContentType{
   private final static FieldAccessor<ContentLoader, ObjectMap[]> contentNameMapField = Reflection.accessField(ContentLoader.class, ObjectMap[].class, "contentNameMap");
   private final static FieldAccessor<ContentLoader, Seq[]> contentMapField = Reflection.accessField(ContentLoader.class, Seq[].class, "contentMap");
   private final static FieldAccessorStatic<ContentType[]> allField = Reflection.accessStaticField(ContentType.class, ContentType[].class, "all");
-  private final static EnumAccessor1<ContentType, Class> handler = Enums.accessEnum(ContentType.class, Class.class);
+  private final static EnumAccessor2<ContentType, String, Class> handler = Enums.accessEnum(ContentType.class, String.class, Class.class);
 
   public static final ObjectMap<ContentType, UncContentType> allUncContentType = new ObjectMap<>();
 
@@ -76,7 +76,7 @@ public class UncContentType{
    * @param display      是否在数据库内显示
    */
   public UncContentType(String name, int ordinal, Class<? extends Content> contentClass, boolean display){
-    value = handler.appendEnumInstance(name, contentClass, false);
+    value = handler.appendEnumInstance(name, name, contentClass, false);
     this.ordinal = ordinal;
     this.display = display;
 

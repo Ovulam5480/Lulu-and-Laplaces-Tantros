@@ -1,8 +1,8 @@
 package LLL.entities.comp.packetcomps;
 
 import LLL.*;
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
 import arc.graphics.g2d.*;
 import ent.anno.*;
 import mindustry.gen.*;

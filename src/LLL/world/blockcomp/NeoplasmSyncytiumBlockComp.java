@@ -24,7 +24,7 @@ public interface NeoplasmSyncytiumBlockComp extends MultiBlock, NeoplasmBlockCom
 
   @Override
   default void initMultiBlock(){
-    setLinkValues(initLinkValues());
+    linkValues(initLinkValues());
     MultiBlock.super.initMultiBlock();
     initSyncytium();
   }
@@ -60,6 +60,6 @@ public interface NeoplasmSyncytiumBlockComp extends MultiBlock, NeoplasmBlockCom
     self.itemCapacity = 10000;
 
     self.health = 100000;
-    selfAs.setMaxHealOnce(30f);
+    selfAs.maxHealOnce(30f);
   }
 }

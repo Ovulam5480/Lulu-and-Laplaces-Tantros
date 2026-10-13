@@ -21,7 +21,7 @@ public class NeoplasmActiniaria extends PayloadDeconstructor implements Neoplasm
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmActiniariaBuild extends PayloadDeconstructorBuild implements NeoplasmBuildModule{
+  public class NeoplasmActiniariaBuild extends PayloadDeconstructorBuild implements NeoplasmBuildComp{
     @Override
     public void draw(){
       Draw.rect(baseRegion(), x, y);
@@ -78,7 +78,7 @@ public class NeoplasmActiniaria extends PayloadDeconstructor implements Neoplasm
         }
         timer = 0;
       }
-      setDumpTimer(timer);
+      dumpTimer(timer);
     }
   }
 }

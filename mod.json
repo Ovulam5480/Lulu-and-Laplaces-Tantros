@@ -1,10 +1,11 @@
 {
-    "name": "mod-template",
-    "displayName": "Mod Template",
-    "description": "Mindustry Java mod template, complete with EntityAnno integration.",
-    "version": "1.0.0",
+    //"displayName": "Lulu-and-Laplace-Tantros",
+    "displayName": "Tantros's Neoplastic",
+    "name": "lulu",
+    "description": "模组尚未完成, 请勿在任何需要保存的地图使用该模组, 模组内部分音效来源于DLsiteクリエイター学園, 模组使用酪桦姬的Multi-Block Library, EB-wilson的Singularity, 和libgdx的gdx-ai",
+    "version": "0.1",
     "minGameVersion": "160",
-    "author": "You",
+    "author": "Ovulam5480",
     "java": true,
-    "main": "template.ModTemplate"
+    "main": "LLL.LuluMod"
 }

@@ -1,7 +1,7 @@
 package LLL.world.modules;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.consumers.*;
 import arc.func.*;
@@ -17,7 +17,7 @@ import mindustry.world.modules.*;
  *
  * @author EBwilson
  */
-public class BaseConsumeModule<T extends Building & ConsumerBuildc> extends BlockModule{
+public class BaseConsumeModule<T extends Building & ConsumerBuildc<T>> extends BlockModule{
   private static final float[] ZERO = {0};
 
   protected final T entity;

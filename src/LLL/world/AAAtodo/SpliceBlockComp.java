@@ -15,8 +15,16 @@ public interface SpliceBlockComp extends ChainsBlockComp{
     return false;
   }
 
+  @Annotations.BindField("interCorner")
+  default void interCorner(boolean value){
+  }
+
   @Annotations.BindField("negativeSplice")
   default boolean negativeSplice(){
     return false;
+  }
+
+  @Annotations.BindField("negativeSplice")
+  default void negativeSplice(boolean value){
   }
 }

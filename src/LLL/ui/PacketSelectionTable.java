@@ -1,20 +1,21 @@
 package LLL.ui;
 
 import LLL.content.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.ctype.packet.*;
+import LLL.type.resourceStacks.*;
 import arc.graphics.g2d.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
 
 public class PacketSelectionTable{
   private int currentSelection = 0, prevSelection = 0;
 
-  public void build(Table parents, PacketType[] packetType, Seq<ResourceStack<?, ?, ?>> selectedResources){
+  public void build(Table parents, PacketType[] packetType, Seq<ResourceStack<?>> selectedResources){
     parents.table(Styles.black5, all -> {
       all.table(visibleSetter -> {
         visibleSetter.button(Icon.menu, Styles.clearNoneTogglei, () -> currentSelection = 0).checked(ib -> currentSelection == 0).height(60).growX();
@@ -52,7 +53,7 @@ public class PacketSelectionTable{
         if(selectedResources.isEmpty()) return;
 
         float sum = selectedResources.sumf(r -> r.amount);
-        for(ResourceStack<?, ?, ?> stack : selectedResources){
+        for(ResourceStack<?> stack : selectedResources){
           float amount = stack.amount;
           TextField field = new TextField(amount + "");
 
@@ -83,17 +84,15 @@ public class PacketSelectionTable{
         objectSelectionTable.clearChildren();
         if(packetType[0] == null) return;
 
-        Seq<?> seq = ResourceStackManager.resourceInstances.get(packetType[0].resourceClass);
-        Class<ResourceStack<?, ?, ?>> stackClass = ResourceStackManager.classMap.get(packetType[0].resourceClass);
+        Seq<? extends UnlockableContent> seq = ResourceStackManager.resourceInstances.get(packetType[0].resourceClass);
+        Class<? extends ResourceStack<?>> stackClass = ResourceStackManager.classMap.get(packetType[0].resourceClass);
 
         if(seq == null) return;
 
         int j = 0;
-        for(Object o : seq){
+        for(UnlockableContent o : seq){
           //todo .tooltip(name)
-          ImageButton button = objectSelectionTable.button(Tex.whiteui, Styles.clearNoneTogglei, 40f, () -> {
-            rebuildSetter.run();
-          }).checked(ib -> selectedResources.contains(r -> r.item == o)).get();
+          ImageButton button = objectSelectionTable.button(Tex.whiteui, Styles.clearNoneTogglei, 40f, rebuildSetter::run).checked(ib -> selectedResources.contains(r -> r.item == o)).get();
           button.changed(() -> {
             if(selectedResources.contains(r -> r.item == o)){
               selectedResources.remove(r -> r.item == o);
@@ -102,7 +101,7 @@ public class PacketSelectionTable{
             }
           });
 
-          ResourceStack stack = ResourceStackManager.all.find(r -> r.getClass() == stackClass);
+          ResourceStack stack = ResourceStackManager.resourceStackInstances.find(r -> r.getClass() == stackClass);
           TextureRegion icon = stack.getItemIcon(o);
 
           button.getStyle().imageUp = new TextureRegionDrawable(icon);

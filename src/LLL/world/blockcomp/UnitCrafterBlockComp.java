@@ -13,7 +13,7 @@ import universe.util.reflect.*;
 import universe.util.reflect.accessor.*;
 import universecore.annotations.*;
 
-public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc> extends PayloadCrafterBlockComp<T>{
+public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc<T>> extends PayloadCrafterBlockComp<T>{
   FieldAccessor<UnitType, ItemStack[]> totalRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "totalRequirements");
   FieldAccessor<UnitType, ItemStack[]> cachedRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "cachedRequirements");
   FieldAccessor<UnitType, ItemStack[]> firstRequirements = Reflection.accessField(UnitType.class, ItemStack[].class, "firstRequirements");
@@ -21,6 +21,10 @@ public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc> exten
   @Annotations.BindField(value = "accepts", initialize = "new arc.struct.ObjectIntMap<>()")
   default ObjectIntMap<UnlockableContent> accepts(){
     return null;
+  }
+
+  @Annotations.BindField("accepts")
+  default void accepts(ObjectIntMap<UnlockableContent> value){
   }
 
   @Annotations.MethodEntry(entryMethod = "init")

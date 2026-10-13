@@ -13,7 +13,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class ConsumeLiquids<T extends Building & ConsumerBuildc> extends ConsumeLiquidBase<T>{
+public class ConsumeLiquids<T extends Building & ConsumerBuildc<T>> extends ConsumeLiquidBaseR<T>{
   private static final ObjectMap<Liquid, LiquidStack> TMP = new ObjectMap<>();
 
   public boolean portion = false;

@@ -27,9 +27,17 @@ public interface NeoplasmBlockComp{
     return 0;
   }
 
+  @Annotations.BindField("neoplasmHealScale")
+  default void neoplasmHealScale(float value){
+  }
+
   @Annotations.BindField(value = "neoplasmScaleSpeed", initialize = "0.1f")
   default float neoplasmScaleSpeed(){
     return 0;
+  }
+
+  @Annotations.BindField("neoplasmScaleSpeed")
+  default void neoplasmScaleSpeed(float value){
   }
 
   @Annotations.BindField(value = "maxHealOnce", initialize = "3f")
@@ -38,7 +46,7 @@ public interface NeoplasmBlockComp{
   }
 
   @Annotations.BindField(value = "maxHealOnce")
-  default void setMaxHealOnce(float max){
+  default void maxHealOnce(float max){
   }
 
   //每秒
@@ -47,10 +55,18 @@ public interface NeoplasmBlockComp{
     return 0;
   }
 
+  @Annotations.BindField("neoplasmAbsorbMulti")
+  default void neoplasmAbsorbMulti(float value){
+  }
+
   //每秒
   @Annotations.BindField(value = "neoplasmDecayMulti", initialize = "1f")
   default float neoplasmDecayMulti(){
     return 0;
+  }
+
+  @Annotations.BindField("neoplasmDecayMulti")
+  default void neoplasmDecayMulti(float value){
   }
 
   @Annotations.BindField(value = "baseRegion")
@@ -59,7 +75,7 @@ public interface NeoplasmBlockComp{
   }
 
   @Annotations.BindField(value = "baseRegion")
-  default void setBaseRegion(TextureRegion region){
+  default void baseRegion(TextureRegion region){
   }
 
   @Annotations.BindField(value = "requestStructure")
@@ -68,7 +84,7 @@ public interface NeoplasmBlockComp{
   }
 
   @Annotations.BindField(value = "requestStructure")
-  default void setRequestStructure(boolean request){
+  default void requestStructure(boolean request){
   }
 
   @Annotations.BindField(value = "region")
@@ -77,7 +93,7 @@ public interface NeoplasmBlockComp{
   }
 
   @Annotations.BindField(value = "region")
-  default void setRegion(TextureRegion region){
+  default void region(TextureRegion region){
   }
 
   @Annotations.MethodEntry(entryMethod = "init")
@@ -115,24 +131,24 @@ public interface NeoplasmBlockComp{
     //block.addLiquidBar(Liquids.neoplasm);
     float cap = block.liquidCapacity;
     block.addBar("neoplasm", n -> new Bar(
-      () -> String.format("%.2f", ((NeoplasmBuildModule)n).neoplasm().amount()),
+      () -> String.format("%.2f", ((NeoplasmBuildComp)n).neoplasm().amount()),
       () -> Liquids.neoplasm.color,
-      () -> ((NeoplasmBuildModule)n).neoplasm().amount() / cap));
+      () -> ((NeoplasmBuildComp)n).neoplasm().amount() / cap));
 
     block.addBar("neoplasm-add", n -> new Bar(
-      () -> String.format("%.2f", ((NeoplasmBuildModule)n).neoplasm().lastAdd),
+      () -> String.format("%.2f", ((NeoplasmBuildComp)n).neoplasm().lastAdd),
       () -> Liquids.neoplasm.color,
-      () -> ((NeoplasmBuildModule)n).neoplasm().lastAdd / cap));
+      () -> ((NeoplasmBuildComp)n).neoplasm().lastAdd / cap));
 
     block.addBar("neoplasm-remove", n -> new Bar(
-      () -> String.format("%.2f", ((NeoplasmBuildModule)n).neoplasm().lastRemove),
+      () -> String.format("%.2f", ((NeoplasmBuildComp)n).neoplasm().lastRemove),
       () -> Liquids.neoplasm.color,
-      () -> ((NeoplasmBuildModule)n).neoplasm().lastRemove / cap));
+      () -> ((NeoplasmBuildComp)n).neoplasm().lastRemove / cap));
 
     block.addBar("neoplasm-remove", n -> new Bar(
-      () -> String.format("%.2f", ((NeoplasmBuildModule)n).neoplasm().neoplasmMean.mean()),
+      () -> String.format("%.2f", ((NeoplasmBuildComp)n).neoplasm().neoplasmMean.mean()),
       () -> Liquids.neoplasm.color,
-      () -> ((NeoplasmBuildModule)n).neoplasm().neoplasmMean.mean() / cap));
+      () -> ((NeoplasmBuildComp)n).neoplasm().neoplasmMean.mean() / cap));
   }
 
   default void afterInit(){
@@ -141,14 +157,14 @@ public interface NeoplasmBlockComp{
 
   @Annotations.MethodEntry(entryMethod = "load", context = "name -> name")
   default void loadNeoplasmBlock(String name){
-    setBaseRegion(Core.atlas.find(LuluMod.modName + "neoplasm-" + getBlock().size));
-    setRegion(Core.atlas.has(name) ? Core.atlas.find(name) : Core.atlas.find(name + "-icon"));
+    baseRegion(Core.atlas.find(LuluMod.modName + "neoplasm-" + getBlock().size));
+    region(Core.atlas.has(name) ? Core.atlas.find(name) : Core.atlas.find(name + "-icon"));
   }
 
   //需要手动调用, 并且方块的customShadow = true;
   default void drawScaledShadow(Tile tile){
     Draw.color(0f, 0f, 0f, BlockRenderer.shadowColor.a);
-    Draw.scl(((NeoplasmBuildModule)tile.build).neoplasmScale());
+    Draw.scl(((NeoplasmBuildComp)tile.build).neoplasmScale());
 
     Drawf.squareShadow(tile.drawx(), tile.drawy(), getBlock().size * tilesize * 1.85f, 1);
 

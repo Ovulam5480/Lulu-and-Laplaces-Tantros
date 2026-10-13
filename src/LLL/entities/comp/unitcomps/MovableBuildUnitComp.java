@@ -46,7 +46,7 @@ public abstract class MovableBuildUnitComp implements BlockUnitc, MDTXc, Syncc, 
     set(tile);
     isModule = tile.block instanceof MovableBlockComp;
     if(isModule){
-      ((MovableBuildModule)tile).unitSelf(self());
+      ((MovableBuildComp)tile).unitSelf(self());
     }
   }
 
@@ -94,7 +94,7 @@ public abstract class MovableBuildUnitComp implements BlockUnitc, MDTXc, Syncc, 
   @Override
   public void remove(){
     if(isModule){
-      ((MovableBuildModule)tile).unitSelf(null);
+      ((MovableBuildComp)tile).unitSelf(null);
     }
   }
 

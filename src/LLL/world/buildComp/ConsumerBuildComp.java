@@ -1,8 +1,8 @@
 package LLL.world.buildComp;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.packet.resources.*;
 import LLL.world.blockcomp.*;
 import LLL.world.modules.*;
 import LLL.world.recipe.*;
@@ -32,7 +32,7 @@ import static LLL.world.blockcomp.ConsumerBlockComp.*;
 import static mindustry.Vars.*;
 
 @Annotations.EntityComponent
-abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements OvulamBuildingc{
+abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> implements OvulamBuildingc{
   @Annotations.Import
   LiquidModule liquids;
   @Annotations.Import
@@ -68,10 +68,10 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
 
   @Override
   public void afterCreate(){
-    createEffective();
+    createConsumer();
   }
 
-  public void createEffective(){
+  public void createConsumer(){
     liquids = new SglLiquidModule();
 
     if(getConsumerBlock().consumers().size == 1) consumeCurrent = 0;
@@ -90,10 +90,10 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
 
   @Override
   public void updateBefore(){
-    updateEffectiveBefore();
+    updateConsumerBefore();
   }
 
-  public void updateEffectiveBefore(){
+  public void updateConsumerBefore(){
     Seq<BaseConsumers<T>> consumers = getConsumerBlock().consumers();
     getConsumerBlock().consumers();
 
@@ -122,10 +122,10 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
 
   @Override
   public void updateAfter(){
-    updateEffectiveAfter();
+    updateConsumerAfter();
   }
 
-  public void updateEffectiveAfter(){
+  public void updateConsumerAfter(){
     activateRecover = Mathf.approachDelta(activateRecover, 0.005f, 0.0001f);
     activation = Mathf.approachDelta(activation, 0, activateRecover);
 
@@ -168,26 +168,26 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     return true;
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public void consume(){
     consumer.trigger();
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public boolean consumeValid(){
-    return consumeValidEffective();
+    return consumeValidConsumer();
   }
 
-  public boolean consumeValidEffective(){
+  public boolean consumeValidConsumer(){
     return enabled && (consumer == null || !consumer.hasConsume() || consumer.valid());
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public float consEfficiency(){
-    return consEfficiencyEffective();
+    return consEfficiencyConsumer();
   }
 
-  public float consEfficiencyEffective(){
+  public float consEfficiencyConsumer(){
     return consumer.hasConsume() ? consumer.consEfficiency : 1;
   }
 
@@ -207,12 +207,12 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     return consumer.getOptionalEff(consumers);
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public BlockStatus status(){
-    return statusEffective();
+    return statusConsumer();
   }
 
-  public BlockStatus statusEffective(){
+  public BlockStatus statusConsumer(){
     return !enabled ? BlockStatus.logicDisable : consumer.status();
   }
 
@@ -220,12 +220,12 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     return getConsumerBlock().autoSelect() && (!getConsumerBlock().canSelect() || !recipeSelected);
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public boolean acceptItem(Building source, Item item){
-    return acceptItemEffective(source, item);
+    return acceptItemConsumer(source, item);
   }
 
-  public boolean acceptItemEffective(Building source, Item item){
+  public boolean acceptItemConsumer(Building source, Item item){
     return source.interactable(team) && block.hasItems
       && ((source == self() && consumer.current != null && consumer.current.selfAccess(ResourceType.item, item))
       || !(consumer.hasConsume() || consumer.hasOptional())
@@ -233,12 +233,12 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
       && (getConsumerBlock().independenceInventory() ? items.get(item) : items.total()) < getMaximumAccepted(item);
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public boolean acceptLiquid(Building source, Liquid liquid){
-    return acceptLiquidEffective(source, liquid);
+    return acceptLiquidConsumer(source, liquid);
   }
 
-  public boolean acceptLiquidEffective(Building source, Liquid liquid){
+  public boolean acceptLiquidConsumer(Building source, Liquid liquid){
     return source.interactable(team) && block.hasLiquids
       && ((source == self() && consumer.current != null && consumer.current.selfAccess(ResourceType.liquid, liquid))
       || !(consumer.hasConsume() || consumer.hasOptional())
@@ -246,19 +246,19 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
       && (getConsumerBlock().independenceLiquidTank() ? liquids.get(liquid) : ((SglLiquidModule)liquids).total()) <= getMaximumAccepted(liquid) - 0.0001f;
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public float getMaximumAccepted(Liquid liquid){
     return block.liquidCapacity;
   }
 
   public abstract int getMaximumAccepted(Item item);
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public SglLiquidModule liquids(){
     return (SglLiquidModule)liquids;
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public void dumpLiquid(){
     liquids.each((l, n) -> dumpLiquid(l));
   }
@@ -270,7 +270,7 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     displayLiquids.clear();
     tempLiquids.clear();
     if(consumeCurrent >= 0 && consumer.current != null && consumer.current.get(ResourceType.liquid) != null){
-      for(LiquidStack stack : consumer.current.<ConsumeLiquidBase<T>>get(ResourceType.liquid).consLiquids){
+      for(LiquidStack stack : consumer.current.<ConsumeLiquidBaseR<T>>get(ResourceType.liquid).consLiquids){
         tempLiquids.add(stack.liquid);
       }
     }
@@ -310,7 +310,7 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     }
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public void displayConsumption(Table table){
     Runnable rebuild = () -> {
       Table t = new Table();
@@ -341,17 +341,17 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
     });
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public void onControlSelect(Unit player){
     Reflection.accessField(PlacementFragment.class, Object.class, "lastDisplayState").set(ui.hudfrag.blockfrag, null);
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public Object config(){
     return consumeCurrent;
   }
 
-  @Annotations.Replace(3)
+  @Annotations.Replace(1)
   public void drawStatus(){
     if(block.enableDrawStatus && getConsumerBlock().consumers().size > 0){
       float multiplier = block.size > 1 ? 1.0F : 0.64F;
@@ -413,10 +413,10 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc> implements
   }
 
   public void reset(){
-    resetEffective();
+    resetConsumer();
   }
 
-  public void resetEffective(){
+  public void resetConsumer(){
     if(items != null) items.clear();
     if(liquids != null) liquids.clear();
   }

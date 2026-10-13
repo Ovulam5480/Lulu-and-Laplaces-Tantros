@@ -24,7 +24,7 @@ import mindustry.world.blocks.environment.*;
 public class LaplacesTantrosPlanetGenerator extends PlanetGenerator{
   private static final int startSector = 205;
   Seq<LodeConfig> lodes = Seq.with(
-    new LodeConfig(OvulamPacketTypes.lodePacket, 0.2f, Item.class, OvulamItems.manganeseNodule, 40f, Item.class, OvulamItems.cobaltNodule, 20f)
+    new LodeConfig(OvulamPacketTypes.itemLodePacket, 0.2f, Item.class, OvulamItems.manganeseNodule, 40f, Item.class, OvulamItems.cobaltNodule, 20f)
   );
   private Vec3 tmpPosition;
   private Color tmpOut;

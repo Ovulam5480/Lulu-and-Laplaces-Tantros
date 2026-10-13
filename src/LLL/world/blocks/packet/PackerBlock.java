@@ -1,10 +1,10 @@
 package LLL.world.blocks.packet;
 
 import LLL.content.*;
+import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.type.resourceStacks.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
@@ -21,7 +21,7 @@ public class PackerBlock extends PacketBlock{
   public int PayloadCapacity = 4;
   public float checkInterval = 10f;
 
-  protected ResourceStack<?, ?, ?> instance;
+  protected ResourceStack<?> instance;
 
   public TextureRegion outRegion;
 
@@ -59,7 +59,7 @@ public class PackerBlock extends PacketBlock{
   }
 
   public void initPackerType(){
-    instance = ResourceStackManager.all.find(stack ->
+    instance = ResourceStackManager.resourceStackInstances.find(stack ->
       ResourceStackManager.classMap.get(packetType.resourceClass).isInstance(stack));
 
     instance.applyBlock(this);

@@ -12,11 +12,13 @@ import mindustry.io.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
-import universecore.util.handler.*;
+import universe.util.reflect.*;
+import universe.util.reflect.accessor.*;
 
 public class PayloadResourceStack extends ResourceStack<UnlockableContent>{
   public static Seq<UnlockableContent> payloads = new Seq<>();
   private static final ObjectIntMap<UnlockableContent> contents = new ObjectIntMap<>();
+  private static final FieldAccessor<PayloadSeq, ObjectIntMap> field = Reflection.accessField(PayloadSeq.class, ObjectIntMap.class, "payloads");
 
   @Override
   public String name(){
@@ -54,7 +56,7 @@ public class PayloadResourceStack extends ResourceStack<UnlockableContent>{
 
     if(entityc instanceof Building b){
       if(b.getPayloads() != null){
-        ObjectIntMap<UnlockableContent> payloadsMap = FieldHandler.getValueDefault(b.getPayloads(), "payloads");
+        ObjectIntMap<UnlockableContent> payloadsMap = field.get(b.getPayloads());
         for(ObjectIntMap.Entry<UnlockableContent> entry : payloadsMap){
           if(entry.value >= amountInt){
             return entry.key;

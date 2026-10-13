@@ -1,8 +1,8 @@
 package LLL.world.recipe.consumers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.world.components.*;
-import LLL.packet.resources.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
@@ -15,7 +15,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class OvulamConsumePayload<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
+public class OvulamConsumePayload<T extends Building & ConsumerBuildc<T>> extends BaseConsume<T>{
   private static final ObjectMap<UnlockableContent, PayloadStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;

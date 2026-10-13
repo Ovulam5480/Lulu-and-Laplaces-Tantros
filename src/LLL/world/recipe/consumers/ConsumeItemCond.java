@@ -14,7 +14,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ConsumeItemCond<T extends Building & ConsumerBuildc> extends ConsumeItemBase<T>{
+public class ConsumeItemCond<T extends Building & ConsumerBuildc<T>> extends ConsumeItemBase<T>{
   public float minRadioactivity, maxRadioactivity;
   public float minFlammability, maxFlammability;
   public float minCharge, maxCharge;

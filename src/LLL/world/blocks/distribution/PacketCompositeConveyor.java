@@ -1,8 +1,8 @@
 package LLL.world.blocks.distribution;
 
+import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
 import LLL.util.*;
 import LLL.world.blocks.packet.*;
 import arc.func.*;

@@ -11,7 +11,7 @@ public class TantrosTechTree{
       node(OvulamBlocks.gasHydrateCollector, () -> {
         node(OvulamBlocks.packetCollector, () -> {
           node(OvulamBlocks.lodeExcavator, () -> {
-            node(OvulamBlocks.assemblingMachine);
+            //node(OvulamBlocks.assemblingMachine);
           });
           node(OvulamBlocks.hydrothermalVat, () -> {
           });

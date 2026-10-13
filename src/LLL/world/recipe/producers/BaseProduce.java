@@ -1,7 +1,7 @@
 package LLL.world.recipe.producers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -9,7 +9,7 @@ import arc.scene.ui.layout.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
 
-public abstract class BaseProduce<T extends Building & ProducerBuildc>{
+public abstract class BaseProduce<T extends Building & ProducerBuildc<T>>{
   public Floatf<T> prodMultiplier;
 
   public BaseProducers<T> parent;

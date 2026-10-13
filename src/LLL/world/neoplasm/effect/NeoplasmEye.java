@@ -33,7 +33,7 @@ public class NeoplasmEye extends Block implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmEyeBuild extends Building implements NeoplasmBuildModule{
+  public class NeoplasmEyeBuild extends Building implements NeoplasmBuildComp{
     public Vec2 lastView;
     public boolean randomRotation = Mathf.randomBoolean(0.01f);
 

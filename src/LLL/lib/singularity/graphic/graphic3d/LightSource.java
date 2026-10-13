@@ -12,7 +12,7 @@ public interface LightSource extends GameObject{
   }
 
   @Annotations.BindField("lightColor")
-  default void setLightColor(Color color){
+  default void lightColor(Color color){
   }
 
   @Annotations.BindField(value = "lightRadius", initialize = "400f")
@@ -21,7 +21,7 @@ public interface LightSource extends GameObject{
   }
 
   @Annotations.BindField("lightRadius")
-  default void setLightRadius(float radius){
+  default void lightRadius(float radius){
   }
 
   @Annotations.BindField(value = "lightAttenuation", initialize = "3.8f")
@@ -30,7 +30,7 @@ public interface LightSource extends GameObject{
   }
 
   @Annotations.BindField("lightAttenuation")
-  default void setLightAttenuation(float attenuation){
+  default void lightAttenuation(float attenuation){
   }
 
   default void apply(Shader shader, int off){

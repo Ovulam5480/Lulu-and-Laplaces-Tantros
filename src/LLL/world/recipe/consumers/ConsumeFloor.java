@@ -1,8 +1,8 @@
 package LLL.world.recipe.consumers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
 import LLL.lib.singularity.graphic.*;
-import LLL.packet.resources.*;
 import arc.*;
 import arc.math.*;
 import arc.scene.ui.*;
@@ -18,7 +18,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 
-public class ConsumeFloor<T extends Building & ConsumerBuildc & FloorCrafterBuildc> extends BaseConsume<T>{
+public class ConsumeFloor<T extends Building & ConsumerBuildc<T> & FloorCrafterBuildc<T>> extends BaseConsume<T>{
   public final ObjectFloatMap<Floor> floorEff = new ObjectFloatMap<>();
 
   public float baseEfficiency = 1;

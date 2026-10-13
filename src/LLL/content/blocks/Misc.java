@@ -22,7 +22,7 @@ public class Misc{
       buildTime = 60 * 8;
     }};
 
-    new FrameBlock("frame-block"){{
+    OvulamBlocks.frameBlock = new FrameBlock("frame-block"){{
       size = 2;
 
       requirements(Category.crafting, ItemStack.with());

@@ -1,7 +1,7 @@
 package LLL.world.recipe;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.util.uncUtil.*;
 import LLL.world.recipe.consumers.*;
 import arc.func.*;
@@ -19,7 +19,7 @@ import mindustry.world.meta.*;
  * @author EBwilson
  */
 
-public class BaseConsumers<T extends Building & ConsumerBuildc>{
+public class BaseConsumers<T extends Building & ConsumerBuildc<T>>{
   /**
    * 是否为可选消耗项
    */
@@ -62,7 +62,7 @@ public class BaseConsumers<T extends Building & ConsumerBuildc>{
    */
   public Seq<Cons<T>> triggers = new Seq<>();
 
-  public BaseConsumers(boolean optional)  {
+  public BaseConsumers(boolean optional){
     this.optional = optional;
   }
 

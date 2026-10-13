@@ -4,7 +4,6 @@ import LLL.content.*;
 import LLL.content.extensions.*;
 import LLL.entities.gen.*;
 import LLL.world.neoplasm.*;
-import LLL.world.neoplasm.crafting.*;
 import LLL.world.neoplasm.effect.*;
 import LLL.world.neoplasm.pedigree.nemertinea.*;
 import LLL.world.neoplasm.pedigree.porifera.*;
@@ -26,8 +25,11 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
 
 public class Neoplasm{
-  public static @Annotations.EntityDef(value = {Buildingc.class, DisplayFlowBuildingc.class}, serialize = false)
-  Block neoplasmNeuron, neoplasmGanglion,
+  @Annotations.EntityDef(value = {Buildingc.class, DisplayFlowBuildingc.class}, serialize = false)
+  public static class DisplayFlowBuildingBuildingComp{
+  }
+
+  public static Block neoplasmNeuron, neoplasmGanglion,
     neoplasmBranchialHeart, neoplasmEye, neoplasmRadula, neoplasmPholas, neoplasmMurex,
     neoplasmCalciumPylorus, neoplasmPhosphorusPylorus, neoplasmSiliconPylorus, neoplasmFerrumPylorus,
     neoplasmPhosphorusLarvaCyst,
@@ -38,11 +40,24 @@ public class Neoplasm{
     neoplasmMantle,
     neoplasmActiniaria,
     neoplasmSporebed, neoplasmSporecyst, neoplasmSporevent, settledlarvaCyst;//孢芽床, 孢育囊, 孢风塔
-  public static @Annotations.EntityDef(value = {Buildingc.class, NeoplasmBuildc.class, ProducerBuildc.class}) int i;
-  public static @Annotations.EntityDef(value = {Buildingc.class, NeoplasmBuildc.class, ConsumerBuildc.class}) int ii;
-  public static @Annotations.EntityDef(value = {Buildingc.class, NeoplasmBuildc.class, PayloadCrafterBuildc.class}) int iii;
-  public static @Annotations.EntityDef(value = {Buildingc.class, VesselBuildc.class, DisplayFlowBuildingc.class}, serialize = false)
-  Block neoplasmVessel, neoplasmArterius, neoplasmAortus;
+
+  @Annotations.EntityDef(value = {Buildingc.class, ProducerBuildc.class}, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  public static class ProducerBuildBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, ConsumerBuildc.class}, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  public static class ConsumerBuildBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, PayloadCrafterBuildc.class}, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  public static class PayloadCrafterBuildBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, VesselBuildc.class, DisplayFlowBuildingc.class}, serialize = false)
+  public static class DisplayFlowBuildingVesselBuildBuildingComp{
+  }
+
+  public static Block neoplasmVessel, neoplasmArterius, neoplasmAortus;
 
   public static Seq<ItemStack> calcium = new Seq<>();
   public static Seq<ItemStack> phosphorus = new Seq<>();

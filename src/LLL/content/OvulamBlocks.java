@@ -2,14 +2,23 @@ package LLL.content;
 
 import LLL.content.blocks.*;
 import LLL.entities.gen.*;
-import LLL.world.blocks.packet.*;
 import ent.anno.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
 public class OvulamBlocks{
   //region Packet
-  private static @Annotations.EntityDef(value = {Buildingc.class, PacketTransporterc.class}, serialize = false) PacketBlock a;
+  @Annotations.EntityDef(value = {Buildingc.class, PacketTransporterc.class}, serialize = false)
+  private static class PacketTransporterBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, PayloadCrafterBuildc.class}, serialize = false, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  private static class PayloadCrafterBuildBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, FloorCrafterBuildc.class}, serialize = false, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  private static class FloorCrafterBuildBuildingComp{
+  }
 
   public static Block itemPacker;
   public static Block itemUnpacker;
@@ -50,6 +59,7 @@ public class OvulamBlocks{
   public static Block amethystCrystalCore, manganeseNoduleProp;
   public static Block blastCylinder;
   public static Block ferroManganeseRodGroup;
+  public static Block frameBlock;
   public static Block coreBackflow;
   public static Block coreCausality;
 

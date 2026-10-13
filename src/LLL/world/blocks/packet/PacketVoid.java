@@ -1,7 +1,7 @@
 package LLL.world.blocks.packet;
 
+import LLL.ctype.packet.*;
 import LLL.entities.*;
-import LLL.packet.*;
 import mindustry.content.*;
 
 public class PacketVoid extends PacketBlock{

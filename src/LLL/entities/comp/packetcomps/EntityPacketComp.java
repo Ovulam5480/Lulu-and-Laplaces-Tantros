@@ -1,17 +1,16 @@
 package LLL.entities.comp.packetcomps;
 
 import LLL.*;
+import LLL.ctype.packet.*;
 import LLL.entities.*;
 import LLL.entities.gen.*;
 import LLL.graphics.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.type.resourceStacks.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
-import mindustry.async.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 
@@ -25,8 +24,6 @@ abstract class EntityPacketComp implements Packetc, Drawc, Physicsc, MetaBallMan
   Teamc owner;
   @Annotations.Import
   float drag, hitSize, rotation;
-  @Annotations.Import
-  PhysicsProcess.PhysicRef physref;
 
   float treadEffectTime;
   float despawnTime;
@@ -84,10 +81,6 @@ abstract class EntityPacketComp implements Packetc, Drawc, Physicsc, MetaBallMan
     return !(owner instanceof PacketTransporterBuilding) ? EntityCollisions::solid : (x, y) -> false;
   }
 
-  public void setPhysref(PhysicsProcess.PhysicRef physref){
-    this.physref = physref;
-  }
-
   public int collisionLayer(){
     if(owner instanceof PacketTransporterc pc && pc.overrideCollisionLayer() <= OvulamPhysicsProcess.layers){
       return pc.overrideCollisionLayer();
@@ -99,9 +92,6 @@ abstract class EntityPacketComp implements Packetc, Drawc, Physicsc, MetaBallMan
   @Override
   public void add(){
     LuluMod.process.packets.add(self());
-    if(physref() != null){
-      LuluMod.process.physics.add(physref().body);
-    }
   }
 
   @Override

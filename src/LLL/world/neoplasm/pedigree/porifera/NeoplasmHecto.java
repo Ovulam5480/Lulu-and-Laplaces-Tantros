@@ -34,7 +34,7 @@ public class NeoplasmHecto extends NeoplasmSyncytium implements TrophosomeTarget
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmHectoBuild extends NeoplasmSyncytiumBuild implements TrophosomeTargetBuildModule{
+  public class NeoplasmHectoBuild extends NeoplasmSyncytiumBuild implements TrophosomeTargetBuildComp{
     public float totalValues;
     public float progress;
 

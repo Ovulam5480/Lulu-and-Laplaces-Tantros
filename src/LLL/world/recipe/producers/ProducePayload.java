@@ -1,7 +1,7 @@
 package LLL.world.recipe.producers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.consumers.*;
 import arc.*;
 import arc.func.*;
@@ -17,7 +17,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class ProducePayload<T extends Building & ProducerBuildc> extends BaseProduce<T>{
+public class ProducePayload<T extends Building & ProducerBuildc<T>> extends BaseProduce<T>{
   private static final ObjectMap<UnlockableContent, PayloadStack> TMP = new ObjectMap<>();
 
   public int displayLim = 4;

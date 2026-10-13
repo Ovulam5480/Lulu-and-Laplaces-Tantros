@@ -1,7 +1,7 @@
 package LLL.world.modules;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.recipe.*;
 import LLL.world.recipe.producers.*;
 import arc.math.*;
@@ -16,7 +16,7 @@ import mindustry.world.modules.*;
  * @author EBwilson
  */
 
-public class BaseProductModule<T extends Building & ProducerBuildc> extends BlockModule{
+public class BaseProductModule<T extends Building & ProducerBuildc<T>> extends BlockModule{
   public final T entity;
   public BaseConsumeModule<T> consumer;
   public BaseProducers<T> current;

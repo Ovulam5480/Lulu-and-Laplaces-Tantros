@@ -10,10 +10,10 @@ import mindustry.gen.*;
 import static mindustry.Vars.*;
 
 public class TrophosomeAI extends AIController{
-  TrophosomeTargetBuildModule target;
+  TrophosomeTargetBuildComp target;
   int lastPriority = -999;
 
-  public void set(TrophosomeTargetBuildModule target, int priority){
+  public void set(TrophosomeTargetBuildComp target, int priority){
     this.target = target;
     lastPriority = priority;
   }
@@ -43,7 +43,7 @@ public class TrophosomeAI extends AIController{
 
   public void findTarget(){
     for(Building building : Vars.indexer.getFlagged(unit.team, OvulamBlockFlags.trophosomeTarget)){
-      if(building instanceof TrophosomeTargetBuildModule build
+      if(building instanceof TrophosomeTargetBuildComp build
         && build.acceptTrophosome(unit.type)
         && build.blockAsTarget().priority() > lastPriority){
         target = build;
@@ -60,7 +60,7 @@ public class TrophosomeAI extends AIController{
     if(Vars.indexer.getFlagged(unit.team, OvulamBlockFlags.trophosomeTarget) == null) return false;
 
     for(Building building : Vars.indexer.getFlagged(unit.team, OvulamBlockFlags.trophosomeTarget)){
-      if(building instanceof TrophosomeTargetBuildModule build
+      if(building instanceof TrophosomeTargetBuildComp build
         && build.acceptTrophosome(unit.type)){
         return true;
       }

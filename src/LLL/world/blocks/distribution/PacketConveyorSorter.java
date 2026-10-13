@@ -1,7 +1,7 @@
 package LLL.world.blocks.distribution;
 
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.ctype.packet.*;
+import LLL.type.resourceStacks.*;
 import LLL.world.buildComp.module.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.*;
@@ -27,7 +27,7 @@ public class PacketConveyorSorter extends PacketConveyor{
   }
 
   @Annotations.ImplEntries
-  public class PacketConveyorSorterBuild extends PacketConveyorBuild implements PacketSelectionTableBuildModule{
+  public class PacketConveyorSorterBuild extends PacketConveyorBuild implements PacketSelectionTableBuildComp{
     public boolean whiteList = true;
 
     @Override
@@ -38,16 +38,16 @@ public class PacketConveyorSorter extends PacketConveyor{
         }).checked(ib -> whiteList).growX().height(40);
       }).growX().row();
 
-      PacketSelectionTableBuildModule.super.buildPacketSelection(table);
+      PacketSelectionTableBuildComp.super.buildPacketSelection(table);
     }
 
     public boolean conformTo(PacketEntry packetEntry){
       if(packetEntry.packet.packetType() != getSelected()){
         return false;
       }else if(!selectedResources().isEmpty()){
-        Seq<ResourceStack<?, ?, ?>> resources = packetEntry.packet.resources();
+        Seq<ResourceStack<?>> resources = packetEntry.packet.resources();
 
-        for(ResourceStack<?, ?, ?> resource : selectedResources()){
+        for(ResourceStack<?> resource : selectedResources()){
           if(!resources.contains(r -> r.item == resource.item && r.amount >= resource.amount)){
             return false;
           }

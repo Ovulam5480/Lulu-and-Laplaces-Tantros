@@ -1,7 +1,7 @@
 package LLL.world.recipe.consumers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import arc.*;
 import arc.func.*;
 import arc.math.*;
@@ -17,7 +17,7 @@ import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 /*仅仅保存消耗参数，能量消耗本身实际应用仍为默认consumes*/
-public class ConsumePower<T extends Building & ConsumerBuildc> extends BaseConsume<T>{
+public class ConsumePower<T extends Building & ConsumerBuildc<T>> extends BaseConsume<T>{
   public float usage;
   public float capacity;
   public boolean buffered;

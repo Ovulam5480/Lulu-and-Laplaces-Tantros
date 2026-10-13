@@ -1,7 +1,7 @@
 package LLL.ctype.packet;
 
-import LLL.*;
 import LLL.content.*;
+import LLL.content.extensions.*;
 import LLL.entities.gen.*;
 import LLL.type.resourceStacks.*;
 import arc.*;
@@ -18,8 +18,7 @@ import mindustry.type.*;
 
 import static arc.graphics.g2d.Draw.*;
 
-//todo loadable
-public abstract class PacketType{
+public abstract class PacketType extends UnlockableContent{
   public float capacity = 3;
   public float speedMulti = 1;
   public float size = 1;
@@ -30,7 +29,6 @@ public abstract class PacketType{
   public Effect treadEffect;
   //6格/秒 -> 0.8/刻
   public float treadEffectChangeSpeed = 8f;
-  public String name;
   public TextureRegion region;
   //仅限实体封包, 封包无主时多长时间会自己消失
   public float lifetime = 60 * 60;
@@ -41,18 +39,22 @@ public abstract class PacketType{
 
   protected static final Seq<ResourceStack<?>> removes = new Seq<>();
 
-  @SuppressWarnings("unchecked")
   public PacketType(String name){
-    this.name = LuluMod.modName + name;
-
-    constructor = EntityMapping.map(this.name);
+    super(name);
     OvulamPacketTypes.packetTypes.add(this);
   }
 
+  @Override
+  public ContentType getContentType(){
+    return OvulamContentType.packetType.value;
+  }
+
+  @Override
   public void load(){
     region = Core.atlas.find(name);
   }
 
+  @Override
   public void init(){
     if(drawLayer < 0){
       drawLayer = switch(collisionLayer){

@@ -1,6 +1,6 @@
 package LLL.world.blockcomp;
 
-import LLL.world.buildComp.*;
+import LLL.world.buildComp.module.*;
 import arc.*;
 import mindustry.core.*;
 import mindustry.game.*;
@@ -21,7 +21,7 @@ public interface ResourceBlockModule{
   }
 
   @Annotations.BindField("resourceCapacity")
-  default void setResourceCapacity(float capacity){
+  default void resourceCapacity(float capacity){
   }
 
   @Annotations.BindField("separateResource")
@@ -39,13 +39,13 @@ public interface ResourceBlockModule{
   }
 
   @Annotations.BindField("tempLiquidCapacity")
-  default void setTempLiquidCapacity(float capacity){
+  default void tempLiquidCapacity(float capacity){
   }
 
   @Annotations.MethodEntry(entryMethod = "init")
   default void initResourceBlock(){
     Block block = block();
-    setTempLiquidCapacity(block.liquidCapacity);
+    tempLiquidCapacity(block.liquidCapacity);
 
     block.itemCapacity = (int)resourceCapacity();
     block.hasLiquids = true;
@@ -70,7 +70,7 @@ public interface ResourceBlockModule{
       block.removeBar("capacity");
 
       block.addBar("capacity", (Building e) -> {
-        ResourceBuildModule module = (ResourceBuildModule)e;
+        ResourceBuildComp module = (ResourceBuildComp)e;
         return new Bar(
           () -> Core.bundle.format("bar.capacity", UI.formatAmount((long)resourceCapacity())),
           () -> Pal.items,

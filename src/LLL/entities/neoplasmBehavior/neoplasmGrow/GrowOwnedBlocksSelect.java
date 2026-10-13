@@ -10,7 +10,7 @@ import arc.struct.*;
 import arc.util.io.*;
 import mindustry.world.*;
 
-public class GrowOwnedBlocksSelect<T extends NeoplasmBuildModule> extends GrowLeafTask{
+public class GrowOwnedBlocksSelect<T extends NeoplasmBuildComp> extends GrowLeafTask{
   public Block beReplace;
   public Seq<Tile> tiles = new Seq<>();
   public Seq<Tile> allTiles = new Seq<>();

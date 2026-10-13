@@ -13,7 +13,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class ConsumeItems<T extends Building & ConsumerBuildc> extends ConsumeItemBase<T>{
+public class ConsumeItems<T extends Building & ConsumerBuildc<T>> extends ConsumeItemBase<T>{
   private static final ObjectMap<Item, ItemStack> TMP = new ObjectMap<>();
 
   public boolean showPerSecond = true;

@@ -18,6 +18,10 @@ public interface GravitySystem{
     return null;
   }
 
+  @Annotations.BindField("gravityField")
+  default void field(GravityField value){
+  }
+
   /**
    * 系统总质量，单位千吨(kt)，允许质量为负数，两个系统质量符号相同互相吸引，否则互相排斥
    */

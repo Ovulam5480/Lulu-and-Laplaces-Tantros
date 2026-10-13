@@ -13,6 +13,8 @@ import universe.util.reflect.*;
 import universe.util.reflect.accessor.*;
 import universecore.annotations.*;
 
+import java.lang.reflect.*;
+
 /**
  * 帮助需要替换方块放置的建筑，使用此方块放置虚建筑后立即转换为实建筑，实建筑不应当在放置选择栏位中可见
  *
@@ -92,8 +94,12 @@ public class FakeBlock extends Block{
 
   @Override
   protected TextureRegion[] icons(){
-    MethodInvoker0<Block, TextureRegion[]> handler = Reflection.accessMethod(Block.class, "icons", TextureRegion[].class);
-    return handler.invoke(maskedBlock);
+    try{
+      return (TextureRegion[])Block.class.getDeclaredMethod("icons").invoke(maskedBlock);
+    }catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+      throw new RuntimeException(e);
+    }
+    //return Reflection.accessMethod(Block.class, "icons", TextureRegion[].class).invoke(maskedBlock);
   }
 
   @Annotations.ImplEntries

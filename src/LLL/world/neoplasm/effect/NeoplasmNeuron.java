@@ -73,7 +73,7 @@ public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockCom
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmNeuronBuild extends NeoplasmGanglionBuild implements NeoplasmBuildModule, TrophosomeTargetBuildModule{
+  public class NeoplasmNeuronBuild extends NeoplasmGanglionBuild implements NeoplasmBuildComp, TrophosomeTargetBuildComp{
     public boolean noEffect = false;
     public float produceTimer = 0;
 
@@ -112,7 +112,7 @@ public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockCom
     }
 
     @Override
-    public NeoplasmBuildModule parent(){
+    public NeoplasmBuildComp parent(){
       return this;
     }
 
@@ -150,7 +150,7 @@ public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockCom
 
     @Override
     public void updateNeoplasmScale(){
-      setNeoplasmScale(Mathf.approach(neoplasmScale(), cortex.underStressed ? Mathf.sin(Time.time, scl / 2, 0.1f) + 1 : 1f, 0.01f * Time.delta));
+      neoplasmScale(Mathf.approach(neoplasmScale(), cortex.underStressed ? Mathf.sin(Time.time, scl / 2, 0.1f) + 1 : 1f, 0.01f * Time.delta));
     }
 
     public void stressTrigger(){
@@ -206,7 +206,7 @@ public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockCom
       cortex = new PrefrontalCortex(this);
       cortex.handleOwnedBlock(this, tileX(), tileY(), getBuilding().rotation, true);
       cortex.handleSource(this);
-      setNeoplasmScale(1);
+      neoplasmScale(1);
     }
 
     @Override

@@ -58,10 +58,10 @@ public class GrowBulletDamage extends GrowLeafTask{
 
   public static class NeoplasmBulletDamage{
     public NeoplasmNeuron.NeoplasmNeuronBuild neuron;
-    public NeoplasmBuildModule build;
+    public NeoplasmBuildComp build;
     public Bullet bullet;
 
-    public void set(NeoplasmNeuron.NeoplasmNeuronBuild neuron, NeoplasmBuildModule build, Bullet bullet){
+    public void set(NeoplasmNeuron.NeoplasmNeuronBuild neuron, NeoplasmBuildComp build, Bullet bullet){
       this.neuron = neuron;
       this.build = build;
       this.bullet = bullet;

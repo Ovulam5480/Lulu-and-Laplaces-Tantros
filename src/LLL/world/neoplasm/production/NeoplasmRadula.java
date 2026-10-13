@@ -126,7 +126,7 @@ public class NeoplasmRadula extends Block implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmRadulaBuild extends Building implements NeoplasmBuildModule{
+  public class NeoplasmRadulaBuild extends Building implements NeoplasmBuildComp{
     public float progress;
     public float timeDrilled;
     public float lastDrillSpeed;

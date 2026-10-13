@@ -19,141 +19,121 @@ public class OvulamPhysicsProcess extends PhysicsProcess{
     layerUnderwater = 3,
     layerBuildPackets = 4;
 
-  public PhysicsWorld physics;
-  public Seq<PhysicRef> refs = new Seq<>(false);
+  private PhysicsWorld[] physics;
+  private final Seq<BodyRef> refs = new Seq<>(false);
+  private final ObjectMap<Physicsc, BodyRef> references = new ObjectMap<>();
   public EntityGroup<Unit> group = Groups.unit;
-
   public EntityGroup<EntityPacketc> packets = LuluMod.oIndexer.entityPackets;
+
+  @Override
+  public void add(Unit unit){
+    //Bodies are registered in begin(), after the previous asynchronous step finishes.
+  }
+
+  @Override
+  public boolean shouldProcess(){
+    return physics != null;
+  }
 
   @Override
   public void begin(){
     if(physics == null) return;
 
-    boolean local = !Vars.net.client();
-
-    //remove stale entities
     refs.removeAll(ref -> {
-      if(!ref.entity.isAdded()){
-        physics.remove(ref.body);
-        ref.entity.physref(null);
+      if(!ref.entity.isAdded() || ref.entity instanceof Unit unit && (unit.type == null || !unit.type.physics)){
+        if(ref.lastLayer >= 0) physics[ref.lastLayer].remove(ref.body);
+        references.remove(ref.entity);
+        ref.entity.hasPhysicsRef(false);
         return true;
       }
       return false;
     });
 
-    //find Units without bodies and assign them
     for(Unit entity : group){
-      if(entity == null || entity.type == null || !entity.type.physics) continue;
-
-      if(entity.physref == null){
-        PhysicsWorld.PhysicsBody body = new PhysicsWorld.PhysicsBody();
-        body.x = entity.x;
-        body.y = entity.y;
-        body.mass = entity.mass();
-        body.radius = entity.hitSize * Vars.unitCollisionRadiusScale;
-
-        PhysicRef ref = new PhysicRef(entity, body);
-        refs.add(ref);
-
-        entity.physref = ref;
-
-        physics.add(body);
+      if(entity.type != null && entity.type.physics){
+        register(entity);
       }
-
-      //save last position
-      PhysicRef ref = entity.physref;
-
-      ref.body.layer = entity.collisionLayer();
-      ref.x = entity.x;
-      ref.y = entity.y;
-      ref.body.local = local || entity.isLocal();
     }
-
     for(EntityPacketc entity : packets){
-      if(entity == null) continue;
+      register(entity);
+    }
 
-      if(entity.physref() == null){
-        PhysicsProcess.PhysicsWorld.PhysicsBody body = new PhysicsProcess.PhysicsWorld.PhysicsBody();
-        body.x = entity.x();
-        body.y = entity.y();
-        body.mass = entity.mass();
-        body.radius = entity.hitSize() / 2f;
-
-        PhysicsProcess.PhysicRef ref = new PhysicsProcess.PhysicRef(entity, body);
-        refs.add(ref);
-
-        entity.setPhysref(ref);
-        physics.add(body);
+    boolean local = !Vars.net.client();
+    for(BodyRef ref : refs){
+      Physicsc entity = ref.entity;
+      int nextLayer = collisionLayer(entity);
+      if(nextLayer != ref.lastLayer){
+        if(ref.lastLayer >= 0) physics[ref.lastLayer].remove(ref.body);
+        ref.lastLayer = nextLayer;
+        if(nextLayer >= 0) physics[nextLayer].add(ref.body);
       }
-
-      //save last position
-      PhysicsProcess.PhysicRef ref = entity.physref();
-
-      ref.body.layer = entity.collisionLayer();
-      ref.x = entity.x();
-      ref.y = entity.y();
+      ref.startX = ref.body.x = entity.x();
+      ref.startY = ref.body.y = entity.y();
+      ref.body.mass = entity.mass();
+      ref.body.radius = entity.hitSize() * (entity instanceof Unit ? Vars.unitCollisionRadiusScale : 0.5f);
       ref.body.local = local || entity.isLocal();
     }
+  }
+
+  private void register(Physicsc entity){
+    if(references.containsKey(entity)) return;
+    BodyRef ref = new BodyRef(entity);
+    references.put(entity, ref);
+    refs.add(ref);
+    entity.hasPhysicsRef(true);
+  }
+
+  private int collisionLayer(Physicsc entity){
+    int value = entity instanceof Unit unit ? unit.collisionLayer() : ((EntityPacketc)entity).collisionLayer();
+    return value >= 0 && value < layers ? value : -1;
   }
 
   @Override
   public void process(){
     if(physics == null) return;
-
-    //get last position vectors before step
-    for(PhysicRef ref : refs){
-      //force set target position
-      ref.body.x = ref.x;
-      ref.body.y = ref.y;
-      if(ref.entity instanceof EntityPacketc p){
-        ref.body.layer = p.collisionLayer();
-      }
+    for(PhysicsWorld world : physics){
+      world.update();
     }
-
-    physics.update();
   }
 
   @Override
   public void end(){
     if(physics == null) return;
-
-    //move entities
-    for(PhysicRef ref : refs){
-      Physicsc entity = ref.entity;
-
-      //move by delta
-      entity.move(ref.body.x - ref.x, ref.body.y - ref.y);
+    for(BodyRef ref : refs){
+      if(ref.entity.isAdded()){
+        ref.entity.move(ref.body.x - ref.startX, ref.body.y - ref.startY);
+      }
     }
   }
 
   @Override
   public void reset(){
-    if(physics != null){
-      refs.clear();
-      physics = null;
+    for(BodyRef ref : refs){
+      ref.entity.hasPhysicsRef(false);
     }
+    refs.clear();
+    references.clear();
+    physics = null;
   }
 
   @Override
   public void init(){
     reset();
-
-    physics = new OvulamPhysicsWorld(Vars.world.getQuadBounds(new Rect()));
+    Rect bounds = Vars.world.getQuadBounds(new Rect());
+    physics = new PhysicsWorld[layers];
+    for(int i = 0; i < layers; i++){
+      physics[i] = new PhysicsWorld(bounds);
+    }
   }
 
-  public static class OvulamPhysicsWorld extends PhysicsWorld{
-    private static final FieldAccessor<PhysicsWorld, QuadTree[]> treesAccessor =
-      Reflection.accessField(PhysicsWorld.class, QuadTree[].class, "trees");
+  private static class BodyRef{
+    final Physicsc entity;
+    final PhysicsWorld.PhysicsBody body = new PhysicsWorld.PhysicsBody();
+    float startX, startY;
+    int lastLayer = -1;
 
-    public OvulamPhysicsWorld(Rect bounds){
-      super(bounds);
-      QuadTree[] trees = new QuadTree[layers];
-
-      for(int i = 0; i < layers; i++){
-        trees[i] = new QuadTree(bounds);
-      }
-
-      treesAccessor.set(this, trees);
+    BodyRef(Physicsc entity){
+      this.entity = entity;
     }
   }
 }

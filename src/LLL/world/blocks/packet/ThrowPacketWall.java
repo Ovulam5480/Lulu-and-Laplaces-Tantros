@@ -1,9 +1,9 @@
 package LLL.world.blocks.packet;
 
 import LLL.content.*;
+import LLL.ctype.packet.*;
 import LLL.entities.gen.*;
-import LLL.packet.*;
-import LLL.packet.ResourceStacks.*;
+import LLL.type.resourceStacks.*;
 import arc.math.*;
 import arc.struct.*;
 import mindustry.gen.*;
@@ -12,7 +12,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 public class ThrowPacketWall extends Block{
-  public Seq<ResourceStack<?, ?, ?>> resources = new Seq<>();
+  public Seq<ResourceStack<?>> resources = new Seq<>();
   public PacketType packetType = OvulamPacketTypes.bolt;
   public float amount = 1;
   public float randAmount = 1;

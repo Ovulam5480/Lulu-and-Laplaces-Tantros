@@ -95,7 +95,7 @@ public class MainMenu extends BaseDialog{
       t.image().color(Color.white).growY().width(2).pad(0).margin(0).padLeft(4).colspan(4);
       t.add().growX();
       t.image().color(Color.white).width(2).growY().pad(0).margin(0).padRight(4).colspan(4);
-      t.add("powered by UniverseCore:" + Sgl.libVersion).right().padRight(3);
+      //t.add("powered by UniverseCore:" + Sgl.libVersion).right().padRight(3);
     }).growX();
   }
 

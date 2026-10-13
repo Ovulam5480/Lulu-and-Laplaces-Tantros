@@ -20,19 +20,19 @@ public class NeoplasmLinkBlock extends LinkBlock implements NeoplasmBlockComp{
   }
 
   @Annotations.ImplEntries
-  public class NeoplasmLinkBuild extends LinkBuild implements NeoplasmBuildModule{
-    public NeoplasmBuildModule linkNeoplasm;
+  public class NeoplasmLinkBuild extends LinkBuild implements NeoplasmBuildComp{
+    public NeoplasmBuildComp linkNeoplasm;
 
     @Override
     public void updateLink(Building link){
       super.updateLink(link);
 
-      if(link instanceof NeoplasmBuildModule n){
+      if(link instanceof NeoplasmBuildComp n){
         linkNeoplasm = n;
 
         if(n.neuron() != null){
           configured(null, n.neuron());
-          setNeoplasm(n.neoplasm());
+          neoplasm(n.neoplasm());
           n.cortex().requestStructure(tile.x, tile.y, false);
         }
       }

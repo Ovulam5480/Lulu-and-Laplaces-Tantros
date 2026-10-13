@@ -12,6 +12,10 @@ public interface TrophosomeTargetBlockComp{
     return 0;
   }
 
+  @Annotations.BindField("priority")
+  default void priority(int value){
+  }
+
   @Annotations.MethodEntry(entryMethod = "init")
   default void initTargetBlock(){
     Block block = (Block)this;

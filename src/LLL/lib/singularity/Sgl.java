@@ -3,13 +3,13 @@ package LLL.lib.singularity;
 import LLL.lib.singularity.core.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.lib.singularity.ui.*;
+import LLL.util.uncUtil.mods.*;
 import arc.*;
 import arc.files.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.*;
 import mindustry.game.*;
-import universecore.util.mods.*;
 
 import java.util.concurrent.*;
 
@@ -24,11 +24,6 @@ public class Sgl{
   //public static final String modName = "singularity";
   public static final String modName = "lulu";
   /**
-   * 此mod前置的内部名称
-   */
-  public static final String libName = "universe-core";
-
-  /**
    * 模组文件夹位置
    */
   public static final Fi modDirectory = settings.getDataDirectory().child("mods");
@@ -41,17 +36,9 @@ public class Sgl{
    */
   public static final ZipFi modFile = new ZipFi(mod.file);
   /**
-   * 本模组前置的文件位置
-   */
-  public static final ModInfo libMod = ModGetter.getModWithName(libName);
-  /**
    * 本模组版本号
    */
   public static final String modVersion = mod.version;
-  /**
-   * 本模组前置版本号
-   */
-  public static final String libVersion = libMod.version;
   /**
    * 模组内配置文件存放位置
    */

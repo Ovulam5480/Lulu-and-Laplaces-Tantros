@@ -1,7 +1,7 @@
 package LLL.world.recipe.consumers;
 
+import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.packet.resources.*;
 import LLL.world.buildComp.module.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
@@ -9,7 +9,7 @@ import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
 
-public class ConsumeNeoplasm<T extends Building & ConsumerBuildc & NeoplasmBuildc> extends BaseConsume<T>{
+public class ConsumeNeoplasm<T extends Building & ConsumerBuildc<T> & NeoplasmStorageComp> extends BaseConsume<T>{
   public float amount;
 
   public ConsumeNeoplasm(float amount){

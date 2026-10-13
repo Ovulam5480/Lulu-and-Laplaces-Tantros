@@ -79,7 +79,7 @@ public abstract class ResourceStack<T extends UnlockableContent> implements Pool
   public abstract ResourceStack<T> read(Reads reads);
 
   @Override
-  public int compareTo(@NotNull ResourceStack<?> o){
+  public int compareTo(ResourceStack<?> o){
     int stackId = Integer.compare(id(), o.id());
     if(stackId != 0) return stackId;
 

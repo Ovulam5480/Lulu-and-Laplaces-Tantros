@@ -1,6 +1,6 @@
 package LLL.lib.singularity.world.components;
 
-import LLL.world.blockcomp.*;
+import LLL.world.buildComp.*;
 import LLL.world.modules.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -25,14 +25,26 @@ public interface PayloadBuildComp extends BuildCompBase{
     return 0;
   }
 
+  @Annotations.BindField("payloadCapacity")
+  default void payloadCapacity(int value){
+  }
+
   @Annotations.BindField("payloadSpeed")
   default float payloadSpeed(){
     return 0;
   }
 
+  @Annotations.BindField("payloadSpeed")
+  default void payloadSpeed(float value){
+  }
+
   @Annotations.BindField("payloadRotateSpeed")
   default float payloadRotateSpeed(){
     return 0;
+  }
+
+  @Annotations.BindField("payloadRotateSpeed")
+  default void payloadRotateSpeed(float value){
   }
 
   @Annotations.BindField("inputting")

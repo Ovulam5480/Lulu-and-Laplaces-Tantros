@@ -5,7 +5,7 @@ import arc.math.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 
-public class OvulamProduceItems<T extends Building & ProducerBuildc> extends ProduceItems<T>{
+public class OvulamProduceItems<T extends Building & ProducerBuildc<T>> extends ProduceItems<T>{
   public OvulamProduceItems(ItemStack[] items){
     super(items);
   }

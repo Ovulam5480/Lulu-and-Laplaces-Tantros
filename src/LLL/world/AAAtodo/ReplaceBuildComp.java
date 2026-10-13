@@ -1,6 +1,6 @@
 package LLL.world.AAAtodo;
 
-import LLL.world.blockcomp.*;
+import LLL.world.buildComp.*;
 import arc.struct.*;
 import mindustry.world.*;
 import universecore.annotations.*;
