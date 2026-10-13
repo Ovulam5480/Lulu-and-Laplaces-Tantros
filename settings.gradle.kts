@@ -16,8 +16,8 @@ pluginManagement{
     }
 
     plugins{
-        val entVersion = providers.gradleProperty("entVersion").get()
-        val clientVersion = providers.gradleProperty("clientVersion").get()
+        val entVersion = providers.gradleProperty("entVersion")
+        val clientVersion = providers.gradleProperty("clientVersion")
 
         id("com.github.Ovulam5480.EntityAnno") version(entVersion)
         id("com.github.GglLfr.MindustryClient") version(clientVersion)
