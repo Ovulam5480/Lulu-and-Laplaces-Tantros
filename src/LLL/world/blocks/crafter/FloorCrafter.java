@@ -1,7 +1,7 @@
 package LLL.world.blocks.crafter;
 
 import LLL.entities.gen.*;
-import LLL.world.blockcomp.*;
+import LLL.world.components.blockComps.*;
 import mindustry.world.*;
 import universecore.annotations.*;
 

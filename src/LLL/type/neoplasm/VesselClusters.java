@@ -2,7 +2,7 @@ package LLL.type.neoplasm;
 
 import LLL.lib.multiblock.extend.*;
 import LLL.type.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import LLL.world.modules.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;

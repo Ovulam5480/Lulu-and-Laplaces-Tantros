@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.pedigree.nemertinea;
 
 import LLL.content.blocks.*;
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import mindustry.*;
@@ -48,16 +48,16 @@ public class NeoplasmActiniaria extends PayloadDeconstructor implements Neoplasm
       if(timer > 1f){
         if(neuron() == null){
           for(Item item : Vars.content.items()){
-            if(items().has(item) && !Neoplasm.transform.containsKey(item.id)){
+            if(items.has(item) && !Neoplasm.transform.containsKey(item.id)){
               dump(item);
               break;
             }
           }
-        }else if(items().any()){
+        }else if(items.any()){
           Item todump = null;
 
           for(Item item : Vars.content.items()){
-            if(items().has(item) && !Neoplasm.transform.containsKey(item.id)){
+            if(items.has(item) && !Neoplasm.transform.containsKey(item.id)){
               todump = item;
               break;
             }
@@ -69,7 +69,7 @@ public class NeoplasmActiniaria extends PayloadDeconstructor implements Neoplasm
             if(target != null){
               if(target.acceptItem(self, todump)){
                 target.handleItem(self, todump);
-                items().remove(todump, 1);
+                items.remove(todump, 1);
               }
             }else{
               cortex().getItemDumpTarget(this);

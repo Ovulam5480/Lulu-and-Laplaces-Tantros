@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.pedigree.porifera;
 
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
 import arc.struct.*;

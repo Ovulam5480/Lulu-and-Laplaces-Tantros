@@ -1,6 +1,6 @@
 package LLL.content.extensions;
 
-import LLL.world.blockcomp.*;
+import LLL.world.components.blockComps.*;
 import arc.func.*;
 import arc.struct.*;
 import mindustry.*;

@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.effect;
 
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries

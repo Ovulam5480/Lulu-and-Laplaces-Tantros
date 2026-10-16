@@ -1,18 +1,21 @@
 package LLL.world.modules;
 
-import arc.struct.*;
+import LLL.type.*;
 import arc.util.io.*;
 import mindustry.ctype.*;
+import mindustry.game.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.modules.*;
 
-import java.util.*;
-
 public class PayloadModule extends BlockModule{
-  Seq<Payload> payloads = new Seq<>();
+  public final ModulePayloadSeq payloads;
+
+  public PayloadModule(Team team){
+    payloads = new ModulePayloadSeq(team);
+  }
 
   public int total(){
-    return payloads.size;
+    return payloads.total();
   }
 
   public void add(Payload payload){
@@ -20,48 +23,27 @@ public class PayloadModule extends BlockModule{
   }
 
   public int amountOf(UnlockableContent type){
-    int res = 0;
-    for(Payload payload : payloads){
-      if(payload.content() == type) res++;
-    }
-    return res;
+    return payloads.get(type);
   }
 
   public Payload take(){
-    return payloads.isEmpty() ? null : payloads.pop();
+    return payloads.take();
   }
 
   public Payload get(){
-    return payloads.isEmpty() ? null : payloads.peek();
+    return payloads.peek();
   }
 
   public Payload get(UnlockableContent type){
-    for(Payload payload : payloads){
-      if(payload.content() == type) return payload;
-    }
-    return null;
+    return payloads.getPayload(type);
   }
 
-  public Payload remove(UnlockableContent type){
-    Iterator<Payload> itr = payloads.iterator();
-    while(itr.hasNext()){
-      Payload p = itr.next();
-      if(p.content() == type){
-        itr.remove();
-        return p;
-      }
-    }
-    return null;
+  public void remove(UnlockableContent type){
+    payloads.remove(type);
   }
 
   public void removeAll(UnlockableContent type){
-    Iterator<Payload> itr = payloads.iterator();
-    while(itr.hasNext()){
-      Payload p = itr.next();
-      if(p.content() == type){
-        itr.remove();
-      }
-    }
+    payloads.removeAll(type);
   }
 
   public void clear(){
@@ -78,18 +60,11 @@ public class PayloadModule extends BlockModule{
 
   @Override
   public void write(Writes write){
-    write.i(payloads.size);
-    for(Payload payload : payloads){
-      Payload.write(payload, write);
-    }
+    payloads.write(write);
   }
 
   @Override
   public void read(Reads read, boolean legacy){
-    int len = read.i();
-    payloads.clear();
-    for(int i = 0; i < len; i++){
-      payloads.add((Payload)Payload.read(read));
-    }
+    payloads.read(read);
   }
 }

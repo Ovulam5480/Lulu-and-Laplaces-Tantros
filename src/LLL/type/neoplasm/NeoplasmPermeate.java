@@ -3,7 +3,7 @@ package LLL.type.neoplasm;
 import LLL.graphics.*;
 import LLL.type.*;
 import LLL.util.struct.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;
 import arc.func.*;

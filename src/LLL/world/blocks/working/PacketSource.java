@@ -2,7 +2,7 @@ package LLL.world.blocks.working;
 
 import LLL.entities.gen.*;
 import LLL.world.blocks.packet.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.gen.*;

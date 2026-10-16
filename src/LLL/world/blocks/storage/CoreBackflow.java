@@ -4,16 +4,14 @@ import LLL.*;
 import LLL.content.*;
 import LLL.entities.gen.*;
 import LLL.graphics.*;
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
-import LLL.world.recipe.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
-import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
@@ -36,11 +34,6 @@ import static mindustry.Vars.*;
 @Annotations.ImplEntries
 public class CoreBackflow extends CoreBlock implements MovableBlockComp, ResourceBlockModule{
   public UnitType movableBlockType = OvulamUnitTypes.boostBuildUnit;
-
-  public ConsFilter consFilter = new ConsFilter();
-  public Seq<BaseConsumers> consumers = FactoryRecipes.smeltConsumers;
-  public Seq<BaseProducers> producers = FactoryRecipes.smeltProducers;
-  public float warmupSpeed = 0.05f, stopSpeed = 0.1f;
   public TextureRegion iconRegion;
 
   public float resourceCapacity = 100_000;
@@ -104,13 +97,6 @@ public class CoreBackflow extends CoreBlock implements MovableBlockComp, Resourc
   @Override
   public boolean canPlaceOn(Tile tile, Team team, int rotation){
     return true;
-  }
-
-  @Override
-  public void displayExtra(Table table){
-    for(int i = 0; i < consumers.size; i++){
-      ProducerBlockComp.buildRecipe(table, consumers.get(i), producers.get(i));
-    }
   }
 
   //todo call
@@ -455,11 +441,6 @@ public class CoreBackflow extends CoreBlock implements MovableBlockComp, Resourc
       state.teams.registerCore(this);
       createResourceBuild();
       return this;
-    }
-
-    @Override
-    public boolean shouldConsume(){
-      return items.get(OvulamItems.ferroManganese) < 100 && super.shouldConsume();
     }
 
     @Override

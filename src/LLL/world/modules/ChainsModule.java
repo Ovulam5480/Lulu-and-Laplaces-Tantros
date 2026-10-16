@@ -1,7 +1,8 @@
 package LLL.world.modules;
 
-import LLL.world.AAAtodo.*;
 import LLL.world.blocks.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.func.*;
 import arc.util.io.*;
 import mindustry.world.modules.*;

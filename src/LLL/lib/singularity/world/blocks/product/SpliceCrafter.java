@@ -1,9 +1,9 @@
 //package LLL.lib.singularity.world.blocks.product;
 //
-//import LLL.world.AAAtodo.ChainsBlockComp;
-//import LLL.world.AAAtodo.ChainsBuildComp;
-//import LLL.world.AAAtodo.SpliceBlockComp;
-//import LLL.world.AAAtodo.SpliceBuildComp;
+//import LLL.world.components.blockComps.ChainsBlockComp;
+//import LLL.world.components.buildComps.ChainsBuildComp;
+//import LLL.world.components.blockComps.SpliceBlockComp;
+//import LLL.world.components.buildComps.SpliceBuildComp;
 //import LLL.world.blocks.ChainsContainer;
 //import arc.Core;
 //import arc.func.Cons;

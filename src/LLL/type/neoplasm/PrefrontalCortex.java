@@ -6,7 +6,7 @@ import LLL.entities.neoplasmBehavior.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.type.*;
 import LLL.util.struct.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import LLL.world.neoplasm.*;
 import LLL.world.neoplasm.effect.*;
 import arc.*;

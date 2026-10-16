@@ -1,6 +1,7 @@
 package LLL.world.blocks.liquid;
 
-import LLL.world.AAAtodo.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;

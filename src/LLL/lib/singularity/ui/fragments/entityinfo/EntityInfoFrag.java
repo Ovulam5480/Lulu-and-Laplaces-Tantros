@@ -3,7 +3,7 @@ package LLL.lib.singularity.ui.fragments.entityinfo;
 import LLL.lib.singularity.*;
 import LLL.lib.singularity.graphic.*;
 import LLL.util.math.*;
-import LLL.world.AAAtodo.*;
+import LLL.world.components.blockComps.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;

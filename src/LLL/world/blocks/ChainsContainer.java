@@ -1,6 +1,7 @@
 package LLL.world.blocks;
 
-import LLL.world.AAAtodo.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.*;
 import arc.func.*;
 import arc.struct.*;

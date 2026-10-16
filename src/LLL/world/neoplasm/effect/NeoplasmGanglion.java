@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.effect;
 
 import LLL.content.blocks.*;
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.*;
 import mindustry.entities.*;
 import mindustry.game.*;

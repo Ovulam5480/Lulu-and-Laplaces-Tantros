@@ -1,6 +1,6 @@
 package LLL.world.particles;
 
-import LLL.world.AAAtodo.*;
+import LLL.world.components.blockComps.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;

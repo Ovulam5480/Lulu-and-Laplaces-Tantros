@@ -2,7 +2,7 @@ package LLL.world.recipe.consumers;
 
 import LLL.ctype.*;
 import LLL.entities.gen.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import mindustry.ctype.*;

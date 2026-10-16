@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.effect;
 
 import LLL.lib.multiblock.extend.*;
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import universecore.annotations.*;

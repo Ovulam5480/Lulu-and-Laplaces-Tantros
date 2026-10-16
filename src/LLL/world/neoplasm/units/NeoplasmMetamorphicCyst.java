@@ -1,8 +1,8 @@
 package LLL.world.neoplasm.units;
 
 import LLL.ctype.*;
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import mindustry.ctype.*;
 import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;

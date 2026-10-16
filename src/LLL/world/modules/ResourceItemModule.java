@@ -1,6 +1,6 @@
 package LLL.world.modules;
 
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import mindustry.type.*;
 import mindustry.world.modules.*;
 

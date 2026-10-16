@@ -245,7 +245,7 @@ public class Neoplasm{
 
       newConsume();
       consume().item(OvulamItems.calcium, 30);
-      consume().add(new OvulamConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 1)));
+      consume().add(new ConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 1)));
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(30 * 60);
       newProduce();
@@ -264,7 +264,7 @@ public class Neoplasm{
 
       newConsume();
       consume().item(Items.silicon, 40);
-      consume().add(new OvulamConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 2)));
+      consume().add(new ConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 2)));
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(50 * 60);
       newProduce();
@@ -283,7 +283,7 @@ public class Neoplasm{
       itemCapacity = 405;
 
       newConsume();
-      consume().add(new OvulamConsumePayload(PayloadStack.with(OvulamUnitTypes.amphiblastula, 4, OvulamUnitTypes.trophosomePhosphorus, 8)));
+      consume().add(new ConsumePayload(PayloadStack.with(OvulamUnitTypes.amphiblastula, 4, OvulamUnitTypes.trophosomePhosphorus, 8)));
       consume().item(OvulamItems.ferrum, 200);
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(180 * 60);
@@ -365,22 +365,22 @@ public class Neoplasm{
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(6 * 15);
       newProduce();
-      produce().add(new OvulamProducePayload(PayloadStack.with(calciumCarbonateBoneHuge, 1), (b, u) -> true));
+      produce().add(new ProducePayload(PayloadStack.with(calciumCarbonateBoneHuge, 1), (b, u) -> true));
 
       newConsume();
       consume().item(OvulamItems.calcium, 27);
-      consume().add(new OvulamConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 1)));
+      consume().add(new ConsumePayload(PayloadStack.with(OvulamUnitTypes.trophosomePhosphorus, 1)));
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(6 * 15);
       newProduce();
-      produce().add(new OvulamProducePayload(PayloadStack.with(hydroxyapatiteBoneHuge, 1), (b, u) -> true));
+      produce().add(new ProducePayload(PayloadStack.with(hydroxyapatiteBoneHuge, 1), (b, u) -> true));
 
       newConsume();
       consume().item(Items.silicon, 12);
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(6 * 15);
       newProduce();
-      produce().add(new OvulamProducePayload(PayloadStack.with(siliconDioxideBoneLarge, 1), (b, u) -> true));
+      produce().add(new ProducePayload(PayloadStack.with(siliconDioxideBoneLarge, 1), (b, u) -> true));
     }};
 
     neoplasmActiniaria = new NeoplasmActiniaria("neoplasm-actiniaria"){{
@@ -391,7 +391,7 @@ public class Neoplasm{
       size = 7;
 
       newConsume();
-      consume().add(new OvulamConsumePayload(PayloadStack.with(OvulamUnitTypes.amphiblastula, 4, OvulamUnitTypes.parenchymella, 2)));
+      consume().add(new ConsumePayload(PayloadStack.with(OvulamUnitTypes.amphiblastula, 4, OvulamUnitTypes.parenchymella, 2)));
       consume().add(new ConsumeNeoplasm(0.1f));
       consume().time(60 * 120);
       newProduce();

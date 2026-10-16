@@ -1,7 +1,7 @@
 package LLL.lib.singularity.world;
 
 import LLL.util.uncUtil.path.*;
-import LLL.world.buildComp.*;
+import LLL.world.components.buildComps.*;
 import arc.struct.*;
 import arc.struct.Queue;
 import arc.util.pooling.*;

@@ -1,7 +1,7 @@
 package LLL.world.neoplasm.production;
 
-import LLL.world.blockcomp.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.blockComps.*;
+import LLL.world.components.buildComps.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;

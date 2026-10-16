@@ -1,7 +1,7 @@
 package LLL.world.modules;
 
 import LLL.world.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import mindustry.world.modules.*;
 
 public class ResourcePowerModule extends PowerModule{

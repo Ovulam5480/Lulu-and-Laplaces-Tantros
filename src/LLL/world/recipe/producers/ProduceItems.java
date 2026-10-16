@@ -81,7 +81,7 @@ public class ProduceItems<T extends Building & ProducerBuildc<T>> extends BasePr
     if(!random){
       for(ItemStack stack : items){
         int amount = stack.amount * ((int)Math.floor(f)) + Mathf.num(Math.random() < f % 1);
-        amount = Math.min(amount, entity.block.itemCapacity - entity.items.get(stack.item));
+        amount = Math.min(amount, entity.getMaximumAccepted(stack.item) - entity.items.get(stack.item));
         for(int i = 0; i < amount; i++){
           entity.handleItem(entity, stack.item);
         }
@@ -107,7 +107,7 @@ public class ProduceItems<T extends Building & ProducerBuildc<T>> extends BasePr
       }
       if(item != null){
         int amount = (int)(Math.floor(f) + Mathf.num(Math.random() < f % 1));
-        amount = Math.min(amount, entity.block.itemCapacity - entity.items.get(item));
+        amount = Math.min(amount, entity.getMaximumAccepted(item) - entity.items.get(item));
         for(int l = 0; l < amount; l++){
           entity.handleItem(entity, item);
         }
@@ -166,7 +166,7 @@ public class ProduceItems<T extends Building & ProducerBuildc<T>> extends BasePr
 
     boolean res = false;
     for(ItemStack stack : items){
-      if(entity.items.get(stack.item) + stack.amount * multiple(entity) > entity.block.itemCapacity){
+      if(stack.amount * multiple(entity) > entity.getMaximumAccepted(stack.item) - entity.items.get(stack.item)){
         if(blockWhenFull) return false;
       }else res = true;
     }

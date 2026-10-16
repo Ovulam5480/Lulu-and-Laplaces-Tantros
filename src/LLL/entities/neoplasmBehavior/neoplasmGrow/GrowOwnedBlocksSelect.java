@@ -2,7 +2,7 @@ package LLL.entities.neoplasmBehavior.neoplasmGrow;
 
 import LLL.entities.neoplasmBehavior.*;
 import LLL.lib.gdxAI.btree.*;
-import LLL.world.buildComp.module.*;
+import LLL.world.components.buildComps.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;

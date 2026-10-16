@@ -1,7 +1,7 @@
 package LLL.world.blocks;
 
 import LLL.entities.gen.*;
-import LLL.world.blockcomp.*;
+import LLL.world.components.blockComps.*;
 import arc.func.*;
 import mindustry.content.*;
 import mindustry.game.*;
