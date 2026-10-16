@@ -1,0 +1,154 @@
+package lulu.world.recipe.consumers;
+
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.lib.singularity.graphic.*;
+import arc.*;
+import arc.math.*;
+import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.*;
+import mindustry.ctype.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.*;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.meta.*;
+
+public class ConsumeFloor<T extends Building & ConsumerBuildc<T> & FloorCrafterBuildc<T>> extends BaseConsume<T>{
+  public final ObjectFloatMap<Floor> floorEff = new ObjectFloatMap<>();
+
+  public float baseEfficiency = 1;
+
+  public ConsumeFloor(Object... floors){
+    for(int i = 0; i < floors.length; i += 2){
+      Floor floor = (Floor)floors[i];
+      Float effInc = (Float)floors[i + 1];
+
+      floorEff.put(floor, effInc);
+    }
+  }
+
+  public ConsumeFloor(Attribute attribute, float scl){
+    this(true, true, attribute, scl);
+  }
+
+  public ConsumeFloor(boolean checkDeep, boolean checkLiquid, Attribute attribute, float scl){
+    for(Block block : Vars.content.blocks()){
+      if(!(block instanceof Floor f) || (checkDeep && f.isDeep()) || (checkLiquid && f.isLiquid) || f.attributes.get(attribute) <= 0)
+        continue;
+
+      floorEff.put(f, block.attributes.get(attribute) * scl);
+    }
+  }
+
+  public ConsumeFloor(boolean checkDeep, boolean checkLiquid, Object[] attributes){
+    for(Block block : Vars.content.blocks()){
+      for(int i = 0; i < attributes.length; i += 2){
+        Attribute attribute = (Attribute)attributes[i];
+        float scl = (float)attributes[i + 1];
+
+        if(!(block instanceof Floor f) || (checkDeep && f.isDeep()) || (checkLiquid && f.isLiquid) || f.attributes.get(attribute) <= 0)
+          continue;
+
+        floorEff.put(f, floorEff.get(f, 1f) * block.attributes.get(attribute) * scl);
+      }
+    }
+  }
+
+  public float getEff(ObjectIntMap<Floor> floorCount){
+    float res = baseEfficiency;
+
+    for(ObjectIntMap.Entry<Floor> entry : floorCount){
+      res += floorEff.get(entry.key, 0) * entry.value;
+    }
+
+    return res;
+  }
+
+  @Override
+  public ResourceType type(){
+    return ResourceType.floor;
+  }
+
+  @Override
+  public void buildIcons(Table table){
+    table.image(Icon.terrain);
+  }
+
+  @Override
+  public void merge(BaseConsume<T> baseConsume){
+    if(baseConsume instanceof ConsumeFloor<T> cons){
+      for(ObjectFloatMap.Entry<Floor> entry : cons.floorEff){
+        floorEff.put(entry.key, floorEff.get(entry.key, 1) * entry.value);
+      }
+
+      return;
+    }
+    throw new IllegalArgumentException("only merge consume with same type");
+  }
+
+  @Override
+  public void consume(T t){
+    //no action
+  }
+
+  @Override
+  public void update(T t){
+    //no action
+  }
+
+  @Override
+  public void display(Stats stats){
+    stats.add(Stat.tiles, st -> {
+      st.row().table(SglDrawConst.grayUIAlpha, t -> {
+        t.clearChildren();
+        t.defaults().pad(5).left();
+
+        int c = 0;
+        for(ObjectFloatMap.Entry<Floor> entry : floorEff){
+          t.stack(
+            new Image(entry.key.uiIcon).setScaling(Scaling.fit),
+            new Table(table -> {
+              table.top().right().add((entry.value < 0 ? "[scarlet]" : baseEfficiency == 0 ? "[accent]" : "[accent]+") + (int)(entry.value * 100) + "%").style(Styles.outlineLabel);
+              table.top().left().add("/" + StatUnit.blocks.localized()).color(Pal.gray);
+            })
+          ).fill().padRight(4);
+          t.add(entry.key.localizedName).left().padLeft(0);
+          c++;
+
+          if(c != 0 && c % 3 == 0){
+            t.row();
+          }
+        }
+      }).fill();
+    });
+  }
+
+  @Override
+  public void build(T entity, Table table){/*none*/}
+
+  @Override
+  public void buildBars(T t, Table bars){
+    bars.row();
+    bars.add(new Bar(
+      () -> Core.bundle.get("infos.floorEfficiency") + ": " + Strings.autoFixed(Mathf.round(efficiency(t) * 100), 0) + "%",
+      () -> Pal.accent,
+      () -> Mathf.clamp(efficiency(t))
+    )).growX().height(18f).pad(4);
+    bars.row();
+  }
+
+  @Override
+  public float efficiency(T t){
+    return getEff(t.floorCount());
+  }
+
+  @Override
+  public Seq<Content> filter(){
+    return null;
+  }
+}
