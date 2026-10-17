@@ -14,11 +14,8 @@ import lulu.util.uncUtil.handler.*;
 import lulu.world.*;
 import arc.*;
 import arc.graphics.*;
-import arc.graphics.gl.*;
-import arc.scene.*;
 import mindustry.*;
 import mindustry.core.*;
-import mindustry.game.*;
 import mindustry.mod.*;
 
 public class LuluMod extends Mod{
@@ -38,92 +35,6 @@ public class LuluMod extends Mod{
 
       Core.atlas.getTextures().each(texture -> texture.setFilter(filter, filter));
     }
-
-//    {
-//      FrameBuffer buffer = new FrameBuffer();
-//      Events.run(EventType.Trigger.drawOver, () -> {
-//        Draw.z(Layer.fogOfWar + 1);
-//        Draw.blend(Blending.additive);
-//        buffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
-//        buffer.begin(Color.clear);
-//        Fill.circle(2500,2500,4);
-//        buffer.end();
-//
-//        Draw.blend();
-//        OvulamShaders.test.apply();
-//        Draw.blit(buffer, OvulamShaders.test);
-//      });
-//    }
-
-    Events.on(EventType.ClientLoadEvent.class, e -> {
-      Vars.ui.load.runLoadSave(Vars.control.saves.getSaveSlots().first());
-
-      Vars.ui.hudGroup.addChild(new Element(){
-        public FrameBuffer buffer = new FrameBuffer();
-
-        @Override
-        public void draw(){
-//          int w = Core.graphics.getWidth();
-//          int h = Core.graphics.getHeight();
-//
-//          buffer.resize(w / 4, h);
-//          buffer.begin(Color.clear);
-//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
-//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h, 9 * 32 * 2, 9 * 32 * 2);
-//          Draw.rect(Blocks.tetrativeReconstructor.fullIcon, w / 2f, h / 2f, 9 * 32 * 2, 9 * 32 * 2);
-//          buffer.end();
-//
-//          Tmp.tr1.set(buffer.getTexture());
-//          Draw.scl(4);
-//          Draw.rect(Tmp.tr1, w / 2f, h / 2f);
-//          Draw.scl();
-//          Tmp.r1.setCentered(w / 2f, h / 2f, Tmp.tr1.width, Tmp.tr1.height);
-//          Lines.rect(Tmp.r1);
-
-
-//          OvulamShaders.test.apply();
-//          Draw.blit(buffer, OvulamShaders.test);
-//-----------------------------
-//          buffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
-//
-//          ScreenSampler.toBuffer(buffer);
-//          Tmp.tr1.set(buffer.getTexture());
-//
-//          float w = Core.graphics.getWidth();
-//          float h = Core.graphics.getHeight();
-//
-//          Draw.color(Color.black);
-//          Fill.circle(w / 2f, h / 2f, w);
-//          Draw.color();
-//
-//          Draw.rect(Tmp.tr1, w / 2f, h /2f, w, h);
-          //-----------------------------
-//          buffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
-//
-//          ScreenSampler.toBuffer(buffer);
-//
-//          OvulamShaders.test.apply();
-//          Draw.blit(buffer, OvulamShaders.test);
-          //-----------------------------
-
-        }
-      });
-
-//      Log.info(sectorSeq.size);
-//      for(Sector sector: sectorSeq){
-//        Log.info(sector.id + " " + sector.rect.center.angle(start));
-//      }
-//            Planets.serpulo.sectors.each(s -> {
-//                s.info.waves = false;
-//                s.info.attack = false;
-//            });
-      //PlanetDialog.debugSelect = true;
-      //Vars.control.playNewSector(null, LaplacesTantros.tantros.sectors.find(s -> s.id == 207), new WorldReloader());
-//      ItemModule item = Vars.state.teams.get(Vars.player.team()).core().items;
-//      Vars.content.items().each((awdawd) -> item.set(awdawd, 1000));
-//      Vars.state.rules.infiniteResources = true;
-      //tantrosDialog.show();
-    });
 
     oIndexer = new OvulamIndexer();
     graphics = new OvulamGraphics();
