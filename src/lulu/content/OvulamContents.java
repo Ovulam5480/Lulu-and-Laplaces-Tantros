@@ -22,7 +22,6 @@ public class OvulamContents{
     OvulamPacketTypes.load();
     OvulamUnitTypes.load();
     EntityRegistry.registerUnits();
-    FactoryRecipes.load();
     OvulamBlocks.load();
     OvulamLoadouts.load();
 

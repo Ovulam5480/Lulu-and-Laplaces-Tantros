@@ -13,17 +13,18 @@ import mindustry.world.meta.*;
 
 public class ThrowPacketWall extends Block{
   public Seq<ResourceStack<?>> resources = new Seq<>();
-  public PacketType packetType = OvulamPacketTypes.bolt;
+  public PacketType packetType;
   public float amount = 1;
   public float randAmount = 1;
   public float randChance = 0.3f;
 
-  public ThrowPacketWall(String name){
+  public ThrowPacketWall(String name, PacketType packetType){
     super(name);
     rebuildable = false;
     destructible = true;
     category = Category.defense;
     buildVisibility = BuildVisibility.shown;
+    this.packetType = packetType;
   }
 
   public class ThrowPacketWallBuild extends Building{

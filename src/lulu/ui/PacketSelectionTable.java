@@ -12,6 +12,8 @@ import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
 
+import static mindustry.Vars.state;
+
 public class PacketSelectionTable{
   private int currentSelection = 0, prevSelection = 0;
 
@@ -30,6 +32,8 @@ public class PacketSelectionTable{
         int i = 0;
 
         for(PacketType type : OvulamPacketTypes.packetTypes){
+          if(hidden(type))continue;
+
           ImageButton button = ps.button(Tex.whiteui, Styles.clearNoneTogglei, 40f, () -> {
             currentSelection = 1;
             selectedResources.clear();
@@ -40,6 +44,10 @@ public class PacketSelectionTable{
           if(i++ % 8 == (8 - 1)){
             ps.row();
           }
+        }
+
+        for(int j = 0; j < 8 - (i % 8); j++){
+          ps.add().size(40);
         }
       });
 
@@ -91,8 +99,10 @@ public class PacketSelectionTable{
 
         int j = 0;
         for(UnlockableContent o : seq){
+          if(hidden(o))continue;
+
           //todo .tooltip(name)
-          ImageButton button = objectSelectionTable.button(Tex.whiteui, Styles.clearNoneTogglei, 40f, rebuildSetter::run).checked(ib -> selectedResources.contains(r -> r.item == o)).get();
+          ImageButton button = objectSelectionTable.button(Tex.whiteui, Styles.clearNoneTogglei, 40f, rebuildSetter).checked(ib -> selectedResources.contains(r -> r.item == o)).get();
           button.changed(() -> {
             if(selectedResources.contains(r -> r.item == o)){
               selectedResources.remove(r -> r.item == o);
@@ -109,6 +119,10 @@ public class PacketSelectionTable{
           if(j++ % 8 == (8 - 1)){
             objectSelectionTable.row();
           }
+        }
+
+        for(int i = 0; i < 8 - (j % 8); i++){
+          objectSelectionTable.add().size(40);
         }
       };
 
@@ -143,5 +157,9 @@ public class PacketSelectionTable{
       selections.add(currentSelection == 0 ? packetSelectionTable : objectTable);
       all.add(selections);
     });
+  }
+
+  public static boolean hidden(UnlockableContent item){
+    return !item.unlockedNow() || !item.isOnPlanet(state.getPlanet()) || item.isHidden();
   }
 }

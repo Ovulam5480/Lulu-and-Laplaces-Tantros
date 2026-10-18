@@ -63,7 +63,7 @@ public class ProducePower<T extends Building & ProducerBuildc<T>> extends BasePr
     Floatp cons = () -> {
       ConsumePower<T> cp;
       return entity.block.consumesPower && entity.consumer().current != null
-        && (cp = entity.consumer().current.<ConsumePower<T>>get(powerResource)) != null ?
+        && (cp = entity.consumer().current.get(powerResource)) != null ?
         cp.usage * cp.multiple(entity) : 0;
     };
     bars.add(new Bar(

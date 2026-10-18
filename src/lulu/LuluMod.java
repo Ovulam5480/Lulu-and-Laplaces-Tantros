@@ -48,12 +48,11 @@ public class LuluMod extends Mod{
 
     OvulamBlockFlags.init();
     //OvulamShaders.init();
-    OvulamPacketTypes.initAndLoad();
     initResources();
     PrefrontalCortex.load();
 
     //ScreenSampler.setup();
-    SglShaders.load();
+    //SglShaders.load();
     MathRenderer.load();
     OvulamMathRenderers.load();
     Shapes.load();

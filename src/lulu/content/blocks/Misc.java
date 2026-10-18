@@ -15,7 +15,7 @@ import mindustry.world.meta.*;
 public class Misc{
   public static void load(){
     OvulamBlocks.blastCylinder = new BlastCylinder("blast-cylinder");
-    OvulamBlocks.ferroManganeseRodGroup = new ThrowPacketWall("ferromanganese-rod-group"){{
+    OvulamBlocks.ferroManganeseRodGroup = new ThrowPacketWall("ferromanganese-rod-group", null){{
       size = 2;
       resources.add(new ItemResourceStack().set(OvulamItems.ferroManganese, 5));
       researchCost = requirements = ItemStack.with(OvulamItems.ferroManganese, 24);
