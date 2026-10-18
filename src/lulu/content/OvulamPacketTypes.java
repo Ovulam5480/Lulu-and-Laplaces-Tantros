@@ -21,7 +21,7 @@ public class OvulamPacketTypes{
   }
 
   public static PacketType
-    smallItemPacket, middleItemPacket, largeItemPacket, bolt,
+    smallItemPacket, middleItemPacket, largeItemPacket,
     smallLiquidPacket, middleLiquidPacket, largeLiquidPacket,
     payloadPacket,
     powerPacket;
@@ -34,6 +34,7 @@ public class OvulamPacketTypes{
       resourceClass = Item.class;
       size = 1;
       capacity = 3;
+      alwaysUnlocked = true;
     }});
 
     middleItemPacket = registerType("middle-item-packet", EntityPacket.class, name -> new SinglePacketType(name){{
@@ -46,14 +47,6 @@ public class OvulamPacketTypes{
       resourceClass = Item.class;
       size = 3;
       capacity = 81;
-    }});
-
-    AccessoriesType type = AccessoriesType.bolt;
-    bolt = registerType("small-" + type.name() + "-packet", EntityPacket.class, name -> new AccessoriesPacketType(name, type){{
-      resourceClass = Item.class;
-      size = 1;
-      capacity = 4;
-      drag = 0.03f;
     }});
 
     smallLiquidPacket = registerType("small-liquid-packet", EntityPacket.class, name -> new MetaBallPacketType(name){{
@@ -122,11 +115,6 @@ public class OvulamPacketTypes{
 //                collisionLayer = 2;
 //            }};
 //        });
-  }
-
-  public static void initAndLoad(){
-    packetTypes.each(PacketType::init);
-    packetTypes.each(PacketType::load);
   }
 
   public static <T extends Packetc> PacketType registerType(String name, Class<T> type, Func<String, PacketType> construct){

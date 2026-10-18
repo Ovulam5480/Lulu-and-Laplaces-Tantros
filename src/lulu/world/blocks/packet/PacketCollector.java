@@ -1,5 +1,6 @@
 package lulu.world.blocks.packet;
 
+import arc.graphics.g2d.*;
 import lulu.*;
 import lulu.ctype.packet.*;
 import lulu.entities.gen.*;
@@ -9,6 +10,8 @@ import lulu.world.components.buildComps.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
+import mindustry.*;
+import mindustry.entities.units.*;
 import mindustry.graphics.*;
 import universecore.annotations.*;
 
@@ -27,6 +30,8 @@ public class PacketCollector extends PacketBlock{
 
     clearOnDoubleTap = true;
     configurable = true;
+
+    rotateDraw = false;
 
     configClear((PacketCollectorBuild tile) -> {
       tile.setSelected(null);

@@ -10,3 +10,9 @@ build/
 .idea/
 .vscode/
 .kateproject
+
+# 组合生成的日志
+/processorLog/
+
+# 手动提交
+/revisions/

@@ -165,6 +165,7 @@ public class LaplacesTantrosPlanetGenerator extends PlanetGenerator{
     biome.end();
 
     generate(tiles, params);
+    biome.unlock();
   }
 
   public void applyBiomeRule(Sector sector, Rules rules){

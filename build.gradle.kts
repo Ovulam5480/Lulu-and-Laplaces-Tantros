@@ -263,6 +263,38 @@ project(":"){
     tasks.withType<RunClientTask>().configureEach{
         dependsOn(install)
     }
+
+    tasks.register<JavaExec>("debug"){
+        group = "application"
+        description = "Installs the mod and runs Mindustry, waiting for an IDEA debugger on localhost:5005."
+        dependsOn(install)
+        usesService(client)
+
+        val run = tasks.named<RunClientTask>("run").get()
+        val detected = run.client.get()
+        if(detected.isSteam()){
+            throw GradleException("Debug requires a JAR client; set mindustryIgnoreSteam=true and mindustryPath to a Mindustry JAR.")
+        }
+        val clientPath = detected.path()
+        if(clientPath != null){
+            if(!MindustryClientPlugin.isClientJar(clientPath.toPath())){
+                throw GradleException("Debug requires mindustryPath to point to a Mindustry JAR, not a native executable.")
+            }
+            classpath(clientPath)
+        }else{
+            classpath(run.clientClasspaths)
+        }
+
+        mainClass.set("mindustry.desktop.DesktopLauncher")
+        jvmArgs("-Dhttps.protocols=TLSv1.2,TLSv1.1,TLSv1", "--enable-native-access=ALL-UNNAMED")
+        debugOptions{
+            enabled.set(true)
+            host.set("localhost")
+            port.set(5005)
+            server.set(true)
+            suspend.set(true)
+        }
+    }
 }
 
 abstract class TrimSources : TransformAction<TransformParameters.None>{
