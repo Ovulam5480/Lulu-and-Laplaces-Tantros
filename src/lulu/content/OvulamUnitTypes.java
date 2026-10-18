@@ -458,7 +458,7 @@ public class OvulamUnitTypes{
 
     trophosomeUnitTypes.put(OvulamItems.calcium, trophosomeCalcium);
     trophosomeUnitTypes.put(OvulamItems.phosphorus, trophosomePhosphorus);
-    trophosomeUnitTypes.put(Items.silicon, trophosomeSilicon);
+    trophosomeUnitTypes.put(OvulamItems.silicon, trophosomeSilicon);
     trophosomeUnitTypes.put(OvulamItems.ferrum, trophosomeFerrum);
   }
 }

@@ -7,7 +7,7 @@ import mindustry.type.*;
 
 public class OvulamItems{
   public static Item manganeseNodule, gasHydrate, amethyst, ferroManganese, cobaltNodule, cobalt;
-  public static Item calcium, phosphorus, ferrum, hydroxyapatite;
+  public static Item calcium, phosphorus, silicon, ferrum, hydroxyapatite;
   public static Item NR, BR, SBR, NBR, EPDM, IIR, SiR, FKM;
   public static Item berserkSpore;
   public static Item causality;
@@ -42,6 +42,14 @@ public class OvulamItems{
     }};
     phosphorus = new Item("phosphorus", Color.valueOf("74f2eb")){{
     }};
+    silicon = new Item("silicon", Items.silicon.color){
+      @Override
+      public void loadIcon(){
+        super.loadIcon();
+        if(!uiIcon.found()) uiIcon = arc.Core.atlas.find("silicon");
+        if(!fullIcon.found()) fullIcon = arc.Core.atlas.find("silicon");
+      }
+    };
     ferrum = new Item("ferrum", Color.valueOf("B22222")){{
     }};
     hydroxyapatite = new Item("hydroxyapatite", Color.valueOf("55f7ab")){{
@@ -51,7 +59,7 @@ public class OvulamItems{
       //hidden = hideDatabase = true;
     }};
 
-    trophosomes = new Item[]{calcium, phosphorus, Items.silicon, ferrum};
+    trophosomes = new Item[]{calcium, phosphorus, silicon, ferrum};
 
     causality = new Item("causality", Color.valueOf("ff6fbd")){{
       //hidden = hideDatabase = true;

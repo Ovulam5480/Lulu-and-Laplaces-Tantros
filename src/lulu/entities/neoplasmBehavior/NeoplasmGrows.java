@@ -38,7 +38,7 @@ public class NeoplasmGrows{
   }
 
   public static GrowLeafTask growHexactinBase(){
-    return new GrowItemFilter(Neoplasm.neoplasmHexactinBase, i -> i == Items.silicon);
+    return new GrowItemFilter(Neoplasm.neoplasmHexactinBase, i -> i == OvulamItems.silicon);
   }
 
   public static GrowLeafTask growDodecactinBase(){

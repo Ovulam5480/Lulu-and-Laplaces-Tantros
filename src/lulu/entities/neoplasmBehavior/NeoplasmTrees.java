@@ -30,9 +30,9 @@ public class NeoplasmTrees{
 
         .branch(new Parallel<>(Parallel.Policy.SelectorAllExecuted, Parallel.Orchestrator.Resume, new Seq<>()), defense -> {
           defense.add(NeoplasmGrows.growDodecactinBase(), b -> 3600f * (3 - 2.5f *
-              Math.min(b.getItemFract(Items.silicon),
+              Math.min(b.getItemFract(OvulamItems.silicon),
                 b.getItemFract(OvulamItems.ferrum))))
-            .add(NeoplasmGrows.growHexactinBase(), b -> 3000f * (3 - 2.5f * b.getItemFract(Items.silicon)))
+            .add(NeoplasmGrows.growHexactinBase(), b -> 3000f * (3 - 2.5f * b.getItemFract(OvulamItems.silicon)))
             .add(NeoplasmGrows.growTriaxonBase(), 3000f)
             .add(NeoplasmGrows.growSettledlarvaCyst(), b -> 9600f * (3 - 2.5f *
               (Math.min(b.getOwnerBlock(Neoplasm.neoplasmHexactinBase) / 3f,
