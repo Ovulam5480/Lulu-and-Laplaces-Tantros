@@ -61,8 +61,9 @@ public class CoreBackflow extends CoreBlock implements MovableBlockComp, Resourc
     thrusterLength = 10;
     launchEffect = OvulamFx.launchTantros;
     customShadow = true;
+    allowConfigInventory = false;
+    configurable = true;
 
-    commandable = true;
     update = true;
 
     size = 6;
@@ -156,6 +157,12 @@ public class CoreBackflow extends CoreBlock implements MovableBlockComp, Resourc
     protected int row = 6;
     protected static final Interp swingR = Interp.sine;
     protected int effected;
+
+    @Override
+    public void updateTile(){
+      iframes -= Time.delta;
+      thrusterTime -= Time.delta/90f;
+    }
 
     @Override
     public boolean inFogTo(Team viewer){
@@ -441,6 +448,17 @@ public class CoreBackflow extends CoreBlock implements MovableBlockComp, Resourc
       state.teams.registerCore(this);
       createResourceBuild();
       return this;
+    }
+
+    @Override
+    public void created(){
+      super.created();
+      configurable = true;
+    }
+
+    @Override
+    public boolean shouldHideConfigure(Player player){
+      return false;
     }
 
     @Override

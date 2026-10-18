@@ -38,6 +38,9 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
     landZoomFrom = 0.03f;
     landZoomTo = 4f;
 
+    allowConfigInventory = false;
+    configurable = true;
+
     landSound = Sounds.none;
 
     landZoomInterp = new Interp.PowIn(10);
@@ -148,7 +151,8 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
 
     @Override
     public void updateTile(){
-      super.updateTile();
+      iframes -= Time.delta;
+      thrusterTime -= Time.delta / 90.0F;
 
       if(timer.get(60)){
         OvulamFx.bezierTrail.at(x, y, 0, Pal.accent,
@@ -163,6 +167,17 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
       super.create(block, team);
       createResourceBuild();
       return this;
+    }
+
+    @Override
+    public void created(){
+      super.created();
+      configurable = true;
+    }
+
+    @Override
+    public boolean shouldHideConfigure(Player player){
+      return false;
     }
   }
 }
