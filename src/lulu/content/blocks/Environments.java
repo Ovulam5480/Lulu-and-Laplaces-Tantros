@@ -15,6 +15,8 @@ public class Environments{
 
     OvulamBlocks.gasHydrateFloor = new Floor("gas-hydrate-floor", 0){{
       attributes.set(OvulamAttributes.gasHydrate, 1);
+
+      itemDrop = OvulamItems.gasHydrate;
     }};
   }
 }

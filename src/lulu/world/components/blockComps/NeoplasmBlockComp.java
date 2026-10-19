@@ -121,7 +121,7 @@ public interface NeoplasmBlockComp{
     block.breakSound = block.destroySound = OvulamSounds.breakSounds.random();
     block.placePitchChange = block.breakPitchChange = false;
 
-    block.shownPlanets.addAll(Vars.content.planets());
+    //block.shownPlanets.addAll(Vars.content.planets());
 
     addNeoplasmBars(block);
     afterInit();

@@ -2,6 +2,7 @@ package lulu.ctype.packet;
 
 import lulu.content.*;
 import lulu.content.extensions.*;
+import lulu.content.resourceTypes.*;
 import lulu.entities.gen.*;
 import lulu.type.resourceStacks.*;
 import arc.*;
@@ -15,8 +16,13 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.payloads.*;
+import mindustry.world.meta.*;
 
 import static arc.graphics.g2d.Draw.*;
+import static mindustry.Vars.net;
+import static mindustry.Vars.state;
 
 public abstract class PacketType extends UnlockableContent{
   public float capacity = 3;
@@ -42,6 +48,19 @@ public abstract class PacketType extends UnlockableContent{
   public PacketType(String name){
     super(name);
     OvulamPacketTypes.packetTypes.add(this);
+  }
+
+  @Override
+  public void setStats(){
+    if(resourceClass == Item.class){
+      stats.add(Stat.itemCapacity, capacity, StatUnit.none);
+    }else if(resourceClass == Liquid.class){
+      stats.add(Stat.liquidCapacity, capacity, StatUnit.none);
+    }else if(resourceClass == Block.class || resourceClass == UnitType.class){
+      stats.add(Stat.payloadCapacity, capacity, StatUnit.none);
+    }else if(resourceClass == Power.class){
+      stats.add(Stat.powerCapacity, capacity, StatUnit.none);
+    }
   }
 
   @Override
@@ -128,6 +147,9 @@ public abstract class PacketType extends UnlockableContent{
   private Packetc create(){
     Packetc packet = constructor.get();
     packet.setPacketType(this);
+
+    if(!net.client() && state.isCampaign())unlock();
+
     return packet;
   }
 

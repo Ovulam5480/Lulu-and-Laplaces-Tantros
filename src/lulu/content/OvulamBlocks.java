@@ -38,7 +38,7 @@ public class OvulamBlocks{
 
   //region UnderWater
   public static Block lodeExcavator;
-  public static Block gasHydrateCollector;
+  public static Block undertowDrill;
   public static Block packetCollector;
   public static Block clusterCollector;
 

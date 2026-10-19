@@ -2,11 +2,13 @@ package lulu.content.blocks;
 
 import lulu.content.*;
 import lulu.content.extensions.*;
+import lulu.toMigration.Ovulam.world.consumers.*;
 import lulu.world.blocks.crafter.*;
 import lulu.world.blocks.packet.*;
 import lulu.world.blocks.production.*;
 import lulu.world.recipe.consumers.*;
 import mindustry.type.*;
+import mindustry.world.blocks.production.*;
 
 public class UnderWater{
   public static void load(){
@@ -25,18 +27,13 @@ public class UnderWater{
       consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
     }};
 
-    OvulamBlocks.gasHydrateCollector = new FloorCrafter("gas-hydrate-collector"){{
+    OvulamBlocks.undertowDrill = new Drill("undertow-drill"){{
       size = 2;
-      requirements(Category.crafting, ItemStack.with(OvulamItems.ferroManganese, 10));
+      requirements(Category.production, ItemStack.with(OvulamItems.ferroManganese, 10));
       researchCost = ItemStack.with(OvulamItems.ferroManganese, 10);
 
-      newConsume();
-      consume().add(new ConsumeFloor<>(OvulamAttributes.gasHydrate, 1f / (size * size)){{
-        baseEfficiency = 0;
-      }});
-      consume().time(180);
-      newProduce();
-      produce().item(OvulamItems.gasHydrate, 1);
+      liquidCapacity = 30f;
+      consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
     }};
   }
 }

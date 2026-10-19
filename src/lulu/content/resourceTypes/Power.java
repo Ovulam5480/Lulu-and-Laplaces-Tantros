@@ -13,7 +13,6 @@ public class Power extends UnlockableContent{
   public Power(String name, Color color){
     super(name);
     this.color = color;
-    alwaysUnlocked = true;
   }
 
   @Override

@@ -41,6 +41,8 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
     allowConfigInventory = false;
     configurable = true;
 
+    alwaysUnlocked = true;
+
     landSound = Sounds.none;
 
     landZoomInterp = new Interp.PowIn(10);
