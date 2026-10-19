@@ -12,6 +12,15 @@ import mindustry.world.blocks.production.*;
 
 public class UnderWater{
   public static void load(){
+    OvulamBlocks.undertowDrill = new Drill("undertow-drill"){{
+      size = 2;
+      requirements(Category.production, ItemStack.with(OvulamItems.ferroManganese, 10));
+      researchCost = ItemStack.with(OvulamItems.ferroManganese, 10);
+
+      liquidCapacity = 30f;
+      consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
+    }};
+
     OvulamBlocks.packetCollector = new PacketCollector("packet-collector"){{
       category = Category.production;
       consumeItem(OvulamItems.gasHydrate);
@@ -24,15 +33,6 @@ public class UnderWater{
       size = 4;
 
       liquidCapacity = 60f;
-      consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
-    }};
-
-    OvulamBlocks.undertowDrill = new Drill("undertow-drill"){{
-      size = 2;
-      requirements(Category.production, ItemStack.with(OvulamItems.ferroManganese, 10));
-      researchCost = ItemStack.with(OvulamItems.ferroManganese, 10);
-
-      liquidCapacity = 30f;
       consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
     }};
   }

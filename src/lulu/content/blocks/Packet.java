@@ -26,16 +26,6 @@ public class Packet{
       filter.add(ItemResourceStack.class);
     }};
 
-    OvulamBlocks.liquidPacker = new ConsumePacketPacker("liquid-packer"){{
-      size = 2;
-
-      liquidCapacity = 30f;
-
-      requirements = ItemStack.with(OvulamItems.cobalt, 5, OvulamItems.amethyst, 10);
-      researchCost = ItemStack.with(OvulamItems.cobalt, 15, OvulamItems.amethyst, 30);
-      packetType = OvulamPacketTypes.smallLiquidPacket;
-    }};
-
     OvulamBlocks.liquidUnpacker = new PacketUnpacker("liquid-unpacker"){{
       size = 2;
       filter.add(LiquidResourceStack.class);
@@ -45,6 +35,16 @@ public class Packet{
 
       requirements = ItemStack.with(OvulamItems.amethyst, 5);
       researchCost = ItemStack.with(OvulamItems.amethyst, 15);
+    }};
+
+    OvulamBlocks.liquidPacker = new ConsumePacketPacker("liquid-packer"){{
+      size = 2;
+
+      liquidCapacity = 30f;
+
+      requirements = ItemStack.with(OvulamItems.cobalt, 5, OvulamItems.amethyst, 10);
+      researchCost = ItemStack.with(OvulamItems.cobalt, 15, OvulamItems.amethyst, 30);
+      packetType = OvulamPacketTypes.smallLiquidPacket;
     }};
 
     OvulamBlocks.powerPacker = new ConsumePacketPacker("power-packer"){{

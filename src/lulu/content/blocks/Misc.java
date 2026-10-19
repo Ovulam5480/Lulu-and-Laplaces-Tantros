@@ -49,8 +49,8 @@ public class Misc{
       buildTime = 60f;
     }};
 
-    OvulamBlocks.coreBackflow = new CoreBackflow("core-backflow");
     OvulamBlocks.coreCausality = new CoreCausality("core-causality");
+    OvulamBlocks.coreBackflow = new CoreBackflow("core-backflow");
 
     new Beacon("beacon"){{
       requirements(Category.effect, ItemStack.with());
