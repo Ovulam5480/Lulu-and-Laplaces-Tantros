@@ -52,7 +52,7 @@ public class LuluMod extends Mod{
     PrefrontalCortex.load();
 
     //ScreenSampler.setup();
-    //SglShaders.load();
+    SglShaders.load();
     MathRenderer.load();
     OvulamMathRenderers.load();
     Shapes.load();

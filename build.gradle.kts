@@ -265,7 +265,6 @@ project(":"){
     }
 
     tasks.register<JavaExec>("debug"){
-        group = "application"
         description = "Installs the mod and runs Mindustry, waiting for an IDEA debugger on localhost:5005."
         dependsOn(install)
         usesService(client)

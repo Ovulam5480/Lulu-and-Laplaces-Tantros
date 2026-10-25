@@ -19,9 +19,4 @@ public class Power extends UnlockableContent{
   public ContentType getContentType(){
     return OvulamContentType.power.value;
   }
-
-  @Override
-  public void load(){
-    //fullIcon = uiIcon = Icon.power.getRegion();
-  }
 }
