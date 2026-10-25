@@ -17,6 +17,8 @@ public class UnderWater{
       requirements(Category.production, ItemStack.with(OvulamItems.ferroManganese, 10));
       researchCost = ItemStack.with(OvulamItems.ferroManganese, 10);
 
+      drillTime = 400;
+
       liquidCapacity = 30f;
       consume(new ConsumeLiquidFilterCapacity(l -> l.gas, 0f).boost());
     }};
