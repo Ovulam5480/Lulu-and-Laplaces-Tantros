@@ -84,4 +84,10 @@ public class OvulamGraphics{
 
     return toset;
   }
+
+  public static void applyBloom(Bloom bloom){
+    bloom.resize(graphics.getWidth(), graphics.getHeight());
+    bloom.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
+    bloom.blurPasses = settings.getInt("bloomblur", 1);
+  }
 }

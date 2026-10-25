@@ -1,6 +1,5 @@
 package lulu.graphics;
 
-import lulu.lib.singularity.graphic.*;
 import lulu.util.*;
 import arc.*;
 import arc.graphics.*;
@@ -155,7 +154,9 @@ public class OvulamFx{
     });
   });
 
-  public static Effect LulusSeparatorLanding = new OvulamEffect(240f, 100f, e -> {
+  public static final GroundFractureEffect coreLandingFracture = new GroundFractureEffect(240f, 720f, 128);
+
+  public static Effect coreCausalityLanding = new OvulamEffect(240f, 100f, e -> {
     float fin = e.fin();
     float fout = 1 - fin;
     float x = e.x, y = e.y;
@@ -164,20 +165,20 @@ public class OvulamFx{
 
     Draw.alpha(0.6f);
     float roundRadius = 400 * Interp.pow10Out.apply(fin);
-    SglDraw.gradientCircle(x, y, roundRadius, -roundRadius * (1 - Interp.pow5In.apply(fin)) * 2 / 3f, 0);
+    //SglDraw.gradientCircle(x, y, roundRadius, -roundRadius * (1 - Interp.pow5In.apply(fin)) * 2 / 3f, 0);
 
     Draw.alpha(1);
     Lines.stroke(16 * fout);
-    Lines.circle(x, y, roundRadius);
+    //Lines.circle(x, y, roundRadius);
 
     float strokeScl = 1 - Interp.pow2In.apply(fin);
     Lines.stroke(4 * strokeScl);
     Angles.randLenVectors(e.id, 80, 160, 480, (ax, ay) -> {
-      Lines.lineAngleCenter(x + ax * Interp.pow10Out.apply(fin), y + ay * Interp.pow10Out.apply(fin), Mathf.angle(ax, ay), 16 * strokeScl);
+      //Lines.lineAngleCenter(x + ax * Interp.pow10Out.apply(fin), y + ay * Interp.pow10Out.apply(fin), Mathf.angle(ax, ay), 16 * strokeScl);
     });
 
     MathUtil.stratifiedRandomSampling(e.id, 18, roundRadius, 17f, (ax, ay) -> {
-      Drawf.tri(x + ax, y + ay, 40, 400 * (1 - Interp.pow2Out.apply(fin)) * Interp.pow3Out.apply(fin), Mathf.angle(-ax, -ay));
+      //Drawf.tri(x + ax, y + ay, 40, 400 * (1 - Interp.pow2Out.apply(fin)) * Interp.pow3Out.apply(fin), Mathf.angle(-ax, -ay));
     });
 
     Draw.reset();

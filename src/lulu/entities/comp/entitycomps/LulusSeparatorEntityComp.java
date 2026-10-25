@@ -201,7 +201,7 @@ public abstract class LulusSeparatorEntityComp implements TileEntityc, LaunchAni
 
     control.input.panCamera(Tmp.v1.set(this));
 
-    OvulamFx.LulusSeparatorLanding.at(x, y);
+    OvulamFx.coreCausalityLanding.at(x, y);
     landParticleTimer = 0f;
     //Effect.shake(5f, 120f, this);
   }

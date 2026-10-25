@@ -1,5 +1,6 @@
 package lulu.world.blocks.storage;
 
+import arc.graphics.*;
 import lulu.*;
 import lulu.content.*;
 import lulu.graphics.*;
@@ -24,7 +25,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class CoreCausality extends CoreBlock implements ResourceBlockModule{
+public class CoreCausality extends OvulamCoreBlock implements ResourceBlockModule{
   public float resourceCapacity = 10_000_000;
 
   public float launchScl = 0.5f;
@@ -67,8 +68,9 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
   }
 
   @Annotations.ImplEntries
-  public class CoreCausalityBuild extends CoreBuild implements ResourceBuildComp{
+  public class CoreCausalityBuild extends OvulamCoreBuild implements ResourceBuildComp{
     private static final Rand rand = new Rand();
+    public static Bloom bloom = new Bloom(true);
 
     @Override
     public void drawLaunch(){
@@ -90,14 +92,18 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
 
       Draw.color(Pal.lightTrail);
 
-      rand.setSeed(1);
+      OvulamGraphics.applyBloom(bloom);
+      bloom.capture();
+      rand.setSeed(id);
       for(int i = 0; i < 1000; i++){
-        float dst = scl / Math.max(rand.nextFloat() - fin * 1.05f, 0.000001f);
+        float dst = scl / Math.max(rand.nextFloat() - fin * 1.05f, 0.000001f) * Mathf.lerp(1, 0f, fin);
         Tmp.v1.trns(rand.nextFloat() * 360f, dst);
 
         Lines.stroke(scl * pfin);
         Lines.lineAngle(x + Tmp.v1.x, y + Tmp.v1.y, Tmp.v1.angle(), dst);
       }
+      bloom.render();
+
       Draw.color();
 
       TextureRegion region = launchingRegions[Mathf.floor(fin * launchingRegions.length)];
@@ -109,6 +115,10 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
 
       Drawf.spinSprite(region, x, y, rotation);
 
+      Draw.color(Color.black, Interp.pow2Out.apply(fout));
+      Core.camera.bounds(Tmp.r1);
+      Fill.rect(Tmp.r1);
+
       Draw.scl();
       Draw.reset();
     }
@@ -119,7 +129,8 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
 
       if(!renderer.isLaunching()){
         OvulamEffect.shake(16f, 120f, x, y);
-        OvulamFx.LulusSeparatorLanding.at(x, y);
+        //OvulamFx.coreCausalityLanding.at(x, y);
+        OvulamFx.coreLandingFracture.spawn(x, y);
       }
       landParticleTimer = 0f;
     }
@@ -153,9 +164,7 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
 
     @Override
     public void updateTile(){
-      iframes -= Time.delta;
-      thrusterTime -= Time.delta / 90.0F;
-
+      super.updateTile();
       if(timer.get(60)){
         OvulamFx.bezierTrail.at(x, y, 0, Pal.accent,
           new OvulamTrail(120, 0){{
@@ -169,17 +178,6 @@ public class CoreCausality extends CoreBlock implements ResourceBlockModule{
       super.create(block, team);
       createResourceBuild();
       return this;
-    }
-
-    @Override
-    public void created(){
-      super.created();
-      configurable = true;
-    }
-
-    @Override
-    public boolean shouldHideConfigure(Player player){
-      return false;
     }
   }
 }

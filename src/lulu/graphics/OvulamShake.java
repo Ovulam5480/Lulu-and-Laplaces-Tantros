@@ -4,6 +4,7 @@ import arc.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import mindustry.*;
 import mindustry.game.*;
 
 import static arc.Core.*;
@@ -25,6 +26,7 @@ public class OvulamShake{
     });
 
     Events.run(EventType.Trigger.preDraw, () -> {
+      if(!Vars.state.isPlaying())return;
       if(shakeTime > 0){
         float intensity = shakeIntensity * 0.75f;
         camShakeOffset.setToRandomDirection().scl(Mathf.random(intensity));
@@ -39,6 +41,7 @@ public class OvulamShake{
     });
 
     Events.run(EventType.Trigger.postDraw, () -> {
+      if(!Vars.state.isPlaying())return;
       camera.position.sub(camShakeOffset);
     });
   }
@@ -47,19 +50,5 @@ public class OvulamShake{
     shakeIntensity = Math.max(shakeIntensity, Mathf.clamp(intensity, 0, 100));
     shakeTime = Math.max(shakeTime, duration);
     shakeReduction = shakeIntensity / shakeTime;
-  }
-
-  public void update(){
-    if(shakeTime > 0){
-      float intensity = shakeIntensity * (settings.getInt("screenshake", 4) / 4f) * 0.75f;
-      camShakeOffset.setToRandomDirection().scl(Mathf.random(intensity));
-      camera.position.add(camShakeOffset);
-      shakeIntensity -= shakeReduction * Time.delta;
-      shakeTime -= Time.delta;
-      shakeIntensity = Mathf.clamp(shakeIntensity, 0f, 100f);
-    }else{
-      camShakeOffset.setZero();
-      shakeIntensity = 0f;
-    }
   }
 }
