@@ -32,7 +32,7 @@ public class CoreCausality extends OvulamCoreBlock implements ResourceBlockModul
 
   public CoreCausality(String name){
     super(name);
-    unitType = OvulamUnitTypes.nautilus;
+    unitType = OvulamUnitTypes.ananke;
     size = 15;
 
     landZoomFrom = 0.03f;

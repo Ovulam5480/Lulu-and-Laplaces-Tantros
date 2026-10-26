@@ -1,6 +1,7 @@
 package lulu.content;
 
 import arc.graphics.*;
+import lulu.*;
 import lulu.entities.ability.*;
 import lulu.entities.ability.drawer.*;
 import lulu.entities.ai.*;
@@ -11,6 +12,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import ent.anno.*;
+import lulu.type.weapons.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
@@ -30,6 +32,7 @@ public class OvulamUnitTypes{
   public static @Annotations.EntityDef(value = {Unitc.class, MovableBuildUnitc.class, InertiaDamagec.class, HitboxEntityCollisionc.class}) UnitType inertiaBuildUnit;
   public static @Annotations.EntityDef(value = {Unitc.class, SeizePayloadc.class}) UnitType amphiprioninae;
   public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class}) UnitType nautilus;
+  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class}) UnitType ananke;
   public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, FrameBuilderc.class}) UnitType ddd;
 
   public static UnitType manganeseTorpedo, cobaltTorpedo;
@@ -61,6 +64,30 @@ public class OvulamUnitTypes{
         new OvulamTrailType(40, 2, 0, -5, Liquids.water.color),
         new OvulamTrailType(20, 0.7f, 0, -5, Color.valueOf("92a0e1"))
       );
+    }};
+
+    ananke = new PacketUnitType("ananke"){{
+      health = 2000;
+      hitSize = 16f;
+
+      packetDragResist = 4f;
+
+      speed = 4.85f;
+      accel = 0.1f;
+      drag = 0.05f;
+      buildSpeed = 1f;
+      flying = true;
+
+      engineSize = 0;
+
+      weapons.add(
+        new UnitBuildWeapon(LuluMod.modName + "ananke-build-weapon"){{
+        x = 10f;
+        y = -2;
+      }}, new UnitBuildWeapon(LuluMod.modName + "ananke-build-weapon"){{
+        x = 6.5f;
+        y = 8;
+      }});
     }};
 
     manganeseTorpedo = new MissileUnitType("manganese-torpedo"){{
