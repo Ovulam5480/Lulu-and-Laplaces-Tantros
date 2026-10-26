@@ -1,5 +1,6 @@
 package lulu.content;
 
+import arc.graphics.*;
 import lulu.entities.ability.*;
 import lulu.entities.ability.drawer.*;
 import lulu.entities.ai.*;
@@ -28,7 +29,7 @@ public class OvulamUnitTypes{
   public static @Annotations.EntityDef(value = {Unitc.class, MovableBuildUnitc.class, RollCubeUnitc.class}) UnitType rollingBuildUnit;
   public static @Annotations.EntityDef(value = {Unitc.class, MovableBuildUnitc.class, InertiaDamagec.class, HitboxEntityCollisionc.class}) UnitType inertiaBuildUnit;
   public static @Annotations.EntityDef(value = {Unitc.class, SeizePayloadc.class}) UnitType amphiprioninae;
-  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class}) UnitType daw;
+  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class}) UnitType nautilus;
   public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, FrameBuilderc.class}) UnitType ddd;
 
   public static UnitType manganeseTorpedo, cobaltTorpedo;
@@ -42,17 +43,24 @@ public class OvulamUnitTypes{
   //public static @Annotations.EntityDef(value = {Unitc.class, TentacleOwnerc.class}) UnitType head;
 
   public static void load(){
-    daw = new PacketUnitType("daw"){{
-      health = 500;
+    nautilus = new PacketUnitType("nautilus"){{
+      health = 250;
       hitSize = 16f;
 
-      packetDragResist = 1f;
+      packetDragResist = 2f;
 
       speed = 4.85f;
       accel = 0.1f;
       drag = 0.05f;
       buildSpeed = 1f;
       flying = true;
+
+      engineSize = 0;
+      ovulamTrailTypes().add(
+        new OvulamTrailType(30, -1, 1, 3.7f, -6, Liquids.water.color),
+        new OvulamTrailType(40, 2, 0, -5, Liquids.water.color),
+        new OvulamTrailType(20, 0.7f, 0, -5, Color.valueOf("92a0e1"))
+      );
     }};
 
     manganeseTorpedo = new MissileUnitType("manganese-torpedo"){{

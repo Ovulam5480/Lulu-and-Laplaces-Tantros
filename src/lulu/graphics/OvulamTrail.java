@@ -51,7 +51,7 @@ public class OvulamTrail extends Trail{
       float z2 = -Angles.angleRad(x1, y1, x2, y2);
       //end of the trail (i = 0) has the same angle as the next.
       float z1 = i == 0 ? z2 : lastAngle;
-      if(w1 <= 0.001f || w2 <= 0.001f || Mathf.zero(z2, 0.001f)) continue;
+      if(w1 <= 0.001f || w2 <= 0.001f) continue;
 
       float
         cx = Mathf.sin(z1) * widthInterp.apply((float)i / points.size) * w1 * trailWidth,

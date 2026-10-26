@@ -18,7 +18,6 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.storage.*;
 import mindustry.world.meta.*;
 import universecore.annotations.*;
 
@@ -33,7 +32,7 @@ public class CoreCausality extends OvulamCoreBlock implements ResourceBlockModul
 
   public CoreCausality(String name){
     super(name);
-    unitType = OvulamUnitTypes.daw;
+    unitType = OvulamUnitTypes.nautilus;
     size = 15;
 
     landZoomFrom = 0.03f;

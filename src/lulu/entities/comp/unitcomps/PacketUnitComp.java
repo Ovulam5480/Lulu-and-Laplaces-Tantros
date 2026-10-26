@@ -1,15 +1,17 @@
 package lulu.entities.comp.unitcomps;
 
+import arc.graphics.g2d.*;
 import lulu.ctype.packet.*;
 import lulu.entities.*;
 import lulu.entities.gen.*;
 import lulu.entities.types.*;
-import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
+import lulu.graphics.*;
+import lulu.lib.singularity.graphic.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -22,6 +24,8 @@ abstract class PacketUnitComp implements PacketTransporterc, Unitc, MDTXc{
   float x, y;
   @Annotations.Import
   UnitType type;
+
+  public static Rand rand = new Rand();
 
   @Override
   public void update(){
@@ -40,7 +44,21 @@ abstract class PacketUnitComp implements PacketTransporterc, Unitc, MDTXc{
 
   @Override
   public void draw(){
-    packets.each(p -> Drawf.line(Color.acid, p.getX(), p.getY(), x, y));
+    Draw.draw(Layer.effect, () -> {
+      Draw.color(Pal.accent);
+      float maxDst = (type.speed * 10 + 32) * 1.5f;
+      rand.setSeed(id());
+
+      for(PacketEntry entry : packets){
+        float ux = entry.getX();
+        float uy = entry.getY();
+
+        MathRenderer.setThreshold(0.03f, 0.03f);
+        OvulamMathRenderers.drawParabola(x, y, ux, uy,
+          Mathf.sin(rand.nextFloat() * 20 + 20, Math.max(rand.nextFloat() * Mathf.lerp(0.5f, 0f, entry.dst(this) / maxDst) + 0.1f, 0.06f)),
+          Mathf.sin(rand.nextFloat() * 60 + 40, rand.nextFloat() * 20f + 10f));
+      }
+    });
   }
 
   @Annotations.Replace
@@ -70,7 +88,10 @@ abstract class PacketUnitComp implements PacketTransporterc, Unitc, MDTXc{
 
     float totalUnitBindDrag = 0;
     for(PacketEntry packet : packets){
-      totalUnitBindDrag += packet.packet.packetType().unitBindDrag;
+      Vec2 toVel = Tmp.v1.set((Position)self()).sub(packet);
+      float len = Math.max((toVel.len() - 32) / 40, 0);
+
+      totalUnitBindDrag += packet.packet.packetType().unitBindDrag * len;
     }
 
     float packetDrag = Mathf.pow(Mathf.E, -totalUnitBindDrag / typeAs().packetDragResist);

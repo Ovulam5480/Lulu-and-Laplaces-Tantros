@@ -57,7 +57,7 @@ public class CoreBackflow extends OvulamCoreBlock implements MovableBlockComp, R
 
   public CoreBackflow(String name){
     super(name);
-    unitType = OvulamUnitTypes.daw;
+    unitType = OvulamUnitTypes.nautilus;
     thrusterLength = 10;
     launchEffect = OvulamFx.launchTantros;
     customShadow = true;

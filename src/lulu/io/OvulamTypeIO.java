@@ -4,18 +4,36 @@ import lulu.*;
 import lulu.content.extensions.*;
 import lulu.ctype.packet.*;
 import lulu.entities.gen.*;
+import lulu.entities.types.typeComps.*;
 import lulu.type.resourceStacks.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;
 import mindustry.*;
+import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.io.*;
 
 @SuppressWarnings("unused")
 @Annotations.TypeIOHandler
 public class OvulamTypeIO{
+  public static void writeOvulamTrailTypeComp(Writes writes, OvulamTrailTypeComp type){
+    if(type instanceof UnlockableContent c){
+      writes.bool(true);
+      writes.s(c.getContentType().ordinal());
+      writes.s(c.id);
+    }
+  }
+
+  public static OvulamTrailTypeComp readOvulamTrailTypeComp(Reads reads){
+    boolean isContent = reads.bool();
+    if(isContent){
+      return Vars.content.getByID(ContentType.all[reads.s()], reads.s());
+    }
+    return null;
+  }
+
   public static void writePacketType(Writes writes, PacketType packetType){
     writes.s(packetType.id);
   }
