@@ -34,8 +34,8 @@ public class BaseConsumeModule<T extends Building & ConsumerBuildc<T>> extends B
 
   public BaseConsumeModule(T entity){
     this.entity = entity;
-    current = entity.getConsumerBlock().consumers() != null && entity.consumeCurrent() != -1 ?
-      entity.getConsumerBlock().consumers().get(entity.consumeCurrent()) : null;
+    current = entity.getConsumerBlock().recipeConsumers() != null && entity.consumeCurrent() != -1 ?
+      entity.getConsumerBlock().recipeConsumers().get(entity.consumeCurrent()) : null;
   }
 
   public void build(Table table){
@@ -43,7 +43,7 @@ public class BaseConsumeModule<T extends Building & ConsumerBuildc<T>> extends B
   }
 
   public Seq<BaseConsumers<T>> get(){
-    return entity.getConsumerBlock().consumers().as();
+    return entity.getConsumerBlock().recipeConsumers().as();
   }
 
   public Seq<BaseConsumers<T>> getOptional(){

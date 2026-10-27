@@ -27,7 +27,7 @@ public class PayloadModule extends BlockModule{
   }
 
   public Payload take(){
-    return payloads.take();
+    return payloads.isEmpty() ? null : payloads.take();
   }
 
   public Payload get(){

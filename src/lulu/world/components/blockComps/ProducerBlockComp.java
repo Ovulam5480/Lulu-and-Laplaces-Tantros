@@ -70,12 +70,12 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
    * 生产清单的列表
    */
   @Annotations.BindField(value = "producers", initialize = "new arc.struct.Seq<>()")
-  default Seq<BaseProducers<T>> producers(){
+  default Seq<BaseProducers<T>> recipeProducers(){
     return null;
   }
 
   @Annotations.BindField("producers")
-  default void producers(Seq<BaseProducers<T>> value){
+  default void recipeProducers(Seq<BaseProducers<T>> value){
   }
 
   /**
@@ -304,21 +304,21 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
    */
   @Annotations.MethodEntry(entryMethod = "init")
   default void initProduct(){
-    int b = producers().size;
-    int a = consumers().size;
+    int b = recipeProducers().size;
+    int a = recipeConsumers().size;
     /*控制produce添加/移除配方以使配方同步*/
     while(a > b){
       BaseProducers<T> p = new BaseProducers<>();
-      producers().add(p);
+      recipeProducers().add(p);
       b++;
     }
     while(a < b){
       b--;
-      producers().remove(b);
+      recipeProducers().remove(b);
     }
 
-    for(int index = 0; index < producers().size; index++){
-      producers().get(index).cons = consumers().get(index);
+    for(int index = 0; index < recipeProducers().size; index++){
+      recipeProducers().get(index).cons = recipeConsumers().get(index);
     }
   }
 
@@ -329,14 +329,14 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
       effectRange(block.size);
     }
 
-    if(producers().size > 0) for(BaseProducers<T> prod : producers()){
+    if(recipeProducers().size > 0) for(BaseProducers<T> prod : recipeProducers()){
       outputItems(outputItems() | prod.get(ResourceType.item) != null);
       block.hasItems |= outputItems();
       block.hasLiquids |= block.outputsLiquid |= prod.get(ResourceType.liquid) != null;
       block.hasPower |= block.outputsPower |= prod.get(ResourceType.power) != null && prod.<ProducePower<T>>get(ResourceType.power).powerProduction != 0;
     }
 
-    for(BaseProducers<T> producer : producers()){
+    for(BaseProducers<T> producer : recipeProducers()){
       block.outputsPayload |= producer.get(ResourceType.payload) != null;
     }
 
@@ -346,7 +346,7 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
 
     //super.init();
 
-    if((producers().size > 1 && canSelect()) || shouldConfig()) block.configurable = true;
+    if((recipeProducers().size > 1 && canSelect()) || shouldConfig()) block.configurable = true;
   }
 
   /**
@@ -356,13 +356,13 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
     BaseProducers<T> produce = new BaseProducers<>();
     cons.get(produce);
     produce(produce);
-    producers().add(produce);
+    recipeProducers().add(produce);
   }
 
   default void newProduce(){
     BaseProducers<T> produce = new BaseProducers<>();
     produce(produce);
-    producers().add(produce);
+    recipeProducers().add(produce);
   }
 
   default void newOptionalProduct(Cons<BaseProducers<T>> cons){
@@ -478,7 +478,7 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
 
   @Annotations.MethodEntry(entryMethod = "setStats", context = "stats -> stats")
   default void setStatsProducer(Stats stats){
-    if(producers().size > 1){
+    if(recipeProducers().size > 1){
       stats.add(SglStat.autoSelect, autoSelect());
       stats.add(SglStat.controllable, canSelect());
     }
@@ -487,9 +487,9 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
       t.left().row();
       t.add(Core.bundle.get("infos.touchShowDetails")).color(Color.gray).left();
       t.row();
-      for(int i = 0; i < consumers().size; i++){
-        BaseConsumers<T> cons = consumers().get(i);
-        BaseProducers<T> prod = producers().get(i);
+      for(int i = 0; i < recipeConsumers().size; i++){
+        BaseConsumers<T> cons = recipeConsumers().get(i);
+        BaseProducers<T> prod = recipeProducers().get(i);
 
         Table details = new Table();
         buildRecipe(details, cons, prod);

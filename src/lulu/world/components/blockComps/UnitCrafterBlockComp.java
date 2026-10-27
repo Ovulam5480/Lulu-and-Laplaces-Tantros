@@ -29,7 +29,7 @@ public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc<T>> ex
 
   @Annotations.MethodEntry(entryMethod = "init")
   default void initUnitRequirements(){
-    for(BaseConsumers<T> consumer : consumers()){
+    for(BaseConsumers<T> consumer : recipeConsumers()){
       consumer.forAll(consume -> {
         if(consume instanceof ConsumePayload<T> c){
           for(PayloadStack payloadStack : c.payloads){
@@ -39,7 +39,7 @@ public interface UnitCrafterBlockComp<T extends Building & ProducerBuildc<T>> ex
       });
     }
 
-    for(BaseProducers<T> producer : producers()){
+    for(BaseProducers<T> producer : recipeProducers()){
       producer.forAll(produce -> {
         if(!(produce instanceof ProducePayload<T> p)){
           return;

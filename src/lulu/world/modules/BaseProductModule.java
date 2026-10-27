@@ -25,11 +25,11 @@ public class BaseProductModule<T extends Building & ProducerBuildc<T>> extends B
   public BaseProductModule(T entity){
     this.entity = entity;
     consumer = entity.consumer();
-    current = entity.produceCurrent() != -1 ? entity.getProducerBlock().producers().get(entity.produceCurrent()) : null;
+    current = entity.produceCurrent() != -1 ? entity.getProducerBlock().recipeProducers().get(entity.produceCurrent()) : null;
   }
 
   public Seq<BaseProducers<T>> get(){
-    return entity.getProducerBlock().producers();
+    return entity.getProducerBlock().recipeProducers();
   }
 
   public void trigger(){

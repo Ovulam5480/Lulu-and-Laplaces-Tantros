@@ -7,6 +7,7 @@ import mindustry.ctype.*;
 import mindustry.type.*;
 
 public enum ResourceType{
+  nothing(null),
   item(Item.class),
   liquid(Liquid.class),
   power(Power.class),

@@ -26,7 +26,7 @@ public interface FloorCrafterBlockComp<T extends Building & FloorCrafterBuildc<T
 
     Tile t = Vars.world.tile(x, y);
     if(t != null){
-      for(BaseConsumers<T> consumer : consumers()){
+      for(BaseConsumers<T> consumer : recipeConsumers()){
         ConsumeFloor<T> cons = consumer.get(ResourceType.floor);
         if(cons != null){
           c++;
@@ -106,7 +106,7 @@ public interface FloorCrafterBlockComp<T extends Building & FloorCrafterBuildc<T
       }
     }
 
-    for(BaseConsumers<T> consumer : consumers()){
+    for(BaseConsumers<T> consumer : recipeConsumers()){
       ConsumeFloor<T> cons = consumer.get(ResourceType.floor);
       if(cons != null){
         c++;

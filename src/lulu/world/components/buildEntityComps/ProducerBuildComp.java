@@ -85,7 +85,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> impleme
   }
 
   @Override
-  public void update(){
+  public void updateConsumer(){
     updateProducer();
     updateFactory();
   }
@@ -338,10 +338,10 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> impleme
 
   @Annotations.Replace(2)
   public void buildConfiguration(Table table){
-    Seq<BaseProducers<T>> producers = getProducerBlock().producers();
-    Seq<BaseConsumers<T>> consumers = getProducerBlock().consumers();
+    Seq<BaseProducers<T>> producers = getProducerBlock().recipeProducers();
+    Seq<BaseConsumers<T>> consumers = getProducerBlock().recipeConsumers();
 
-    if(getProducerBlock().producers().size > 1 && getProducerBlock().canSelect()){
+    if(getProducerBlock().recipeProducers().size > 1 && getProducerBlock().canSelect()){
       table.table(Tex.buttonTrans, prescripts -> {
         prescripts.defaults().grow().marginTop(0).marginBottom(0).marginRight(5).marginRight(5);
 

@@ -109,12 +109,12 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
    * 方块的消耗的清单列表
    */
   @BindField(value = "recipeConsumers", initialize = "new arc.struct.Seq<>()")
-  default Seq<BaseConsumers<T>> consumers(){
+  default Seq<BaseConsumers<T>> recipeConsumers(){
     return null;
   }
 
   @BindField(value = "recipeConsumers", initialize = "new arc.struct.Seq<>()")
-  default void consumers(Seq<BaseConsumers<T>> value){
+  default void recipeConsumers(Seq<BaseConsumers<T>> value){
   }
 
   /**
@@ -167,13 +167,13 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
   @Annotations.MethodEntry(entryMethod = "init", insert = Annotations.InsertPosition.HEAD)
   default void initFactory(){
     Block self = (Block)this;
-    if(consumers().size > 1){
+    if(recipeConsumers().size > 1){
       self.configurable = true;
       self.saveConfig = true;
     }
 
     Seq<BaseConsumers<T>> consume = new Seq<>();
-    if(consumers().size > 0) consume.addAll(consumers());
+    if(recipeConsumers().size > 0) consume.addAll(recipeConsumers());
     if(optionalCons().size > 0) consume.addAll(optionalCons());
     for(BaseConsumers<T> cons : consume){
       if(cons.get(ResourceType.item) != null){
@@ -184,7 +184,7 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
       self.hasPower |= self.consumesPower |= cons.get(ResourceType.power) != null;
     }
 
-    for(BaseConsumers<T> consumer : consumers()){
+    for(BaseConsumers<T> consumer : recipeConsumers()){
       self.acceptsPayload |= consumer.get(ResourceType.payload) != null;
     }
   }
@@ -217,8 +217,8 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
 
   @Annotations.MethodEntry(entryMethod = "init")
   default void initFilter(){
-    filter().applyFilter(consumers(), optionalCons());
-    for(BaseConsumers<T> consumer : consumers()){
+    filter().applyFilter(recipeConsumers(), optionalCons());
+    for(BaseConsumers<T> consumer : recipeConsumers()){
       consumer.initFilter();
     }
   }
@@ -226,13 +226,13 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
   default void newConsume(Cons<BaseConsumers<T>> cons){
     BaseConsumers<T> consume = new BaseConsumers<>(false);
     cons.get(consume);
-    consumers().add(consume);
+    recipeConsumers().add(consume);
     consume(consume);
   }
 
   default void newConsume(){
     BaseConsumers<T> consume = new BaseConsumers<>(false);
-    consumers().add(consume);
+    recipeConsumers().add(consume);
     consume(consume);
   }
 
@@ -255,7 +255,7 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
 
   default void appliedConfig(Block self){
     self.config(Integer.class, (T e, Integer i) -> {
-      if(consumers().size > 1){
+      if(recipeConsumers().size > 1){
         if(canSelect()) e.recipeSelected(true);
         e.reset();
         if(e.consumeCurrent() == i || i == -1){

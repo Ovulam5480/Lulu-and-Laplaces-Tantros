@@ -74,11 +74,12 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
   public void createConsumer(){
     liquids = new SglLiquidModule();
 
-    if(getConsumerBlock().consumers().size == 1) consumeCurrent = 0;
+    if(getConsumerBlock().recipeConsumers().size == 1) consumeCurrent = 0;
 
     consumer = new BaseConsumeModule<>(self());
   }
 
+  @Annotations.Replace
   @Override
   public void update(){
     updateConsumer();
@@ -94,8 +95,8 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
   }
 
   public void updateConsumerBefore(){
-    Seq<BaseConsumers<T>> consumers = getConsumerBlock().consumers();
-    getConsumerBlock().consumers();
+    Seq<BaseConsumers<T>> consumers = getConsumerBlock().recipeConsumers();
+    getConsumerBlock().recipeConsumers();
 
     updateRecipe = false;
     if(!recipeSelected && getConsumerBlock().autoSelect() && consumer.hasConsume() && (consumer.current == null || !consumer.valid())){
@@ -353,7 +354,7 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
 
   @Annotations.Replace(1)
   public void drawStatus(){
-    if(block.enableDrawStatus && getConsumerBlock().consumers().size > 0){
+    if(block.enableDrawStatus && getConsumerBlock().recipeConsumers().size > 0){
       float multiplier = block.size > 1 ? 1.0F : 0.64F;
       float brcx = tile.drawx() + (float)(block.size * 8) / 2.0F - 8 * multiplier / 2;
       float brcy = tile.drawy() - (float)(block.size * 8) / 2.0F + 8 * multiplier / 2;

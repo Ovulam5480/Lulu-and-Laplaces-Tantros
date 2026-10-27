@@ -55,7 +55,7 @@ public class Crafter{
       newProduce();
       produce().item(OvulamItems.cobalt, 1);
 
-      consumers().each(bcs -> bcs.add(floor));
+      recipeConsumers().each(bcs -> bcs.add(floor));
     }};
 
     OvulamBlocks.assemblingMachine = new PayloadCrafter("assembling-machine"){{
