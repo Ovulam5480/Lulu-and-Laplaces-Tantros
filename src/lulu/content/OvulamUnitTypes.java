@@ -48,7 +48,7 @@ public class OvulamUnitTypes{
   public static void load(){
     nautilus = new PacketUnitType("nautilus"){{
       health = 250;
-      hitSize = 16f;
+      hitSize = 12f;
 
       packetDragResist = 2f;
 
@@ -68,7 +68,7 @@ public class OvulamUnitTypes{
 
     ananke = new PacketUnitType("ananke"){{
       health = 2000;
-      hitSize = 16f;
+      hitSize = 28f;
 
       packetDragResist = 4f;
 
