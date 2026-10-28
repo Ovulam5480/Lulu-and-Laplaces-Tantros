@@ -1,48 +1,73 @@
 package lulu.world.blocks;
 
+import lulu.content.*;
 import lulu.entities.gen.*;
 import lulu.world.components.blockComps.*;
 import arc.func.*;
+import lulu.world.recipe.*;
+import lulu.world.recipe.producers.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
+import mindustry.world.meta.*;
+import universecore.annotations.*;
 
-public class FrameBlock extends Block implements PayloadCrafterBlockComp{
+@Annotations.ImplEntries
+public class FrameBlock extends Block implements PayloadCrafterBlockComp<PayloadCrafterBuildBuilding>{
   public Block replacedBlock = Blocks.copperWallLarge;
+  public Block targetBlock = Blocks.copperWallLarge;
+  private Prov<Block> replacedBlockProv;
+  private Prov<Block> targetBlockProv;
+
   public float requiredProgress = 0.5f;
   public float requiredProgressRound = 0.05f;
 
-  private Prov<Block> replacedBlockProv;
-
-  public static ConstructBlock.ConstructBuild toReplaced;
-
-  public FrameBlock(String name, Prov<Block> replacedBlock){
-    super(name);
-    update = true;
-    instantBuild = true;
-
-    this.replacedBlockProv = replacedBlock;
-  }
-
-  public FrameBlock(String name, Block replacedBlock){
-    super(name);
-    update = true;
-    instantBuild = true;
-
-    this.replacedBlock = replacedBlock;
-  }
+  private static ConstructBlock.ConstructBuild toReplaced;
 
   public FrameBlock(String name){
-    this(name, () -> Blocks.air);
+    super(name);
+    instantBuild = true;
+    itemCapacityMulti(1);
+    payloadCapacityMulti(1);
+  }
+
+  @SafeVarargs
+  public static FrameBlock registerFrameList(Block replaced, Block target, Cons<BaseConsumers<PayloadCrafterBuildBuilding>>...buildList){
+    Block lastBlock = target;
+
+    for(int i = 0; i < buildList.length; i++){
+      int j = buildList.length - i;
+      Block lastTarget = lastBlock;
+      lastBlock = new FrameBlock(target.name + "-frame-block-" + j){{
+        newConsume();
+        buildList[j - 1].get(consume());
+        newProduce();
+        produce().add(new ProduceValid<>());
+
+        boolean first = j == 1;
+        buildVisibility = first ? OvulamBuildVisibility.frameBuilder : BuildVisibility.hidden;
+        if(first){
+          this.replacedBlock = replaced;
+        }
+        targetBlock = lastTarget;
+      }};
+    }
+
+    return (FrameBlock)lastBlock;
   }
 
   @Override
   public void init(){
-    super.init();
-
     if(replacedBlock == null) replacedBlock = replacedBlockProv.get();
+    if(targetBlock == null) targetBlock = replacedBlockProv.get();
+    if(targetBlock != null){
+      size = targetBlock.size;
+      category = targetBlock.category;
+    }
+
+    super.init();
   }
 
   @Override
@@ -76,7 +101,8 @@ public class FrameBlock extends Block implements PayloadCrafterBlockComp{
   public class FrameBlockBuild extends PayloadCrafterBuildBuilding{
     @Override
     public void craftTrigger(){
-
+      tile.setBlock(targetBlock, team);
+      placeEffect.at(x, y, size);
     }
   }
 

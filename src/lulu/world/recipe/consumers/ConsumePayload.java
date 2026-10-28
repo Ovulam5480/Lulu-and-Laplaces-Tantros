@@ -24,6 +24,14 @@ public class ConsumePayload<T extends Building & ConsumerBuildc<T>> extends Base
     this.payloads = payloads;
   }
 
+  public ConsumePayload(UnlockableContent content){
+    this(new PayloadStack[]{new PayloadStack(content)});
+  }
+
+  public ConsumePayload(UnlockableContent content, int amount){
+    this(new PayloadStack[]{new PayloadStack(content, amount)});
+  }
+
   public static void buildPayloadIcons(Table table, PayloadStack[] payloads, int displayLim){
     int count = 0;
     for(PayloadStack stack : payloads){

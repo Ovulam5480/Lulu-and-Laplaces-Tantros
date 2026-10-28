@@ -59,7 +59,6 @@ public class OvulamBlocks{
   public static Block amethystCrystalCore, manganeseNoduleProp;
   public static Block blastCylinder;
   public static Block ferroManganeseRodGroup;
-  public static Block frameBlock;
   public static Block coreBackflow;
   public static Block coreCausality;
 

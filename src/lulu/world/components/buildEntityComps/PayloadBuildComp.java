@@ -1,6 +1,7 @@
 package lulu.world.components.buildEntityComps;
 
 import lulu.entities.gen.*;
+import lulu.world.components.blockComps.*;
 import lulu.world.modules.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -28,10 +29,6 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
   @Annotations.Import
   Team team;
 
-  public transient int payloadCapacity;
-  public transient float payloadSpeed;
-  public transient float payloadRotateSpeed;
-
   public transient int blendBit;
   public transient boolean carried;
 
@@ -40,6 +37,10 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
   public Payload outputting;
   public float stackAlpha;
   public boolean outputLocking;
+
+  public PayloadBlockComp getPayloadBlock(){
+    return (PayloadBlockComp)block;
+  }
 
   @Override
   public void afterCreate(){
@@ -53,6 +54,8 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
   public float handleOutputPayload(){
     if(outputting != null){
       Vec2 outputVec = outputtingOffset();
+      float payloadSpeed = getPayloadBlock().payloadSpeed();
+      float payloadRotateSpeed = getPayloadBlock().payloadRotateSpeed();
       outputting.set(
         Mathf.approachDelta(outputting.x(), x + outputVec.x, payloadSpeed),
         Mathf.approachDelta(outputting.y(), y + outputVec.y, payloadSpeed),
@@ -68,6 +71,8 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
 
   public float handleInputPayload(){
     if(inputting != null){
+      float payloadSpeed = getPayloadBlock().payloadSpeed();
+      float payloadRotateSpeed = getPayloadBlock().payloadRotateSpeed();
       inputting.set(
         Mathf.approachDelta(inputting.x(), x, payloadSpeed),
         Mathf.approachDelta(inputting.y(), y, payloadSpeed),
@@ -164,7 +169,15 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
   }
 
   public boolean acceptPayloadPayloadBuild(Building source, Payload payload){
-    return payloads.total() < payloadCapacity;
+    return hasPayloadCapital();
+  }
+
+  public int getTotalPayloads(){
+    return payloads.total() + Mathf.num(inputting != null);
+  }
+
+  public boolean hasPayloadCapital(){
+    return getPayloadBlock().acceptIgnoreCapacity() || getTotalPayloads() < getPayloadBlock().payloadCapacity();
   }
 
   public void popPayload(){
@@ -178,13 +191,15 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
     return inputting == null;
   }
 
-  public void updateTile(){
-    updateTilePayloadBuild();
+  @Annotations.Replace
+  @Override
+  public void update(){
+    updatePayloadBuild();
   }
 
-  public void updateTilePayloadBuild(){
+  public void updatePayloadBuild(){
     if(!outputLocking){
-      stackAlpha = (Mathf.approachDelta(stackAlpha, inputting != null && outputting == null ? 0 : 1, payloadSpeed / (block.size * tilesize / 2f)));
+      stackAlpha = (Mathf.approachDelta(stackAlpha, inputting != null && outputting == null ? 0 : 1, getPayloadBlock().payloadSpeed() / (block.size * tilesize / 2f)));
     }
 
     for(Payload payload : payloads.iterate()){
@@ -208,7 +223,7 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
     float outputProgress = handleOutputPayload();
 
     if(inputProgress >= 0.999f){
-      if(payloads.total() < payloadCapacity){
+      if(payloads.total() < getPayloadBlock().payloadCapacity()){
         payloads.add(inputting);
         stackAlpha = 1;
         inputting = null;
@@ -262,6 +277,10 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
       payloads.add(payload);
       stackAlpha = 1;
     }
+  }
+
+  public void draw(){
+    drawPayloadPayloadBuild();
   }
 
   public void drawPayloadPayloadBuild(){

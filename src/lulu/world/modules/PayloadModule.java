@@ -31,7 +31,7 @@ public class PayloadModule extends BlockModule{
   }
 
   public Payload get(){
-    return payloads.peek();
+    return payloads.isEmpty() ? null : payloads.peek();
   }
 
   public Payload get(UnlockableContent type){

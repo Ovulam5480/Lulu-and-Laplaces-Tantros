@@ -12,7 +12,7 @@ import mindustry.world.blocks.payloads.*;
 import java.util.*;
 
 public class ModulePayloadSeq extends PayloadSeq implements Iterable<Payload>{
-  private final Seq<Payload> payloads = new Seq<>();
+  public final Seq<Payload> payloads = new Seq<>(Payload.class);
   public Team team;
 
   public ModulePayloadSeq(Team team){
@@ -75,7 +75,7 @@ public class ModulePayloadSeq extends PayloadSeq implements Iterable<Payload>{
   @Override
   public void remove(UnlockableContent type, int amount){
     int[] count = {0};
-    payloads.remove(t -> t.content() == type && count[0]++ < amount);
+    payloads.removeAll(t -> t.content() == type && count[0]++ < amount);
     super.remove(type);
   }
 

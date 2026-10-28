@@ -59,9 +59,31 @@ abstract class PayloadCrafterBuildComp<T extends Building & ProducerBuildc<T>> i
 
   @Annotations.Replace(3)
   public boolean acceptPayload(Building source, Payload payload){
+    return acceptPayloadPayloadCrafterBuild(source, payload);
+  }
+
+  public boolean acceptPayloadPayloadCrafterBuild(Building source, Payload payload){
     PayloadCrafterBlockComp<T> crafterBlock = getPayloadCrafterBlock();
     return (source == self() || (block.acceptsPayload && inputting() == null && (!consumer().hasConsume()
-      || crafterBlock.filter().filter(self(), ResourceType.payload, payload.content(), true)))) && payloads().total() < payloadCapacity();
+      || crafterBlock.filter().filter(self(), ResourceType.payload, payload.content(), true))))
+      && acceptPayloadPayloadBuild(source, payload);
+  }
+
+
+  @Annotations.Replace(3)
+  @Override
+  public Payload takePayload(){
+    return takePayloadPayloadCrafterBuild();
+  }
+
+  public Payload takePayloadPayloadCrafterBuild(){
+    Payload payload = null;
+    for(Payload p : payloads().payloads.payloads){
+      if(!getPayloadCrafterBlock().consume().filter(ResourceType.payload, p.content())){
+        payload = p;
+      }
+    }
+    return payload;
   }
 
   @Annotations.Replace(3)
