@@ -1,7 +1,11 @@
 package lulu.world;
 
 import arc.*;
-import mindustry.game.EventType;
+import arc.struct.*;
+import lulu.content.extensions.*;
+import lulu.world.components.buildComps.*;
+import mindustry.*;
+import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.power.*;
 import universe.util.reflect.*;
@@ -10,13 +14,17 @@ import universe.util.reflect.accessor.*;
 public class OvulamPowerGraph extends PowerGraph{
   private static final FieldAccessor<PowerGraph, PowerGraphUpdater> entityField = Reflection.accessField(PowerGraph.class, PowerGraphUpdater.class, "entity");
   private static boolean covered = false;
+  public IntFloatMap powerTypes;
+  public Seq<Building>[] typeProducers;
 
-  static {
+  static{
     Events.run(EventType.Trigger.afterGameUpdate, () -> {
       if(covered){
         for(PowerGraphUpdaterc entity : Groups.powerGraph){
           if(entity.graph() instanceof OvulamPowerGraph) continue;
-          new OvulamPowerGraph().addGraph(entity.graph());
+          PowerGraph graph = new OvulamPowerGraph();
+          graph.addGraph(entity.graph());
+          //todo graph.update?
         }
         covered = false;
       }
@@ -34,21 +42,74 @@ public class OvulamPowerGraph extends PowerGraph{
       entity.graph = this;
       entityField.set(this, entity);
     }
+
+    typeProducers = new Seq[Vars.content.getBy(OvulamContentType.power.value).size];
+    for(int i = 0; i < typeProducers.length; i++){
+      typeProducers[i] = new Seq<>(false, 4);
+    }
   }
 
   @Override
-  public void addGraph(PowerGraph graph) {
-    if (graph != this) {
+  public float getPowerProduced(){
+    float powerProduced = 0f;
+    var items = producers.items;
+    for(int i = 0; i < producers.size; i++){
+      var producer = items[i];
+      powerProduced += producer.getPowerProduction() * producer.delta();
+    }
+    return powerProduced;
+  }
+
+  @Override
+  public float getPowerNeeded(){
+    float powerNeeded = 0f;
+    var items = consumers.items;
+    for(int i = 0; i < consumers.size; i++){
+      var consumer = items[i];
+      var consumePower = consumer.block.consPower;
+      if(consumer.shouldConsumePower){
+        powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();
+      }
+    }
+    return powerNeeded;
+  }
+
+  @Override
+  public void update(){
+    for(Seq<Building> seq : typeProducers){
+      if(!seq.isEmpty())seq.clear();
+    }
+
+    for(Building producer : producers){
+      int id = 0;
+      if(producer instanceof PowerTypeBuildComp ptb){
+        id = ptb.getPowerType().id;
+      }
+      typeProducers[id].add(producer);
+    }
+    super.update();
+  }
+
+  @Override
+  public void add(Building build){
+    super.add(build);
+  }
+
+  @Override
+  public void addGraph(PowerGraph graph){
+    if(graph != this){
       PowerGraphUpdater entity = entityField.get(graph);
 
-      if (entity != null) {
-        entity.remove();
+      if(graph.getClass() == OvulamPowerGraph.class && graph.all.size > all.size){
+        graph.addGraph(this);
+        return;
       }
 
-      for(Building tile : graph.all) {
+      if(entity != null) entity.remove();
+
+      for(Building tile : graph.all){
         add(tile);
       }
-
       checkAdd();
     }
   }

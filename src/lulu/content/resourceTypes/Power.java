@@ -2,6 +2,7 @@ package lulu.content.resourceTypes;
 
 import arc.graphics.*;
 import lulu.content.extensions.*;
+import lulu.world.*;
 import mindustry.ctype.*;
 
 public class Power extends UnlockableContent{
@@ -18,5 +19,13 @@ public class Power extends UnlockableContent{
   @Override
   public ContentType getContentType(){
     return OvulamContentType.power.value;
+  }
+
+  public float applyPowerGraph(OvulamPowerGraph graph, float amount){
+    return amount;
+  }
+
+  public float applyPowerGraphMixed(OvulamPowerGraph graph, float amount){
+    return amount;
   }
 }
