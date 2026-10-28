@@ -31,9 +31,8 @@ public class OvulamUnitTypes{
   public static @Annotations.EntityDef(value = {Unitc.class, MovableBuildUnitc.class, RollCubeUnitc.class}) UnitType rollingBuildUnit;
   public static @Annotations.EntityDef(value = {Unitc.class, MovableBuildUnitc.class, InertiaDamagec.class, HitboxEntityCollisionc.class}) UnitType inertiaBuildUnit;
   public static @Annotations.EntityDef(value = {Unitc.class, SeizePayloadc.class}) UnitType amphiprioninae;
-  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class}) UnitType nautilus;
-  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class}) UnitType ananke;
-  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, FrameBuilderc.class}) UnitType ddd;
+  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class, FrameBuilderc.class}) UnitType nautilus;
+  public static @Annotations.EntityDef(value = {Unitc.class, PacketUnitc.class, OvulamTrailc.class, FrameBuilderc.class}) UnitType ananke;
 
   public static UnitType manganeseTorpedo, cobaltTorpedo;
 
