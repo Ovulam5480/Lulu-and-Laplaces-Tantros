@@ -39,11 +39,9 @@ public class GroundFractureEffect extends Effect{
   /** 复用的随机数对象；生成网格前会重新设置 seed。 */
   private static final Rand rand = new Rand();
 
-  public static Bloom bloom = new Bloom(true);
-  public static Color outlineColorFrom = Color.valueOf("08080b");
-  public static Color outerColor = Color.valueOf("18181b");
-  //public static Color outerColor = Pal.accent;
-  public static Color outlineColorTo = Color.valueOf("202030");
+  public Color outlineColorFrom = Color.valueOf("08080b");
+  public Color outerColor = Color.valueOf("18181b");
+  public Color outlineColorTo = Color.valueOf("202030");
 
   public static Vec2 tmp = new Vec2(), tmp2 = new Vec2();
 
@@ -61,8 +59,6 @@ public class GroundFractureEffect extends Effect{
     followParent = false;
     renderer = e -> {
       if(!(e.data instanceof Mesh mesh)) return;
-      //OvulamGraphics.applyBloom(bloom);
-
       // cooling: 0~1，表示冷却进度。
       // fade: 0~1，表示当前透明度。
       // heat: 使用 smoothstep 让颜色先亮、再平滑变暗。
@@ -70,13 +66,6 @@ public class GroundFractureEffect extends Effect{
       float fade = 1 - Mathf.curve(e.fin(), fadeStart, 1);
       float heat = 1f - Interp.pow2In.apply(cooling);
 
-//      Draw.color(outlineColorFrom, fade * 0.2f);
-//      float rad = Interp.pow5Out.apply(Mathf.clamp(e.fin() * 4)) * radius * 1.5f;
-//      Angles.randLenVectors(e.id, 12, radius * 1.3f, (x, y) -> {
-//        Draw.rect("circle-shadow", x + e.x, y + e.y, rad, rad);
-//      });
-
-      // revealRadius 使用 ease-out 曲线，从中心快速向外展开。
       float progress = Mathf.clamp(e.time / revealDuration + 0.1f);
       float revealRadius = radius * Interp.pow2Out.apply(progress);
 
@@ -85,7 +74,6 @@ public class GroundFractureEffect extends Effect{
       for(Cell cell : mesh.cells){
         int size = cell.outer.size;
         for(int i = 0; i < size; i++){
-          if(cell.boundaryEdges[i]) continue;
           Vec2 a = cell.outer.get(i), b = cell.outer.get((i + 1) % size);
           Vec2 c = cell.inner.get((i + 1) % size), d = cell.inner.get(i);
           Vec2 ee = cell.outline.get((i + 1) % size), f = cell.outline.get(i);
@@ -166,7 +154,7 @@ public class GroundFractureEffect extends Effect{
     float phase = rand.nextFloat(Mathf.PI2);
     for(int i = 0; i < 48; i++){
       float angle = phase + i * Mathf.PI2 / 48f;
-      boundary.add(new Vec2().trns(angle * Mathf.radiansToDegrees, radius));
+      boundary.add(new Vec2().trns(angle * Mathf.radiansToDegrees, radius + 4f));
     }
 
     // 生成 Voronoi 种子点。spacing 用来避免点彼此过近，减少极细碎的板块。
@@ -204,8 +192,7 @@ public class GroundFractureEffect extends Effect{
       float width = Math.max(0f, crackWidth) * (0.65f + rand.nextFloat() * 0.7f);
       Seq<Vec2> inner = createCrackInset(polygon, center, width);
       Seq<Vec2> outline = createOutlineInset(inner, center);
-      boolean[] boundaryEdges = findBoundaryEdges(polygon, boundary);
-      result.add(new Cell(polygon, inner, outline, center, boundaryEdges));
+      result.add(new Cell(polygon, inner, outline, center));
     }
 
     return new Mesh(result);
@@ -268,23 +255,6 @@ public class GroundFractureEffect extends Effect{
     return outline;
   }
 
-  /** 标记属于最外层圆形边界的边，避免把裁剪边误画成一圈圆形裂缝。 */
-  private boolean[] findBoundaryEdges(Seq<Vec2> polygon, Seq<Vec2> boundary){
-    boolean[] edges = new boolean[polygon.size];
-    float tolerance = radius * 0.00001f;
-    for(int i = 0; i < polygon.size; i++){
-      Vec2 a = polygon.get(i), b = polygon.get((i + 1) % polygon.size);
-      for(int j = 0; j < boundary.size; j++){
-        Vec2 start = boundary.get(j), end = boundary.get((j + 1) % boundary.size);
-        if(distanceToLine(a, start, end) <= tolerance && distanceToLine(b, start, end) <= tolerance){
-          edges[i] = true;
-          break;
-        }
-      }
-    }
-    return edges;
-  }
-
   /** 点到线段所在直线的垂直距离，用于判断边是否落在外部圆边界上。 */
   private static float distanceToLine(Vec2 point, Vec2 start, Vec2 end){
     float length = start.dst(end);
@@ -332,7 +302,7 @@ public class GroundFractureEffect extends Effect{
   }
 
   /** 一个 Voronoi 板块的全部绘制数据。 */
-  private record Cell(Seq<Vec2> outer, Seq<Vec2> inner, Seq<Vec2> outline, Vec2 center, boolean[] boundaryEdges){}
+  private record Cell(Seq<Vec2> outer, Seq<Vec2> inner, Seq<Vec2> outline, Vec2 center){}
 
   /** 一次效果生成的完整网格。 */
   private record Mesh(Seq<Cell> cells){}
