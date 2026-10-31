@@ -6,11 +6,18 @@ import mindustry.content.*;
 import mindustry.type.*;
 
 public class OvulamItems{
-  public static Item manganeseNodule, gasHydrate, amethyst, ferroManganese, cobaltNodule, cobalt;
+  public static Item manganeseNodule, ferroManganese,
+    gasHydrate,
+    amethyst,
+    cobaltNodule, cobalt,
+    limestone, lime,
+    hydrothermalSulfide, zinc, sulfur;
+
   public static Item calcium, phosphorus, silicon, ferrum, hydroxyapatite;
+
   public static Item NR, BR, SBR, NBR, EPDM, IIR, SiR, FKM;
   public static Item berserkSpore;
-  public static Item causality;
+
 
   public static Item[] trophosomes;
 
@@ -38,32 +45,24 @@ public class OvulamItems{
     cobalt = new Item("cobalt", Color.valueOf("5d5d5d")){{
     }};
 
+    limestone = new Item("limestone");
+    lime = new Item("lime");
+    hydrothermalSulfide = new Item("hydrothermal-sulfide");
+    zinc = new Item("zinc");
+    sulfur = new Item("sulfur");
+
     calcium = new Item("calcium", Color.valueOf("c0f755")){{
     }};
     phosphorus = new Item("phosphorus", Color.valueOf("74f2eb")){{
     }};
-    silicon = new Item("silicon", Items.silicon.color){
-      @Override
-      public void loadIcon(){
-        super.loadIcon();
-        if(!uiIcon.found()) uiIcon = arc.Core.atlas.find("silicon");
-        if(!fullIcon.found()) fullIcon = arc.Core.atlas.find("silicon");
-      }
-    };
+    silicon = new Item("silicon", Items.silicon.color){{
+    }};
     ferrum = new Item("ferrum", Color.valueOf("B22222")){{
     }};
     hydroxyapatite = new Item("hydroxyapatite", Color.valueOf("55f7ab")){{
     }};
 
-    berserkSpore = new Item("berserk-spore", Color.valueOf("ff6fbd")){{
-      //hidden = hideDatabase = true;
-    }};
-
     trophosomes = new Item[]{calcium, phosphorus, silicon, ferrum};
-
-    causality = new Item("causality", Color.valueOf("ff6fbd")){{
-      //hidden = hideDatabase = true;
-    }};
   }
 
   public static void loadRubbers(){
