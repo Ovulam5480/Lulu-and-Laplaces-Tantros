@@ -1,7 +1,14 @@
 package lulu.type.biomeplanet;
 
+import arc.func.*;
+import arc.math.geom.*;
+import arc.struct.*;
 import lulu.content.extensions.*;
 import arc.math.*;
+import lulu.ctype.packet.*;
+import lulu.type.resourceStacks.*;
+import lulu.util.*;
+import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.game.*;
 import mindustry.world.*;
@@ -104,8 +111,36 @@ public class Biome extends UnlockableContent{
     return this;
   }
 
+  public void lodes(PacketType lodeType, Seq<ResourceStack<?>> lodeResources, int tileX, int tileY, float multi){
+    lodeType.create(null, tileX * 8, tileY * 8).copyResourceStacks(lodeResources, multi);
+  }
+
   public void pass(int x, int y, int seed, TileGen tile, Rand rand, float noise){
 
+  }
+
+  public static float curve(float f, float offset) {
+    return (f - offset) / (1.0F - offset);
+  }
+
+  public static float curve(float f, float from, float to) {
+    return (f - from) / (to - from);
+  }
+
+  public static float curve(float f, float from, float to, Interp interp) {
+    return interp.apply((f - from) / (to - from));
+  }
+
+  public static boolean hasTileNear(int x, int y, int radius, Boolf<Tile> cons){
+    for(int i = 0; i < radius; i++){
+      for(Point2 point2 : MathUtil.getPixelCircle(i)){
+        Tile tile = Vars.world.tile(x + point2.x, y + point2.y);
+        if(tile != null && cons.get(tile)){
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public void applyRules(Rules rules){

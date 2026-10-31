@@ -8,7 +8,7 @@ import mindustry.world.blocks.environment.*;
 public class Environments{
   public static void load(){
     OvulamBlocks.hydrothermalVent = new SteamVent("hydrothermal-vent"){{
-      parent = blendGroup = Blocks.bluemat;
+      parent = Blocks.ferricStone;
       size = 2;
       attributes.set(OvulamAttributes.hydrothermal, 1);
     }};

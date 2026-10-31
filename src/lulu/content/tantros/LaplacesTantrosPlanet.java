@@ -26,6 +26,7 @@ public class LaplacesTantrosPlanet extends Planet{
       //.add(new BiomeBox(OvulamBiomes.beach, 0, 0, 1, 0.2f))
       .add(new BiomeBox(OvulamBiomes.mats, 0, 0.2f, 1, 0.3f))
       .add(new BiomeBox(OvulamBiomes.deepArea, 0, 0.5f, 1, 0.5f))
+      .add(new BiomeBox(OvulamBiomes.hydrothermalZone, 0, 0.5f, 1, 0.5f))
     ;
     meshLoader = () -> new HexMesh(this, 6);
 

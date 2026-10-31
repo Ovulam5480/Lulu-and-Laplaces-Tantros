@@ -14,7 +14,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 public class OvulamBiomes{
-  public static Biome beach, mats, deepArea;
+  public static Biome beach, mats, deepArea, hydrothermalZone;
 
   public static void load(){
     beach = new Biome("beach"){
@@ -31,35 +31,35 @@ public class OvulamBiomes{
 
       @Override
       public void pass(int x, int y, int seed, TileGen tile, Rand rand, float noise){
-        if(within(noise, 0.4f, 0.41f) && rand.chance(1 - Mathf.curve(noise, 0.4f, 0.41f))){
+        if(within(noise, 0.4f, 0.41f) && rand.chance(curve(noise, 0.41f, 0.4f))){
           tile.floor = Blocks.bluemat;
         }
 
-        if(noise < 0.4 && rand.chance(0.3f * (1 - Mathf.curve(noise, 0, 0.4f)))){
+        if(noise < 0.4 && rand.chance(0.3f * (1 - curve(noise, 0, 0.4f)))){
           tile.block = Blocks.purbush;
           return;
         }
 
-        if(within(noise, 0.59f, 0.6f) && rand.chance(Mathf.curve(noise, 0.59f, 0.6f))){
+        if(within(noise, 0.59f, 0.6f) && rand.chance(curve(noise, 0.59f, 0.6f))){
           tile.floor = Blocks.redmat;
         }
 
-        if(noise > 0.6 && rand.chance(0.3f * Mathf.curve(noise, 0.6f))){
+        if(noise > 0.6 && rand.chance(0.3f * curve(noise, 0.6f))){
           tile.block = Blocks.redweed;
           return;
         }
 
         float n1 = Simplex.noise2d(seed, 1, 1, 0.01f, x, y);
-        float c = Interps.A.apply(Mathf.curve(noise, 0.4f, 0.6f));
+        float c = curve(noise, 0.4f, 0.6f, Interps.A);
 
         float cn1 = c * n1;
 
-        if(cn1 > 0.85f && (cn1 > 0.9f || rand.chance(Mathf.curve(cn1, 0.85f, 0.9f)))){
+        if(cn1 > 0.85f && (cn1 > 0.9f || rand.chance(curve(cn1, 0.85f, 0.9f)))){
           float grain = c * Math.abs(Simplex.noise2d(seed, 1, 1, 0.1f, x, y) - 0.5f);
           tile.floor = within(grain, 0.2f, 0.35f) ? Blocks.yellowStone : Blocks.rhyolite;
 
           if(cn1 > 0.95f){
-            OvulamPacketTypes.itemLodePacket.create(null, x * 8, y * 8).copyResourceStacks(lodes, Mathf.curve(cn1, 0.94f));
+            lodes(OvulamPacketTypes.itemLodePacket, lodes, x, y, Interp.pow2Out.apply(curve(cn1, 0.94f)));
             return;
           }
 
@@ -71,11 +71,11 @@ public class OvulamBiomes{
         }
 
         float n2 = Simplex.noise2d(seed, 1, 1, 0.01f, x + rand.random(10000), y);
-        float cn2 = c * n2 * (1 - Mathf.curve(cn1, 0.75f, 0.9f));
+        float cn2 = c * n2 * (1 - curve(cn1, 0.75f, 0.9f));
 
-        if(cn2 > 0.75f && rand.chance(Mathf.curve(cn2, 0.8f))){
+        if(cn2 > 0.75f && rand.chance(curve(cn2, 0.8f))){
           tile.floor = Blocks.yellowStone;
-        }else if(cn2 > 0.65 && rand.chance(Mathf.curve(cn2, 0.7f))){
+        }else if(cn2 > 0.65 && rand.chance(curve(cn2, 0.7f))){
           tile.floor = Blocks.rhyolite;
         }
 
@@ -94,7 +94,7 @@ public class OvulamBiomes{
       @Override
       public void pass(int x, int y, int seed, TileGen tile, Rand rand, float noise){
         float n1 = Simplex.noise2d(seed, 6, 0.8f, 0.01f, x, y);
-        float c = Interps.A.apply(Mathf.curve(noise, 0.35f, 0.65f));
+        float c = curve(noise, 0.35f, 0.65f, Interps.A);
 
         if(n1 * c > 0.55f){
           tile.floor = Blocks.crystalFloor;
@@ -106,7 +106,7 @@ public class OvulamBiomes{
         }
 
         float n2 = Simplex.noise2d(seed, 6, 0.8f, 0.01f, x + 10000, y);
-        float nn2 = n2 * Interps.A.apply(Mathf.curve(noise, 0.1f, 0.3f));
+        float nn2 = n2 * curve(noise, 0.1f, 0.3f, Interps.A);
 
         if(nn2 > 0.55f){
           tile.floor = OvulamBlocks.gasHydrateFloor;
@@ -121,7 +121,7 @@ public class OvulamBiomes{
 
         int i = 0;
         for(Point2 tile : crystalTiles){
-          if(!hasOtherCrystalNear(tile.x, tile.y)){
+          if(!hasTileNear(tile.x, tile.y, 12, t -> t.block() == OvulamBlocks.amethystCrystalCore)){
             Vars.world.tile(tile.x, tile.y).setBlock(OvulamBlocks.amethystCrystalCore);
             if(i++ >= maxCrystal){
               break;
@@ -129,19 +129,26 @@ public class OvulamBiomes{
           }
         }
       }
-
-      public static boolean hasOtherCrystalNear(int x, int y){
-        for(int i = 0; i < 12; i++){
-          for(Point2 point2 : MathUtil.getPixelCircle(i)){
-            Tile tile = Vars.world.tile(x + point2.x, y + point2.y);
-            if(tile != null && tile.block() == OvulamBlocks.amethystCrystalCore){
-              return true;
-            }
-          }
-        }
-        return false;
-      }
     }.floors(Blocks.beryllicStone, 1, Blocks.carbonStone, 1).noise(6, 0.7, 4);
+
+    hydrothermalZone = new Biome("hydrothermalZone"){
+      private static final Seq<ResourceStack<?>> lodes = Seq.with(
+        new ItemResourceStack().set(OvulamItems.hydrothermalSulfide, 40f));
+
+      @Override
+      public void pass(int x, int y, int seed, TileGen tile, Rand rand, float noise){
+        if(noise > 0.4f && noise < 0.5f
+          && rand.chance(0.001f * curve(noise, 0.4f, 0.5f))
+          && !hasTileNear(x, y, 12, t -> t.floor() == OvulamBlocks.hydrothermalVent)){
+          tile.floor = OvulamBlocks.hydrothermalVent;
+        }
+
+        if(noise > 0.8f){
+          lodes(OvulamPacketTypes.itemLodePacket, lodes, x, y, curve(noise, 0.8f, 1, Interp.pow2Out));
+        }
+
+      }
+    }.floors(Blocks.ferricStone, 2, Blocks.carbonStone, 1).noise(6, 0.8, 4);
   }
 
   public static boolean within(float a, float min, float max){
