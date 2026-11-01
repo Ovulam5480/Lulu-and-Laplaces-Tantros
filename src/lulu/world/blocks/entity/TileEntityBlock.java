@@ -3,6 +3,7 @@ package lulu.world.blocks.entity;
 import lulu.*;
 import lulu.content.extensions.*;
 import lulu.entities.gen.*;
+import lulu.graphics.StaticDrawLayer;
 import lulu.world.components.blockComps.*;
 import arc.*;
 import arc.func.*;
@@ -12,7 +13,6 @@ import arc.util.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.legacy.*;
 import mindustry.world.meta.*;
@@ -21,7 +21,7 @@ import universecore.annotations.*;
 @Annotations.ImplEntries
 public class TileEntityBlock extends LegacyBlock implements MultiSizeBlockComp{
   public Prov<TileEntityc> entityProvider;
-  public float entityLayer = Layer.blockOver;
+  public StaticDrawLayer staticDrawLayer = StaticDrawLayer.over;
 
   protected Seq<Rect> boxes = new Seq<>();
 
@@ -33,6 +33,7 @@ public class TileEntityBlock extends LegacyBlock implements MultiSizeBlockComp{
     generateIcons = true;
     inEditor = true;
     hasShadow = false;
+    drawCached = true;
 
     category = OvulamCategory.tileEntity;
 

@@ -10,6 +10,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;
+import lulu.world.blocks.entity.*;
 import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
@@ -18,6 +19,14 @@ import mindustry.io.*;
 @SuppressWarnings("unused")
 @Annotations.TypeIOHandler
 public class OvulamTypeIO{
+  public static void writeTileEntity(Writes writes, TileEntityBlock block){
+    TypeIO.writeBlock(writes, block);
+  }
+
+  public static TileEntityBlock readTileEntity(Reads reads){
+    return (TileEntityBlock)TypeIO.readBlock(reads);
+  }
+
   public static void writeOvulamTrailTypeComp(Writes writes, OvulamTrailTypeComp type){
     if(type instanceof UnlockableContent c){
       writes.bool(true);

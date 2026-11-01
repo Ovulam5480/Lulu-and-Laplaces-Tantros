@@ -2,6 +2,7 @@ package lulu;
 
 import lulu.content.*;
 import lulu.content.extensions.*;
+import lulu.dev.*;
 import lulu.entities.*;
 import lulu.graphics.*;
 import lulu.io.*;
@@ -27,6 +28,7 @@ public class LuluMod extends Mod{
   public static LaplacesTantrosDialog tantrosDialog;
   public static Seam seam;
   public static CategoryHandler categories;
+  public static StaticMeshRenderer staticMeshRenderer;
 
   @Override
   public void init(){
@@ -59,6 +61,7 @@ public class LuluMod extends Mod{
     Momentum.init();
 
     Vars.world = new OvulamWorld();
+    staticMeshRenderer = new StaticMeshRenderer();
 
     if(Vars.mobile){
     }else{

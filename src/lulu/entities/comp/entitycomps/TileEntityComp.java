@@ -2,6 +2,7 @@ package lulu.entities.comp.entitycomps;
 
 import lulu.*;
 import lulu.entities.gen.*;
+import lulu.graphics.StaticDrawLayer;
 import lulu.world.blocks.entity.*;
 import arc.graphics.g2d.*;
 import ent.anno.*;
@@ -12,30 +13,41 @@ import static mindustry.Vars.*;
 
 @Annotations.EntityDef(TileEntityc.class)
 @Annotations.EntityComponent
-abstract class TileEntityComp implements Drawc, Hitboxc{
-  public Block block;
+abstract class TileEntityComp implements StaticDrawc, Hitboxc{
+  public TileEntityBlock block;
   public Tile tile;
-
-  public <T extends TileEntityBlock> T blockAs(){
-    return (T)block;
-  }
 
   @Override
   public void add(){
     LuluMod.oIndexer.tileEntity.add(self());
+
     hitSize(block.size * tilesize);
     LuluMod.oIndexer.tileEntity.updatePhysics();
-  }
-
-  @Annotations.MethodPriority(-999)
-  @Override
-  public void draw(){
-    Draw.z(blockAs().entityLayer);
   }
 
   @Override
   public void remove(){
     LuluMod.oIndexer.tileEntity.remove(self());
+  }
+
+  @Override
+  public void draw(){
+  }
+
+  @Override
+  public void drawCached(){
+  }
+
+  @Annotations.Replace
+  @Override
+  public boolean shouldDrawStatic(){
+    return block.drawCached;
+  }
+
+  @Annotations.Replace
+  @Override
+  public int staticLayer(){
+    return block.staticDrawLayer.ordinal();
   }
 
   @Override

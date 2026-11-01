@@ -17,14 +17,13 @@ abstract class CrystalCoreComp implements TileEntityc, SerializationPacketSeqc{
   @Annotations.Import
   float x, y;
   @Annotations.Import
-  Block block;
+  TileEntityBlock block;
   @Annotations.Import
   Seq<Packetc> packets = new Seq<>();
 
   float timer = 0;
   public static Seq<Tile> tmp = new Seq<>();
 
-  @Annotations.Replace
   public CrystalCoreBlock blockAs(){
     return (CrystalCoreBlock)block;
   }
@@ -58,8 +57,7 @@ abstract class CrystalCoreComp implements TileEntityc, SerializationPacketSeqc{
   }
 
   @Override
-  public void draw(){
-    //Drawf.shadow(blockAs().coreRegion, x - 2, y - 2);
+  public void drawCached(){
     Draw.rect(blockAs().coreRegion, x, y);
   }
 }
