@@ -58,8 +58,8 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> impleme
 
   private final Seq<Liquid> tempLiquid = new Seq<>();
 
-  public Seq<Item> outputItems;
-  public Seq<Liquid> outputLiquids;
+  public transient Seq<Item> outputItems;
+  public transient Seq<Liquid> outputLiquids;
 
   public Floatf<T> currBoost = e -> 1;
   public float real;

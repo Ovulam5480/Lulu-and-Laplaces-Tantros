@@ -57,7 +57,7 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
 
   public boolean recipeSelected;
 
-  protected final Seq<LiquidStack> displayLiquids = new Seq<>();
+  protected final static Seq<LiquidStack> displayLiquids = new Seq<>();
   public int lastRecipe;
   public boolean updateRecipe;
 
