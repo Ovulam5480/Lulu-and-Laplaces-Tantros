@@ -61,6 +61,8 @@ public class OvulamBlocks{
   public static Block ferroManganeseRodGroup;
   public static Block coreBackflow;
   public static Block coreCausality;
+  public static Block researchDevice;
+  public static Block researchPlatform;
 
   public static void load(){
     Defense.load();

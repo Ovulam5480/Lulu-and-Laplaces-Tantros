@@ -97,11 +97,6 @@ public class Sgl{
    * 模组配置存储器
    */
   public static ModConfig config = new ModConfig();
-
-  /**
-   * 持久保存的全局变量集
-   */
-  public static Settings globals;
   /**
    * ui类存放对象
    */
@@ -112,63 +107,6 @@ public class Sgl{
   public static ExecutorService executor = Threads.unboundedExecutor("SGL_EXEC", 1);
 
   public static void init(){
-    globals = new Settings(){
-      {
-        setAutosave(true);
-        setDataDirectory(Sgl.dataDirectory);
-      }
-
-      @Override
-      public Fi getSettingsFile(){
-        return globalVars;
-      }
-
-      @Override
-      public Fi getBackupFolder(){
-        return Sgl.dataDirectory.child("global_backups");
-      }
-
-      @Override
-      public Fi getBackupSettingsFile(){
-        return globalVarsBackup;
-      }
-
-      @Override
-      public synchronized void load(){
-        try{
-          loadValues();
-        }catch(Throwable error){
-          Log.err("Error in load: " + Strings.getStackTrace(error));
-          if(errorHandler != null){
-            if(!hasErrored) errorHandler.get(error);
-          }else{
-            throw error;
-          }
-          hasErrored = true;
-        }
-        loaded = true;
-      }
-
-      @Override
-      public synchronized void forceSave(){
-        if(!loaded) return;
-        try{
-          saveValues();
-        }catch(Throwable error){
-          Log.err("Error in forceSave to " + getSettingsFile() + ":\n" + Strings.getStackTrace(error));
-          if(errorHandler != null){
-            if(!hasErrored) errorHandler.get(error);
-          }else{
-            throw error;
-          }
-          hasErrored = true;
-        }
-        modified = false;
-      }
-    };
-
-    globals.load();
-
     interopAPI.init();
 
     if(!Core.app.isHeadless()){

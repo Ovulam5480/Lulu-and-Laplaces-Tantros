@@ -3,6 +3,7 @@ package lulu.dev;
 import arc.*;
 import lulu.*;
 import lulu.content.tantros.*;
+import lulu.lib.singularity.ui.dialogs.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.net.*;
@@ -21,6 +22,12 @@ public final class DevStartup{
   public static void showTantrosDialog(){
     Events.on(EventType.ClientLoadEvent.class, e -> {
       LuluMod.tantrosDialog.show();
+    });
+  }
+
+  public static void showResearchsDialog(){
+    Events.on(EventType.ClientLoadEvent.class, e -> {
+      new SglTechTreeDialog().show();
     });
   }
 

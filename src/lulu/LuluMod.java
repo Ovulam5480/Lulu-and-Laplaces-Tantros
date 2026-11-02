@@ -1,5 +1,7 @@
 package lulu;
 
+import arc.files.*;
+import arc.util.*;
 import lulu.content.*;
 import lulu.content.extensions.*;
 import lulu.dev.*;
@@ -7,6 +9,8 @@ import lulu.entities.*;
 import lulu.graphics.*;
 import lulu.io.*;
 import lulu.lib.seam.*;
+import lulu.lib.singularity.*;
+import lulu.lib.singularity.game.researchs.*;
 import lulu.lib.singularity.graphic.*;
 import lulu.type.neoplasm.*;
 import lulu.type.resourceStacks.*;
@@ -19,6 +23,8 @@ import mindustry.*;
 import mindustry.core.*;
 import mindustry.mod.*;
 
+import static arc.Core.settings;
+
 public class LuluMod extends Mod{
   public static String modName = "lulu-";
   public static OvulamIndexer oIndexer;
@@ -29,6 +35,12 @@ public class LuluMod extends Mod{
   public static Seam seam;
   public static CategoryHandler categories;
   public static StaticMeshRenderer staticMeshRenderer;
+  public static Settings globals;
+  public static final Fi modDirectory = settings.getDataDirectory().child("mods");
+  public static final Fi dataDirectory = modDirectory.child("data").child(modName);
+  public static final Fi globalVars = dataDirectory.child("global_vars.bin");
+  public static final Fi globalVarsBackup = dataDirectory.child("global_vars.bin.bak");
+  public static ResearchManager researches;
 
   @Override
   public void init(){
@@ -77,6 +89,66 @@ public class LuluMod extends Mod{
 //                    模组群: 1091216674""").padBottom(10f);
 //            addCloseButton();
 //        }}.show();
+
+    globals = new Settings(){
+      {
+        setAutosave(true);
+        setDataDirectory(Sgl.dataDirectory);
+      }
+
+      @Override
+      public Fi getSettingsFile(){
+        return globalVars;
+      }
+
+      @Override
+      public Fi getBackupFolder(){
+        return Sgl.dataDirectory.child("global_backups");
+      }
+
+      @Override
+      public Fi getBackupSettingsFile(){
+        return globalVarsBackup;
+      }
+
+      @Override
+      public synchronized void load(){
+        try{
+          loadValues();
+        }catch(Throwable error){
+          Log.err("Error in load: " + Strings.getStackTrace(error));
+          if(errorHandler != null){
+            if(!hasErrored) errorHandler.get(error);
+          }else{
+            throw error;
+          }
+          hasErrored = true;
+        }
+        loaded = true;
+      }
+
+      @Override
+      public synchronized void forceSave(){
+        if(!loaded) return;
+        try{
+          saveValues();
+        }catch(Throwable error){
+          Log.err("Error in forceSave to " + getSettingsFile() + ":\n" + Strings.getStackTrace(error));
+          if(errorHandler != null){
+            if(!hasErrored) errorHandler.get(error);
+          }else{
+            throw error;
+          }
+          hasErrored = true;
+        }
+        modified = false;
+      }
+    };
+
+    globals.load();
+
+    researches = new ResearchManager();
+    OvulamResearchs.init();
 
     OvulamSaveChunks.addSaveChunks();
   }

@@ -8,6 +8,7 @@ import lulu.world.blocks.entity.*;
 import lulu.world.blocks.packet.*;
 import lulu.world.blocks.special.tjTool.*;
 import lulu.world.blocks.storage.*;
+import lulu.lib.singularity.world.blocks.research.*;
 import lulu.world.recipe.consumers.*;
 import mindustry.content.*;
 import mindustry.type.*;
@@ -60,6 +61,15 @@ public class Misc{
 
     OvulamBlocks.coreCausality = new CoreCausality("core-causality");
     OvulamBlocks.coreBackflow = new CoreBackflow("core-backflow");
+
+    OvulamBlocks.researchDevice = new ResearchDevice("research-device"){{
+      size = 2;
+      solid = false;
+      health = 120;
+      buildCostMultiplier = 0.5f;
+    }};
+
+    OvulamBlocks.researchPlatform = new ResearchPlatform("research-platform");
 
     new Beacon("beacon"){{
       requirements(Category.effect, ItemStack.with());
