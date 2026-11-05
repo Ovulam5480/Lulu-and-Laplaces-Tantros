@@ -1,5 +1,6 @@
 package lulu.world.recipe.consumers;
 
+import lulu.content.*;
 import lulu.ctype.Power;
 import lulu.ctype.*;
 import lulu.entities.gen.*;
