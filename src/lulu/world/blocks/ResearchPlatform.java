@@ -1,11 +1,8 @@
 package lulu.world.blocks;
 
-import arc.Core;
 import arc.scene.ui.layout.*;
 import lulu.*;
-import lulu.content.*;
 import lulu.lib.singularity.game.researchs.*;
-import lulu.lib.singularity.world.blocks.research.*;
 import lulu.world.components.blockComps.*;
 import lulu.world.components.buildComps.*;
 import lulu.world.recipe.consumers.*;
@@ -20,7 +17,7 @@ import mindustry.world.Block;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
-public class ResearchPlatform extends Block implements ProducerBlockComp<ProducerBuildBuilding>, ResourceBlockModule{
+public class ResearchPlatform extends Block implements ProducerBlockComp<ProducerBuildBuilding>, ResourceBlockComp{
   public ResearchPlatform(String name){
     super(name);
     resourceCapacity(400f);

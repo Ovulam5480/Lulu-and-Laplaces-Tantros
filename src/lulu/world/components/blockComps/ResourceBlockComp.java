@@ -10,7 +10,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import universecore.annotations.*;
 
-public interface ResourceBlockModule{
+public interface ResourceBlockComp extends PowerTypeBlockComp{
   default Block block(){
     return (Block)this;
   }
@@ -53,6 +53,8 @@ public interface ResourceBlockModule{
     block.configurable = true;
     block.clearOnDoubleTap = true;
     block.allowConfigInventory = false;
+
+    separatePowerCapacity(separateResource());
 
     Events.run(EventType.Trigger.afterGameUpdate, () -> {
       block.liquidCapacity = tempLiquidCapacity();

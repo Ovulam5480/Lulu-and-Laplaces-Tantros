@@ -25,8 +25,8 @@ import mindustry.world.modules.*;
 import universecore.annotations.*;
 
 public interface ResourceBuildComp extends BuildCompBase{
-  default ResourceBlockModule getResourceBlock(){
-    return (ResourceBlockModule)getBlock();
+  default ResourceBlockComp getResourceBlock(){
+    return (ResourceBlockComp)getBlock();
   }
 
   @Annotations.BindField("resources")

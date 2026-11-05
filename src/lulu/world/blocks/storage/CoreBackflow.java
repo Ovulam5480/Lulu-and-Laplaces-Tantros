@@ -32,7 +32,7 @@ import static mindustry.Vars.*;
 
 @SuppressWarnings("unused")
 @Annotations.ImplEntries
-public class CoreBackflow extends OvulamCoreBlock implements MovableBlockComp, ResourceBlockModule{
+public class CoreBackflow extends OvulamCoreBlock implements MovableBlockComp, ResourceBlockComp{
   public UnitType movableBlockType = OvulamUnitTypes.boostBuildUnit;
   public TextureRegion iconRegion;
 
@@ -74,6 +74,7 @@ public class CoreBackflow extends OvulamCoreBlock implements MovableBlockComp, R
 
     //todo 因为建筑移动需要shown
     requirements(Category.effect, BuildVisibility.shown, ItemStack.with());
+    bufferedPowerType(true);
   }
 
   @Override

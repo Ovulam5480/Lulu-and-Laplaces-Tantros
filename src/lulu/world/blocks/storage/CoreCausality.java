@@ -24,7 +24,7 @@ import universecore.annotations.*;
 import static mindustry.Vars.*;
 
 @Annotations.ImplEntries
-public class CoreCausality extends OvulamCoreBlock implements ResourceBlockModule{
+public class CoreCausality extends OvulamCoreBlock implements ResourceBlockComp{
   public float resourceCapacity = 10_000_000;
 
   public float launchScl = 0.5f;
@@ -50,6 +50,7 @@ public class CoreCausality extends OvulamCoreBlock implements ResourceBlockModul
     landDuration = 160f;
 
     requirements(Category.effect, BuildVisibility.shown, ItemStack.empty);
+    bufferedPowerType(true);
   }
 
   @Override
