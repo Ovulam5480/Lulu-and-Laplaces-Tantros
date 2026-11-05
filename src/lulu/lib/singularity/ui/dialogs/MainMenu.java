@@ -42,6 +42,7 @@ public class MainMenu extends BaseDialog{
       Sgl.ui.aboutDialog.show();
     }),
     new ButtonEntry(SglDrawConst.contributeIcon, Core.bundle.get("misc.contribute"), Color.yellow, () -> Sgl.ui.support.show()),
+    new ButtonEntry(Icon.units, Core.bundle.get("misc.contributors"), Color.cyan, () -> Sgl.ui.contributors.show()),
   };
 
   public MainMenu(){

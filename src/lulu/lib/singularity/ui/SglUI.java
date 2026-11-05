@@ -40,6 +40,7 @@ public class SglUI{
   public DocumentDialog document;
   public ModConfigDialog config;
   public SupportUsDialog support;
+  public ContributorsDialog contributors;
   public ToolBarFrag toolBar;
   public DebugInfos debugInfos;
   public NotificationFrag notificationFrag;
@@ -185,6 +186,7 @@ public class SglUI{
     config = new ModConfigDialog();
     support = new SupportUsDialog();
     document = new DocumentDialog();
+    contributors = new ContributorsDialog();
 
     toolBar = new ToolBarFrag();
     debugInfos = new DebugInfos();
@@ -196,6 +198,7 @@ public class SglUI{
 
     mainMenu.build();
     aboutDialog.build();
+    contributors.build();
 
     toolBar.init();
 

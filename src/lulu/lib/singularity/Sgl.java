@@ -98,6 +98,10 @@ public class Sgl{
    */
   public static ModConfig config = new ModConfig();
   /**
+   * 贡献者数据（在主菜单贡献者页面中展示）
+   */
+  public static Contributors contributors;
+  /**
    * ui类存放对象
    */
   public static SglUI ui;
@@ -122,6 +126,8 @@ public class Sgl{
       SglDrawConst.load();
       //载入风格
       SglStyles.load();
+
+      contributors = new Contributors();
 
       ui = new SglUI();
       ui.init();
