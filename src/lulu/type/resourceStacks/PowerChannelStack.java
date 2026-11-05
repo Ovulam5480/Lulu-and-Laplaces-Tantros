@@ -2,7 +2,7 @@ package lulu.type.resourceStacks;
 
 import lulu.content.*;
 import lulu.content.extensions.*;
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import lulu.world.blocks.packet.*;
 import arc.struct.*;
 import arc.util.io.*;
@@ -10,9 +10,7 @@ import mindustry.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
-public class PowerResourceStack extends ResourceStack<Power>{
-  public Seq<Power> powers;
-
+public class PowerChannelStack extends ResourceStack<Power>{
   @Override
   public String name(){
     return item.name;
@@ -30,12 +28,12 @@ public class PowerResourceStack extends ResourceStack<Power>{
 
   @Override
   public void register(){
-    ResourceStackManager.register(Power.class, PowerResourceStack.class, PowerResourceStack::new, new PowerResourceStack(), id());
+    ResourceStackManager.register(Power.class, PowerChannelStack.class, PowerChannelStack::new, new PowerChannelStack(), id());
   }
 
   @Override
   public void init(){
-    ResourceStackManager.init(Power.class, powers = Vars.content.getBy(OvulamContentType.power.value));
+    ResourceStackManager.init(Power.class, OvulamContents.powers());
   }
 
   @Override
@@ -47,7 +45,7 @@ public class PowerResourceStack extends ResourceStack<Power>{
   public Power findAvailableResource(Entityc entityc, float amount){
     if(entityc instanceof Building b){
       if(b.block instanceof ConsumePacketPacker pp){
-        return pp.powerType;
+        return pp.powerChannel;
       }else{
         return OvulamResource.power;
       }
@@ -95,6 +93,6 @@ public class PowerResourceStack extends ResourceStack<Power>{
 
   @Override
   public ResourceStack<Power> read(Reads reads){
-    return ResourceStackManager.getResourceInstance(powers.get(reads.s()), reads.f());
+    return ResourceStackManager.getResourceInstance(OvulamContents.powers().get(reads.s()), reads.f());
   }
 }

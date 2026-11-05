@@ -1,6 +1,6 @@
 package lulu.content;
 
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import mindustry.graphics.*;
 
 public class OvulamResource{

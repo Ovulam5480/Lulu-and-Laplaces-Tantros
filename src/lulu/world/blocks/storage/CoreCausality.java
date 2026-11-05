@@ -50,7 +50,7 @@ public class CoreCausality extends OvulamCoreBlock implements ResourceBlockComp{
     landDuration = 160f;
 
     requirements(Category.effect, BuildVisibility.shown, ItemStack.empty);
-    bufferedPowerType(true);
+    bufferedPowerChannel(true);
   }
 
   @Override

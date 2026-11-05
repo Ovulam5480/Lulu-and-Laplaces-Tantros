@@ -1,5 +1,6 @@
 package lulu.world.modules;
 
+import lulu.ctype.*;
 import lulu.type.resourceStacks.*;
 import lulu.world.components.buildComps.*;
 import arc.struct.*;
@@ -8,18 +9,19 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.modules.*;
 
+//todo object作为key是不是不太好, 改天可以换成id
 public class ResourceModule extends BlockModule{
   protected Seq[] resourceTypeMap;
   public ObjectMap<Object, ResourceStack<?>> resourceStacks = new ObjectMap<>();
 
   public ItemModule itemModule;
   public LiquidModule liquidModule;
-  public PowerModule powerModule;
+  public PowerChannelModule powerModule;
 
-  protected final ResourceBuildComp building;
+  protected final ResourceBuildComp buildComp;
 
   public ResourceModule(Building building){
-    this.building = building instanceof ResourceBuildComp rm ? rm : null;
+    this.buildComp = (ResourceBuildComp)building;
 
     resourceTypeMap = new Seq[ResourceStackManager.resourceClasses.size - 2];
     for(int i = 0; i < ResourceStackManager.resourceClasses.size - 2; i++){
@@ -27,14 +29,13 @@ public class ResourceModule extends BlockModule{
     }
 
     if(building.items != null){
-      building.items = itemModule = new ResourceItemModule(this.building);
+      building.items = itemModule = new ResourceItemModule(this.buildComp);
     }
     if(building.liquids != null){
-      building.liquids = liquidModule = new ResourceLiquidModule(this.building);
+      building.liquids = liquidModule = new ResourceLiquidModule(this.buildComp);
     }
-    if(building.power != null){
-      powerModule = building.power = new ResourcePowerModule(this.building);
-      powerModule.graph.add(building);
+    if(this.buildComp.power() != null){
+      powerModule = this.buildComp.power();
     }
   }
 
@@ -48,15 +49,16 @@ public class ResourceModule extends BlockModule{
       case 1 -> {
         if(liquidModule != null) liquidModule.add((Liquid)object, amount);
       }
+      case 2 -> {
+        if(powerModule != null) powerModule.add((Power)object, amount);
+      }
       default -> {
         ResourceStack<?> rs = resourceStacks.get(object);
         if(rs == null){
           resourceStacks.put(object, ResourceStackManager.getResourceInstanceByType(object, amount));
           getResourceInstanceSeqID(id).add(object);
 
-          if(building != null){
-            building.triggerResourceChanged();
-          }
+          buildComp.triggerResourceChanged();
         }else{
           rs.amount += amount;
         }
@@ -76,15 +78,16 @@ public class ResourceModule extends BlockModule{
       case 1 -> {
         if(liquidModule != null) liquidModule.add((Liquid)object, amount);
       }
+      case 2 -> {
+        if(powerModule != null) powerModule.add((Power)object, amount);
+      }
       default -> {
         ResourceStack<?> rs = resourceStacks.get(object);
         if(rs == null){
           resourceStacks.put(object, resourceStack);
           getResourceInstanceSeqID(id).add(object);
 
-          if(building != null){
-            building.triggerResourceChanged();
-          }
+          buildComp.triggerResourceChanged();
         }else{
           rs.amount += amount;
         }
@@ -105,12 +108,9 @@ public class ResourceModule extends BlockModule{
     int id = getResourceInstanceID(object);
 
     switch(id){
-      case 0 -> {
-        itemModule.remove((Item)object, (int)amount);
-      }
-      case 1 -> {
-        liquidModule.remove((Liquid)object, amount);
-      }
+      case 0 -> itemModule.remove((Item)object, (int)amount);
+      case 1 -> liquidModule.remove((Liquid)object, amount);
+      case 2 -> powerModule.remove((Power)object, amount);
       default -> {
         ResourceStack<?> rs = resourceStacks.get(object);
         if(rs != null){
@@ -119,9 +119,32 @@ public class ResourceModule extends BlockModule{
             resourceStacks.remove(object);
             getResourceInstanceSeqID(id).remove(object);
 
-            if(building != null){
-              building.triggerResourceChanged();
-            }
+            buildComp.triggerResourceChanged();
+          }
+        }
+      }
+    }
+  }
+
+  public void remove(ResourceStack<?> resourceStack){
+    Object object = resourceStack.item;
+    float amount = resourceStack.amount;
+    int id = resourceStack.id();
+
+    switch(id){
+      case 0 -> itemModule.remove((Item)object, (int)amount);
+      case 1 -> liquidModule.remove((Liquid)object, amount);
+      case 2 -> powerModule.remove((Power)object, amount);
+      default -> {
+        //todo remove(resourceStack)?
+        ResourceStack<?> rs = resourceStacks.get(object);
+        if(rs != null){
+          rs.amount -= amount;
+          if(rs.amount <= 0){
+            resourceStacks.remove(object);
+            getResourceInstanceSeqID(id).remove(object);
+
+            buildComp.triggerResourceChanged();
           }
         }
       }
@@ -138,6 +161,9 @@ public class ResourceModule extends BlockModule{
       case 1 -> {
         return liquidModule.get((Liquid)object) > 0;
       }
+      case 2 -> {
+        return powerModule.has((Power)object);
+      }
       default -> {
         return resourceStacks.containsKey(object);
       }
@@ -153,6 +179,9 @@ public class ResourceModule extends BlockModule{
       }
       case 1 -> {
         return liquidModule.get((Liquid)object) >= amount;
+      }
+      case 2 -> {
+        return powerModule.has((Power)object, amount);
       }
       default -> {
         return resourceStacks.containsKey(object);
@@ -172,6 +201,9 @@ public class ResourceModule extends BlockModule{
       case 1 -> {
         return liquidModule.get((Liquid)object) >= amount;
       }
+      case 2 -> {
+        return powerModule.has((Power)object, amount);
+      }
       default -> {
         return resourceStacks.containsKey(object) && resourceStacks.get(object).amount >= amount;
       }
@@ -190,6 +222,9 @@ public class ResourceModule extends BlockModule{
         }
         case 1 -> {
           if(liquidModule.get((Liquid)object) < amount) return false;
+        }
+        case 2 -> {
+          if(!powerModule.has((Power)object, amount))return false;
         }
         default -> {
           if(!resourceStacks.containsKey(object) && resourceStacks.get(object).amount < amount) return false;
@@ -212,6 +247,9 @@ public class ResourceModule extends BlockModule{
         case 1 -> {
           if(liquidModule.get((Liquid)object) < amount) return false;
         }
+        case 2 -> {
+          if(!powerModule.has((Power)object, amount))return false;
+        }
         default -> {
           if(!resourceStacks.containsKey(object) && resourceStacks.get(object).amount < amount) return false;
         }
@@ -220,35 +258,10 @@ public class ResourceModule extends BlockModule{
     return true;
   }
 
-  public void remove(ResourceStack<?> resourceStack){
-    Object object = resourceStack.item;
-    float amount = resourceStack.amount;
-    int id = resourceStack.id();
-
-    switch(id){
-      case 0 -> itemModule.remove((Item)object, (int)amount);
-      case 1 -> liquidModule.remove((Liquid)object, amount);
-      default -> {
-        //todo remove(resourceStack)?
-        ResourceStack<?> rs = resourceStacks.get(object);
-        if(rs != null){
-          rs.amount -= amount;
-          if(rs.amount <= 0){
-            resourceStacks.remove(object);
-            getResourceInstanceSeqID(id).remove(object);
-
-            if(building != null){
-              building.triggerResourceChanged();
-            }
-          }
-        }
-      }
-    }
-  }
-
   public float sum(){
     float sum = (itemModule == null ? 0 : itemModule.sum((item, amount) -> amount))
-      + (liquidModule == null ? 0 : liquidModule.sum((liquid, amount) -> amount));
+      + (liquidModule == null ? 0 : liquidModule.sum((liquid, amount) -> amount))
+      + (powerModule == null ? 0 : powerModule.sum());
     for(ResourceStack<?> rs : resourceStacks.values()){
       sum += rs.amount;
     }
@@ -257,7 +270,8 @@ public class ResourceModule extends BlockModule{
 
   public float sum(ResourceCalculator calculator){
     float sum = (itemModule == null ? 0 : itemModule.sum(calculator::get))
-      + (liquidModule == null ? 0 : liquidModule.sum(calculator::get));
+      + (liquidModule == null ? 0 : liquidModule.sum(calculator::get))
+      + (powerModule == null ? 0 : powerModule.sum(calculator::get));
     for(ResourceStack<?> rs : resourceStacks.values()){
       sum += calculator.get(rs.item, rs.amount);
     }

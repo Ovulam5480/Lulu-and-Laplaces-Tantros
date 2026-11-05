@@ -1,7 +1,7 @@
 package lulu.content.extensions;
 
 import lulu.content.*;
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import lulu.ctype.packet.*;
 import lulu.type.biomeplanet.*;
 import mindustry.ctype.*;

@@ -1,5 +1,7 @@
 package lulu.world.components.buildComps;
 
+import lulu.content.*;
+import lulu.ctype.*;
 import lulu.type.resourceStacks.*;
 import lulu.world.components.blockComps.*;
 import lulu.world.modules.*;
@@ -24,7 +26,7 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.modules.*;
 import universecore.annotations.*;
 
-public interface ResourceBuildComp extends BuildCompBase{
+public interface ResourceBuildComp extends PowerChannelBuildComp, BuildCompBase{
   default ResourceBlockComp getResourceBlock(){
     return (ResourceBlockComp)getBlock();
   }
@@ -59,6 +61,7 @@ public interface ResourceBuildComp extends BuildCompBase{
   default void createResourceBuild(){
     Building building = getBuilding();
 
+    createPowerChannelBuild();
     resources(new ResourceModule(building));
   }
 
@@ -137,6 +140,31 @@ public interface ResourceBuildComp extends BuildCompBase{
     }
 
     return remain / getResourceOccupy(object, 1);
+  }
+
+  @Override
+  default Power[] getPowerChannel(){
+    return OvulamContents.powers().toArray(Power.class);
+  }
+
+  @Override
+  default float getPowerConsume(int id){
+    return 0;
+  }
+
+  @Override
+  default float getPowerProduce(int id){
+    return 0;
+  }
+
+  @Override
+  default float getPowerCapacity(int id){
+    return getMaxAccepted(OvulamContents.power(id));
+  }
+
+  @Override
+  default float getTotalPowerCapacity(int id){
+    return getPowerStored(id) + getPowerCapacity(id);
   }
 
   @Annotations.MethodEntry(entryMethod = "getMaximumAccepted", paramTypes = {"mindustry.type.Item -> item"})
@@ -220,6 +248,12 @@ public interface ResourceBuildComp extends BuildCompBase{
             int[] i = {0};
             liquids.each((liquid, dwadwad) -> {
               addResourceImage(list, liquid.fullIcon, () -> liquids.get(liquid));
+              if(++i[0] % row == 0) list.row();
+            });
+          }else if(tableId() == 2){
+            int[] i = {0};
+            power().each((power, amount) -> {
+              addResourceImage(list, power.fullIcon, () -> power().get(power));
               if(++i[0] % row == 0) list.row();
             });
           }else{

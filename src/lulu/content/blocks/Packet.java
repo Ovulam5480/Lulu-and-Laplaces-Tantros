@@ -56,7 +56,7 @@ public class Packet{
     //todo
     OvulamBlocks.powerUnpacker = new PacketUnpacker("power-unpacker"){{
       size = 2;
-      filter.add(PowerResourceStack.class);
+      filter.add(PowerChannelStack.class);
 
       excavateAmount = 1200f;
     }};

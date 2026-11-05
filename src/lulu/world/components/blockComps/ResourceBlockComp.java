@@ -10,7 +10,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import universecore.annotations.*;
 
-public interface ResourceBlockComp extends PowerTypeBlockComp{
+public interface ResourceBlockComp extends PowerChannelBlockComp{
   default Block block(){
     return (Block)this;
   }

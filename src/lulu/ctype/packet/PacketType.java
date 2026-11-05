@@ -2,7 +2,7 @@ package lulu.ctype.packet;
 
 import lulu.content.*;
 import lulu.content.extensions.*;
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import lulu.entities.gen.*;
 import lulu.type.resourceStacks.*;
 import arc.*;
@@ -17,7 +17,6 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.payloads.*;
 import mindustry.world.meta.*;
 
 import static arc.graphics.g2d.Draw.*;

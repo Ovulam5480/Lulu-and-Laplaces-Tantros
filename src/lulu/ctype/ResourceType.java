@@ -1,6 +1,5 @@
 package lulu.ctype;
 
-import lulu.content.resourceTypes.*;
 import lulu.type.resourceStacks.*;
 import arc.util.*;
 import mindustry.ctype.*;

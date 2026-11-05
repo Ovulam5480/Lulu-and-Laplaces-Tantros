@@ -74,7 +74,7 @@ public class CoreBackflow extends OvulamCoreBlock implements MovableBlockComp, R
 
     //todo 因为建筑移动需要shown
     requirements(Category.effect, BuildVisibility.shown, ItemStack.with());
-    bufferedPowerType(true);
+    bufferedPowerChannel(true);
   }
 
   @Override

@@ -1,6 +1,6 @@
 package lulu.content;
 
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import lulu.ctype.packet.*;
 import lulu.ctype.packet.packetTypes.*;
 import lulu.entities.gen.*;

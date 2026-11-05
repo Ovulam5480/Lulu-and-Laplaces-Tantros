@@ -1,13 +1,13 @@
 package lulu.world.blocks.packet;
 
 import lulu.content.*;
-import lulu.content.resourceTypes.*;
+import lulu.ctype.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 
 //非封包消耗器封装机, 消耗器负责提供封装
 public class ConsumePacketPacker extends PackerBlock{
-  public Power powerType = OvulamResource.power;
+  public Power powerChannel = OvulamResource.power;
   public float craftTime = 60f;
 
   public ConsumePacketPacker(String name){

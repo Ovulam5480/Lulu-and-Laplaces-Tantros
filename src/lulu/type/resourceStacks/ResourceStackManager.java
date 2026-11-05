@@ -24,7 +24,7 @@ public class ResourceStackManager{
   public static Seq<ResourceStack<?>> resourceStackInstances = Seq.with(
     new ItemResourceStack(),
     new LiquidResourceStack(),
-    new PowerResourceStack(),
+    new PowerChannelStack(),
     new PayloadResourceStack()
     //new SectorResourceStack()
   );

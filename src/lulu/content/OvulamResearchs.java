@@ -16,7 +16,7 @@ public class OvulamResearchs extends ResearchManager.ResearchSDL{
         cost(
           new ItemResourceStack().set(Items.copper, 100f),
           new LiquidResourceStack().set(Liquids.water, 100f),
-          new PowerResourceStack().set(OvulamResource.power, 100f),
+          new PowerChannelStack().set(OvulamResource.power, 100f),
           new PayloadResourceStack().set(Blocks.duo, 1f)
         );
       });
