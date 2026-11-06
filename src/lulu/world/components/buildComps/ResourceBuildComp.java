@@ -167,6 +167,11 @@ public interface ResourceBuildComp extends PowerChannelBuildComp, BuildCompBase{
     return getPowerStored(id) + getPowerCapacity(id);
   }
 
+  @Override
+  default float getDelta(){
+    return getBuilding().delta();
+  }
+
   @Annotations.MethodEntry(entryMethod = "getMaximumAccepted", paramTypes = {"mindustry.type.Item -> item"})
   default int getMaximumAcceptedResourceBuild(Item item){
     return (int)getMaxAccepted(item);

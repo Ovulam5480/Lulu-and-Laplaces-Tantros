@@ -52,11 +52,6 @@ public interface PowerChannelBuildComp extends PowerChannelEntityComp, BuildComp
   }
 
   @Override
-  default float getDelta(){
-    return getBuilding().edelta();
-  }
-
-  @Override
   default boolean shouldConsumePower(){
     return getPowerChannelComp().consumesPowerChannel();
   }

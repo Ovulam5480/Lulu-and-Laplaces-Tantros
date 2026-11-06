@@ -1,5 +1,6 @@
 package lulu.ctype;
 
+import arc.util.*;
 import lulu.content.*;
 import lulu.world.modules.*;
 
@@ -22,7 +23,9 @@ public interface PowerChannelEntityComp{
 
   float getTotalPowerCapacity(int id);
 
-  float getDelta();
+  default float getDelta(){
+    return Time.delta;
+  }
 
   boolean shouldConsumePower();
 
