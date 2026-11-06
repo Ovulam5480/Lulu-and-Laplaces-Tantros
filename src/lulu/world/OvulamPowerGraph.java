@@ -243,7 +243,7 @@ public class OvulamPowerGraph extends PowerGraph{
 
       boolean charged = false;
 
-      float margin = OvulamContents.power(i).applyPowerGraph(this, powerProduced - powerNeeded);
+      float margin = OvulamContents.power(i).applyPowerGraph(this, powerProduced, powerNeeded);
       //todo energyDelta -> Diode二极管
       float energyDelta = 0;
       powerBalances[i].add((margin + energyDelta) / Time.delta);

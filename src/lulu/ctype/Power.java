@@ -24,12 +24,12 @@ public class Power extends UnlockableContent{
     return OvulamContentType.power.value;
   }
 
-  public float applyPowerGraph(OvulamPowerGraph graph, float amount){
-    return amount;
+  public float applyPowerGraph(OvulamPowerGraph graph, float produce, float consume){
+    return produce - consume;
   }
 
-  public float applyPowerGraphMixed(OvulamPowerGraph graph, float amount){
-    return amount;
+  public float applyPowerGraphMixed(OvulamPowerGraph graph, float produce, float consume){
+    return produce - consume;
   }
 
   public static Power get(int id){
