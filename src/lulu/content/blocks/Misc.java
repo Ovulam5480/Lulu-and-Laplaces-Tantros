@@ -6,6 +6,7 @@ import lulu.world.blocks.*;
 import lulu.world.blocks.effect.*;
 import lulu.world.blocks.entity.*;
 import lulu.world.blocks.packet.*;
+import lulu.world.blocks.power.*;
 import lulu.world.blocks.special.tjTool.*;
 import lulu.world.blocks.storage.*;
 import lulu.lib.singularity.world.blocks.research.*;
@@ -61,6 +62,13 @@ public class Misc{
 
     OvulamBlocks.coreCausality = new CoreCausality("core-causality");
     OvulamBlocks.coreBackflow = new CoreBackflow("core-backflow");
+
+    OvulamBlocks.powerChannelSource = new PowerChannelSource("power-channel-source"){{
+      requirements(Category.power, ItemStack.with());
+    }};
+    OvulamBlocks.powerChannelVoid = new PowerChannelVoid("power-channel-void"){{
+      requirements(Category.power, ItemStack.with());
+    }};
 
     OvulamBlocks.researchDevice = new ResearchDevice("research-device"){{
       size = 2;

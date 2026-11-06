@@ -63,6 +63,7 @@ public class OvulamBlocks{
   public static Block coreCausality;
   public static Block researchDevice;
   public static Block researchPlatform;
+  public static Block powerChannelSource, powerChannelVoid;
 
   public static void load(){
     Defense.load();
