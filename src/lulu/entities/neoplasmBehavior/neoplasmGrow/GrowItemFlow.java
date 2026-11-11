@@ -1,15 +1,15 @@
 package lulu.entities.neoplasmBehavior.neoplasmGrow;
 
-import lulu.entities.neoplasmBehavior.*;
-import lulu.graphics.*;
-import lulu.lib.gdxAI.btree.*;
-import lulu.util.struct.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import lulu.entities.neoplasmBehavior.*;
+import lulu.graphics.draw.*;
+import lulu.lib.gdxAI.btree.*;
+import lulu.util.struct.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.type.*;

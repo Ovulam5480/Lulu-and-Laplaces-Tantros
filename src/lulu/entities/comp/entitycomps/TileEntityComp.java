@@ -1,11 +1,9 @@
 package lulu.entities.comp.entitycomps;
 
+import ent.anno.*;
 import lulu.*;
 import lulu.entities.gen.*;
-import lulu.graphics.StaticDrawLayer;
 import lulu.world.blocks.entity.*;
-import arc.graphics.g2d.*;
-import ent.anno.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 

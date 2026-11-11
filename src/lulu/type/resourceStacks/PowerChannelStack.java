@@ -1,12 +1,9 @@
 package lulu.type.resourceStacks;
 
+import arc.util.io.*;
 import lulu.content.*;
-import lulu.content.extensions.*;
 import lulu.ctype.*;
 import lulu.world.blocks.packet.*;
-import arc.struct.*;
-import arc.util.io.*;
-import mindustry.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 

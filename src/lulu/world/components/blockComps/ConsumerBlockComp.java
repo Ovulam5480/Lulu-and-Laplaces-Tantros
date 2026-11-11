@@ -1,17 +1,17 @@
 package lulu.world.components.blockComps;
 
-import lulu.content.*;
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.graphic.*;
-import lulu.util.*;
-import lulu.world.recipe.*;
-import lulu.world.recipe.consumers.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.graphics.draw.*;
+import lulu.util.*;
+import lulu.world.meta.*;
+import lulu.world.recipe.*;
+import lulu.world.recipe.consumers.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
@@ -148,6 +148,24 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
 
   @BindField("consFilter")
   default void filter(ConsFilter<T> value){
+  }
+
+  @Annotations.BindField(value = "recipeCapacityMulti", initialize = "2")
+  default float recipeCapacityMulti(){
+    return 0;
+  }
+
+  @Annotations.BindField("recipeCapacityMulti")
+  default void recipeCapacityMulti(float value){
+  }
+
+  @Annotations.BindField(value = "useRecipeCapacity", initialize = "false")
+  default boolean useRecipeCapacity(){
+    return false;
+  }
+
+  @Annotations.BindField("useRecipeCapacity")
+  default void useRecipeCapacity(boolean value){
   }
 
   @Annotations.MethodEntry(entryMethod = "init")
@@ -293,7 +311,7 @@ public interface ConsumerBlockComp<T extends Building & ConsumerBuildc<T>> exten
       self.stats.add(Stat.itemCapacity, (float)self.itemCapacity, StatUnit.items);
 
     if(!optionalCons().isEmpty()){
-      stats.add(UncStat.optionalInputs, t -> {
+      stats.add(OvulamStat.optionalInputs, t -> {
         t.left().row();
         for(BaseConsumers<T> con : optionalCons()){
           t.table(SglDrawConst.grayUIAlpha, ta -> {

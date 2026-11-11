@@ -1,12 +1,5 @@
 package lulu.world.neoplasm.pedigree.porifera;
 
-import lulu.content.*;
-import lulu.graphics.*;
-import lulu.lib.singularity.graphic.*;
-import lulu.util.func.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.components.buildComps.*;
-import lulu.world.neoplasm.units.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -14,6 +7,13 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import lulu.content.*;
+import lulu.graphics.draw.*;
+import lulu.graphics.shader.*;
+import lulu.util.func.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.components.buildComps.*;
+import lulu.world.neoplasm.units.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;

@@ -1,14 +1,14 @@
 package lulu.world.modules;
 
-import lulu.type.*;
 import arc.util.io.*;
+import lulu.type.*;
 import mindustry.ctype.*;
 import mindustry.game.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.modules.*;
 
 public class PayloadModule extends BlockModule{
-  public final ModulePayloadSeq payloads;
+  public ModulePayloadSeq payloads;
 
   public PayloadModule(Team team){
     payloads = new ModulePayloadSeq(team);
@@ -38,8 +38,16 @@ public class PayloadModule extends BlockModule{
     return payloads.getPayload(type);
   }
 
+  public Payload get(int i){
+    return payloads.payloads.get(i);
+  }
+
   public void remove(UnlockableContent type){
     payloads.remove(type);
+  }
+
+  public void remove(Payload payload){
+    payloads.remove(payload);
   }
 
   public void removeAll(UnlockableContent type){

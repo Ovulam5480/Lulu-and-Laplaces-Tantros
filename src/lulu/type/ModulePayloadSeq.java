@@ -25,10 +25,22 @@ public class ModulePayloadSeq extends PayloadSeq implements Iterable<Payload>{
   }
 
   @Override
-  public void add(UnlockableContent block, int amount){
+  public void add(UnlockableContent block){
     if(block instanceof Block b){
-      for(int i = 0; i < amount; i++){
+      add(new BuildPayload(b, team));
+    }else if(block instanceof UnitType u){
+      add(new UnitPayload(u.create(team)));
+    }
+    super.add(block);
+  }
+
+  @Override
+  public void add(UnlockableContent block, int amount){
+    for(int i = 0; i < amount; i++){
+      if(block instanceof Block b){
         add(new BuildPayload(b, team));
+      }else if(block instanceof UnitType u){
+        add(new UnitPayload(u.create(team)));
       }
     }
     super.add(block, amount);
@@ -52,6 +64,11 @@ public class ModulePayloadSeq extends PayloadSeq implements Iterable<Payload>{
   public void remove(UnlockableContent type){
     payloads.remove(t -> t.content() == type);
     super.remove(type);
+  }
+
+  public void remove(Payload payload){
+    payloads.remove(payload);
+    super.remove(payload.content());
   }
 
   public void removeLast(UnlockableContent type){
@@ -99,29 +116,7 @@ public class ModulePayloadSeq extends PayloadSeq implements Iterable<Payload>{
 
   @Override
   public Iterator<Payload> iterator(){
-    return new Iterator<>(){
-      int index;
-      boolean removable;
-
-      @Override
-      public boolean hasNext(){
-        return index < payloads.size;
-      }
-
-      @Override
-      public Payload next(){
-        if(!hasNext()) throw new NoSuchElementException();
-        removable = true;
-        return payloads.get(index++);
-      }
-
-      @Override
-      public void remove(){
-        if(!removable) throw new IllegalStateException();
-        removeAt(--index);
-        removable = false;
-      }
-    };
+    return payloads.iterator();
   }
 
   @Override

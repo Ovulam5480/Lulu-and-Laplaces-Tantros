@@ -1,7 +1,7 @@
 package lulu.entities.ai;
 
-import lulu.content.extensions.*;
 import arc.struct.*;
+import lulu.ctype.*;
 import mindustry.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;

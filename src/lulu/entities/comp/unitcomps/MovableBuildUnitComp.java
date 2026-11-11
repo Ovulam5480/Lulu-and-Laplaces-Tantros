@@ -1,9 +1,5 @@
 package lulu.entities.comp.unitcomps;
 
-import lulu.entities.gen.*;
-import lulu.graphics.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.components.buildComps.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -11,6 +7,10 @@ import arc.scene.ui.layout.*;
 import arc.util.*;
 import arc.util.io.*;
 import ent.anno.*;
+import lulu.entities.gen.*;
+import lulu.graphics.renderer.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.components.buildComps.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;

@@ -11,15 +11,6 @@ import mindustry.world.meta.*;
 import universecore.annotations.*;
 
 public interface PayloadCrafterBlockComp<T extends Building & ProducerBuildc<T>> extends ProducerBlockComp<T>, PayloadBlockComp{
-  @Annotations.BindField(value = "itemCapacityMulti", initialize = "2")
-  default float itemCapacityMulti(){
-    return 0;
-  }
-
-  @Annotations.BindField("itemCapacityMulti")
-  default void itemCapacityMulti(float value){
-  }
-
   @Annotations.BindField(value = "payloadCapacityMulti", initialize = "2")
   default float payloadCapacityMulti(){
     return 0;
@@ -44,7 +35,7 @@ public interface PayloadCrafterBlockComp<T extends Building & ProducerBuildc<T>>
           for(PayloadStack ps : cp.payloads){
             total += ps.amount;
           }
-          payloadCapacity(Math.max(Mathf.floor(total * payloadCapacityMulti()), payloadCapacity()));
+          payloadAmountCapacity(Math.max(Mathf.floor(total * payloadCapacityMulti()), payloadAmountCapacity()));
         }
       });
     }
@@ -59,7 +50,7 @@ public interface PayloadCrafterBlockComp<T extends Building & ProducerBuildc<T>>
           for(PayloadStack ps : cp.payloads){
             total += ps.amount;
           }
-          payloadCapacity(Math.max(Mathf.floor(total + payloadCapacityMulti()), payloadCapacity()));
+          payloadAmountCapacity(Math.max(Mathf.floor(total + payloadCapacityMulti()), payloadAmountCapacity()));
         }
       });
     }

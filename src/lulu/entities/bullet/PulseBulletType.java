@@ -1,9 +1,9 @@
 package lulu.entities.bullet;
 
-import lulu.entities.*;
-import lulu.graphics.*;
 import arc.math.*;
 import arc.util.*;
+import lulu.entities.*;
+import lulu.graphics.fx.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;

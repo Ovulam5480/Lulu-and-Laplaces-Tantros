@@ -2,18 +2,18 @@ package lulu.world.blocks;
 
 import arc.scene.ui.layout.*;
 import lulu.*;
-import lulu.lib.singularity.game.researchs.*;
+import lulu.entities.gen.*;
+import lulu.research.*;
 import lulu.world.components.blockComps.*;
 import lulu.world.components.buildComps.*;
 import lulu.world.recipe.consumers.*;
 import lulu.world.recipe.producers.*;
-import lulu.entities.gen.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.Block;
+import mindustry.world.*;
 import universecore.annotations.*;
 
 @Annotations.ImplEntries
@@ -37,7 +37,6 @@ public class ResearchPlatform extends Block implements ProducerBlockComp<Produce
 
     newProduce(p -> p.add(new ProduceValid<>()));
 
-    /*选中研究以字符串形式作为建筑配置，随存档持久化*/
     config(String.class, (e, s) -> {
       ResearchPlatformBuild b = (ResearchPlatformBuild)e;
       b.selected = s == null ? null : LuluMod.researches.current().getResearch(s);
@@ -46,7 +45,6 @@ public class ResearchPlatform extends Block implements ProducerBlockComp<Produce
 
   @Annotations.ImplEntries
   public class ResearchPlatformBuild extends ProducerBuildBuilding implements ResourceBuildComp{
-    /** 当前选中的待研究项目，由配置菜单写入，随存档恢复。 */
     public ResearchProject selected;
 
     @Override
@@ -56,7 +54,6 @@ public class ResearchPlatform extends Block implements ProducerBlockComp<Produce
       return this;
     }
 
-    /** 合成触发：资源已被消耗，此时推进/完成选中的研究。 */
     @Override
     public void craftTrigger(){
       super.craftTrigger();

@@ -1,29 +1,27 @@
 package lulu;
 
+import arc.*;
 import arc.files.*;
+import arc.graphics.*;
 import arc.util.*;
+import arc.util.io.*;
 import lulu.content.*;
-import lulu.content.extensions.*;
-import lulu.dev.*;
+import lulu.ctype.*;
 import lulu.entities.*;
-import lulu.graphics.*;
+import lulu.graphics.draw.*;
+import lulu.graphics.renderer.*;
+import lulu.graphics.shader.*;
 import lulu.io.*;
 import lulu.lib.seam.*;
-import lulu.lib.singularity.*;
-import lulu.lib.singularity.game.researchs.*;
-import lulu.lib.singularity.graphic.*;
+import lulu.research.*;
 import lulu.type.neoplasm.*;
 import lulu.type.resourceStacks.*;
 import lulu.ui.*;
 import lulu.util.uncUtil.handler.*;
 import lulu.world.*;
-import arc.*;
-import arc.graphics.*;
 import mindustry.*;
 import mindustry.core.*;
 import mindustry.mod.*;
-
-import static arc.Core.settings;
 
 public class LuluMod extends Mod{
   public static String modName = "lulu-";
@@ -36,11 +34,8 @@ public class LuluMod extends Mod{
   public static CategoryHandler categories;
   public static StaticMeshRenderer staticMeshRenderer;
   public static Settings globals;
-  public static final Fi modDirectory = settings.getDataDirectory().child("mods");
-  public static final Fi dataDirectory = modDirectory.child("data").child(modName);
-  public static final Fi globalVars = dataDirectory.child("global_vars.bin");
-  public static final Fi globalVarsBackup = dataDirectory.child("global_vars.bin.bak");
   public static ResearchManager researches;
+  public static SglUI ui;
 
   @Override
   public void init(){
@@ -49,6 +44,15 @@ public class LuluMod extends Mod{
 
       Core.atlas.getTextures().each(texture -> texture.setFilter(filter, filter));
     }
+
+    ScreenSampler.setup();
+    SglShaders.load();
+    MathRenderer.load();
+    SglDrawConst.load();
+    SglStyles.load();
+    ui = new SglUI();
+    ui.init();
+    loadNotificationHistory();
 
     oIndexer = new OvulamIndexer();
     graphics = new OvulamGraphics();
@@ -61,13 +65,10 @@ public class LuluMod extends Mod{
     seam.init();
 
     OvulamBlockFlags.init();
-    //OvulamShaders.init();
+    OvulamShaders.init();
     initResources();
     PrefrontalCortex.load();
 
-    //ScreenSampler.setup();
-    SglShaders.load();
-    MathRenderer.load();
     OvulamMathRenderers.load();
     Shapes.load();
     Momentum.init();
@@ -93,22 +94,22 @@ public class LuluMod extends Mod{
     globals = new Settings(){
       {
         setAutosave(true);
-        setDataDirectory(Sgl.dataDirectory);
+        setDataDirectory(ModFiles.dataDirectory);
       }
 
       @Override
       public Fi getSettingsFile(){
-        return globalVars;
+        return ModFiles.globalVars;
       }
 
       @Override
       public Fi getBackupFolder(){
-        return Sgl.dataDirectory.child("global_backups");
+        return ModFiles.dataDirectory.child("global_backups");
       }
 
       @Override
       public Fi getBackupSettingsFile(){
-        return globalVarsBackup;
+        return ModFiles.globalVarsBackup;
       }
 
       @Override
@@ -182,6 +183,23 @@ public class LuluMod extends Mod{
   public static void initResources(){
     for(ResourceStack<?> instance : ResourceStackManager.resourceStackInstances){
       instance.init();
+    }
+  }
+
+  private static void loadNotificationHistory(){
+    if(ModFiles.notificationHistory.exists() || ModFiles.notificationHistoryBackup.exists()){
+      try(Reads reads = ModFiles.notificationHistory.reads()){
+        ui.notificationFrag.loadHistory(reads);
+      }catch(RuntimeException ignored){
+        if(ModFiles.notificationHistory.exists() && ModFiles.notificationHistoryBackup.exists())
+          Log.err("[Lulu] history notification load failed, trying load backup");
+
+        try(Reads reads = ModFiles.notificationHistoryBackup.reads()){
+          ui.notificationFrag.loadHistory(reads);
+        }catch(RuntimeException e){
+          Log.err("[Lulu] history notification load failed!", e);
+        }
+      }
     }
   }
 }

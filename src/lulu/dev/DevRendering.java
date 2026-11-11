@@ -5,7 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.util.*;
-import lulu.lib.universeKit.ScreenSampler;
+import lulu.graphics.renderer.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 
@@ -56,7 +56,7 @@ public final class DevRendering{
     int w = Core.graphics.getWidth();
     int h = Core.graphics.getHeight();
     buffer.resize(w, h);
-    ScreenSampler.toBuffer(buffer);
+    GLScreenSampler.toBuffer(buffer);
 
     if(shader != null){
       Draw.blit(buffer, shader);

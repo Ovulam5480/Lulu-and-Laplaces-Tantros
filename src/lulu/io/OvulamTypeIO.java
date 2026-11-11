@@ -1,15 +1,15 @@
 package lulu.io;
 
-import lulu.*;
-import lulu.content.extensions.*;
-import lulu.ctype.packet.*;
-import lulu.entities.gen.*;
-import lulu.entities.types.typeComps.*;
-import lulu.type.resourceStacks.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;
+import lulu.*;
+import lulu.ctype.*;
+import lulu.ctype.packet.*;
+import lulu.entities.gen.*;
+import lulu.entities.types.typeComps.*;
+import lulu.type.resourceStacks.*;
 import lulu.world.blocks.entity.*;
 import mindustry.*;
 import mindustry.ctype.*;

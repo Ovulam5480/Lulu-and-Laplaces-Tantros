@@ -1,10 +1,5 @@
 package lulu.type.neoplasm;
 
-import lulu.graphics.*;
-import lulu.type.*;
-import lulu.util.struct.*;
-import lulu.world.components.buildComps.*;
-import lulu.world.neoplasm.effect.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -14,6 +9,11 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import lulu.graphics.draw.*;
+import lulu.type.*;
+import lulu.util.struct.*;
+import lulu.world.components.buildComps.*;
+import lulu.world.neoplasm.effect.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;

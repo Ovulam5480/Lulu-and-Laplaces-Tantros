@@ -1,15 +1,14 @@
 package lulu.content.blocks;
 
 import lulu.content.*;
+import lulu.research.*;
 import lulu.type.resourceStacks.*;
 import lulu.world.blocks.*;
 import lulu.world.blocks.effect.*;
 import lulu.world.blocks.entity.*;
 import lulu.world.blocks.packet.*;
 import lulu.world.blocks.power.*;
-import lulu.world.blocks.special.tjTool.*;
 import lulu.world.blocks.storage.*;
-import lulu.lib.singularity.world.blocks.research.*;
 import lulu.world.recipe.consumers.*;
 import mindustry.content.*;
 import mindustry.type.*;
@@ -26,7 +25,7 @@ public class Misc{
       buildTime = 60 * 8;
     }};
 
-    FrameBlock.registerFrameList(OvulamBlocks.hydrothermalVat, OvulamBlocks.hydrothermalVat,
+    FrameBlock.registerFrameList(Blocks.thoriumWallLarge, OvulamBlocks.hydrothermalVat,
 //      c -> {
 //      c.time(60f);
 //      c.item(Items.silicon, 60);
@@ -36,7 +35,7 @@ public class Misc{
 //      c.liquid(Liquids.water, 1f);},
   c -> {
       c.time(60f);
-      c.add(new ConsumePayload<>(UnitTypes.flare, 4));
+    c.add(new ConsumeMultiPayload(UnitTypes.flare, 4));
     });
 
     OvulamBlocks.amethystCrystalCore = new CrystalCoreBlock("amethyst-crystal-core"){{
@@ -79,8 +78,5 @@ public class Misc{
 
     OvulamBlocks.researchPlatform = new ResearchPlatform("research-platform");
 
-    new Beacon("beacon"){{
-      requirements(Category.effect, ItemStack.with());
-    }};
   }
 }

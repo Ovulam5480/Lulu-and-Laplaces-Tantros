@@ -1,12 +1,5 @@
 package lulu.world.components.blockComps;
 
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.graphic.*;
-import lulu.lib.singularity.world.meta.*;
-import lulu.util.*;
-import lulu.world.recipe.*;
-import lulu.world.recipe.producers.*;
 import arc.*;
 import arc.audio.*;
 import arc.func.*;
@@ -17,6 +10,13 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.graphics.draw.*;
+import lulu.util.*;
+import lulu.world.meta.*;
+import lulu.world.recipe.*;
+import lulu.world.recipe.producers.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -479,11 +479,11 @@ public interface ProducerBlockComp<T extends Building & ProducerBuildc<T>> exten
   @Annotations.MethodEntry(entryMethod = "setStats", context = "stats -> stats")
   default void setStatsProducer(Stats stats){
     if(recipeProducers().size > 1){
-      stats.add(SglStat.autoSelect, autoSelect());
-      stats.add(SglStat.controllable, canSelect());
+      stats.add(OvulamStat.autoSelect, autoSelect());
+      stats.add(OvulamStat.controllable, canSelect());
     }
 
-    stats.add(SglStat.recipes, t -> {
+    stats.add(OvulamStat.recipes, t -> {
       t.left().row();
       t.add(Core.bundle.get("infos.touchShowDetails")).color(Color.gray).left();
       t.row();

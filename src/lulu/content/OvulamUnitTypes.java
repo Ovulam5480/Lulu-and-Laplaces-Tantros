@@ -1,6 +1,10 @@
 package lulu.content;
 
 import arc.graphics.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import ent.anno.*;
 import lulu.*;
 import lulu.entities.ability.*;
 import lulu.entities.ability.drawer.*;
@@ -8,10 +12,6 @@ import lulu.entities.ai.*;
 import lulu.entities.gen.*;
 import lulu.entities.types.*;
 import lulu.entities.weapon.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import ent.anno.*;
 import lulu.type.weapons.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
@@ -184,7 +184,7 @@ public class OvulamUnitTypes{
 //            controller = u -> new FlyingBuildUnitAI();
 //        }}
 
-    amphiblastula = new SpongeUnitTupe("amphiblastula"){{
+    amphiblastula = new SpongeUnitType("amphiblastula"){{
       range = 35 * 8;
 
       health = 1500;
@@ -217,7 +217,7 @@ public class OvulamUnitTypes{
       abilities.add(new AmphiblastulaDrawer());
     }};
 
-    parenchymella = new SpongeUnitTupe("parenchymella"){{
+    parenchymella = new SpongeUnitType("parenchymella"){{
       range = 35 * 8;
 
       health = 4500;
@@ -249,7 +249,7 @@ public class OvulamUnitTypes{
         .add(new ParenchymellaDrawer(hitSize * 0.7f + 0.75f, 4));
     }};
 
-    trichimella = new SpongeUnitTupe("trichimella"){{
+    trichimella = new SpongeUnitType("trichimella"){{
       range = 40 * 8;
 
       speed = 4;
@@ -309,7 +309,7 @@ public class OvulamUnitTypes{
         }});
     }};
 
-    settledlarva = new SpongeUnitTupe("settled-larva"){{
+    settledlarva = new SpongeUnitType("settled-larva"){{
       range = 40 * 8;
       hasTailFlagellum = false;
       faceTarget = false;
@@ -356,7 +356,7 @@ public class OvulamUnitTypes{
         .add(new SpawnDeathAbility(parenchymella, 1, 0));
     }};
 
-    juvenileSponge = new SpongeUnitTupe("juvenile-sponge"){{
+    juvenileSponge = new SpongeUnitType("juvenile-sponge"){{
       range = 55 * 8;
 
       health = 150000;

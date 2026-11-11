@@ -1,25 +1,21 @@
 package lulu.content.tantros;
 
-import lulu.content.*;
-import lulu.content.extensions.*;
-import lulu.ctype.packet.*;
-import lulu.entities.gen.*;
-import lulu.type.biomeplanet.*;
-import lulu.type.resourceStacks.*;
-import lulu.util.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.noise.*;
-import mindustry.content.*;
+import lulu.content.*;
+import lulu.ctype.packet.*;
+import lulu.type.biomeplanet.*;
+import lulu.type.resourceStacks.*;
+import lulu.util.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
 
 public class LaplacesTantrosPlanetGenerator extends PlanetGenerator{
   private static final int startSector = 205;

@@ -1,8 +1,8 @@
 package lulu.world.recipe;
 
+import arc.struct.*;
 import lulu.ctype.*;
 import lulu.entities.gen.*;
-import arc.struct.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
 
@@ -34,7 +34,7 @@ public class ConsFilter<T extends Building & ConsumerBuildc<T>>{
    *
    * @param type      过滤器种类
    * @param target    通过过滤器的目标对象
-   * @param acceptAll 是否接受所有清单的需求
+   * @param acceptAll 是否接受所有清单的需求(是否取决于全体配方而非当前配方)
    * @return 布尔值，是否接受此对象
    */
   public boolean filter(T entity, ResourceType type, Content target, boolean acceptAll){

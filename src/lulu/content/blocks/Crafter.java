@@ -1,7 +1,7 @@
 package lulu.content.blocks;
 
 import lulu.content.*;
-import lulu.content.extensions.*;
+import lulu.ctype.*;
 import lulu.entities.gen.*;
 import lulu.world.blocks.crafter.*;
 import lulu.world.recipe.consumers.*;

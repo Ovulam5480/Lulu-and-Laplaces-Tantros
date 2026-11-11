@@ -4,7 +4,7 @@ import arc.graphics.g2d.*;
 import arc.struct.*;
 import ent.anno.*;
 import lulu.entities.types.typeComps.*;
-import lulu.graphics.*;
+import lulu.graphics.fx.*;
 import mindustry.gen.*;
 
 @Annotations.EntityComponent

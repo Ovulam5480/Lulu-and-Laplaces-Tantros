@@ -1,8 +1,7 @@
 package lulu.content;
 
 import lulu.*;
-import lulu.content.OvulamResource;
-import lulu.lib.singularity.game.researchs.*;
+import lulu.research.*;
 import lulu.type.resourceStacks.*;
 import mindustry.content.*;
 

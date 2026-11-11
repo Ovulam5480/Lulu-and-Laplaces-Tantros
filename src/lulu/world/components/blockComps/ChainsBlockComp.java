@@ -1,7 +1,7 @@
 package lulu.world.components.blockComps;
 
-import lulu.content.*;
 import lulu.world.components.buildComps.*;
+import lulu.world.meta.*;
 import mindustry.world.meta.*;
 import universecore.annotations.*;
 
@@ -50,6 +50,6 @@ public interface ChainsBlockComp{
    */
   @Annotations.MethodEntry(entryMethod = "setStats", context = "stats -> stats")
   default void setChainsStats(Stats stats){
-    stats.add(UncStat.maxStructureSize, "@x@", maxWidth(), maxHeight());
+    stats.add(OvulamStat.maxStructureSize, "@x@", maxWidth(), maxHeight());
   }
 }

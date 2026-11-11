@@ -1,14 +1,14 @@
 package lulu.world.recipe.consumers;
 
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.graphic.*;
 import arc.*;
 import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.graphics.draw.*;
 import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;

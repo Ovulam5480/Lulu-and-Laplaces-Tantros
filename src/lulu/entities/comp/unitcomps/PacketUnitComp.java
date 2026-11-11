@@ -1,17 +1,16 @@
 package lulu.entities.comp.unitcomps;
 
 import arc.graphics.g2d.*;
-import lulu.ctype.packet.*;
-import lulu.entities.*;
-import lulu.entities.gen.*;
-import lulu.entities.types.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
-import lulu.graphics.*;
-import lulu.lib.singularity.graphic.*;
+import lulu.ctype.packet.*;
+import lulu.entities.*;
+import lulu.entities.gen.*;
+import lulu.entities.types.*;
+import lulu.graphics.shader.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;

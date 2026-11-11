@@ -1,12 +1,11 @@
 package lulu.world.components.blockComps;
 
-import lulu.*;
-import lulu.content.*;
-import lulu.content.extensions.*;
-import lulu.world.components.buildComps.*;
 import arc.*;
 import arc.graphics.g2d.*;
-import mindustry.*;
+import lulu.*;
+import lulu.content.*;
+import lulu.ctype.*;
+import lulu.world.components.buildComps.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;

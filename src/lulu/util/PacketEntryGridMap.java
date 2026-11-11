@@ -1,6 +1,5 @@
 package lulu.util;
 
-import lulu.ctype.packet.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.g2d.*;
@@ -8,11 +7,12 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.ctype.packet.*;
 import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
 
-import static lulu.graphics.OvulamDraw.*;
+import static lulu.graphics.draw.OvulamDraw.*;
 
 public class PacketEntryGridMap{
   protected IntMap<PacketEntry> map = new IntMap<>();

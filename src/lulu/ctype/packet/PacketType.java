@@ -1,15 +1,14 @@
 package lulu.ctype.packet;
 
-import lulu.content.*;
-import lulu.content.extensions.*;
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.type.resourceStacks.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.content.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.type.resourceStacks.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.*;
@@ -20,8 +19,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 import static arc.graphics.g2d.Draw.*;
-import static mindustry.Vars.net;
-import static mindustry.Vars.state;
+import static mindustry.Vars.*;
 
 public abstract class PacketType extends UnlockableContent{
   public float capacity = 3;

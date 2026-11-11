@@ -4,7 +4,7 @@ import arc.graphics.*;
 import arc.struct.*;
 import arc.util.*;
 import lulu.entities.gen.*;
-import lulu.graphics.*;
+import lulu.graphics.fx.*;
 import universecore.annotations.*;
 
 public interface OvulamTrailTypeComp {

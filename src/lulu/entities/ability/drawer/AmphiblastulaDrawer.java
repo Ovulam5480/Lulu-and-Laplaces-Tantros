@@ -1,14 +1,12 @@
 package lulu.entities.ability.drawer;
 
-
-import lulu.graphics.*;
-import lulu.lib.singularity.graphic.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.graphics.shader.*;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;

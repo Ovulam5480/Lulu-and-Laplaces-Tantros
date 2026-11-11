@@ -1,16 +1,16 @@
 package lulu.entities.comp.packetcomps;
 
-import lulu.*;
-import lulu.ctype.packet.*;
-import lulu.entities.*;
-import lulu.entities.gen.*;
-import lulu.graphics.*;
-import lulu.type.resourceStacks.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
+import lulu.*;
+import lulu.ctype.packet.*;
+import lulu.entities.*;
+import lulu.entities.gen.*;
+import lulu.graphics.renderer.*;
+import lulu.type.resourceStacks.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 

@@ -1,9 +1,9 @@
 package lulu.entities.ability.drawer;
 
-import lulu.lib.singularity.graphic.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import lulu.graphics.draw.*;
 import mindustry.gen.*;
 
 public class JuvenileSpongePartDrawer extends Drawer{

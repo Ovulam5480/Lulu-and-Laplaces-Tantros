@@ -1,12 +1,13 @@
 package lulu.world.components.buildComps;
 
-import lulu.world.components.blockComps.*;
 import arc.struct.*;
+import lulu.world.components.blockComps.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
+import mindustry.world.blocks.payloads.*;
 import universecore.annotations.*;
 
-public interface TrophosomeTargetBuildComp extends PayloadBuildComp, Posc{
+public interface TrophosomeTargetBuildComp extends BuildCompBase, Posc{
   default TrophosomeTargetBlockComp blockAsTarget(){
     return (TrophosomeTargetBlockComp)getBlock();
   }
@@ -20,9 +21,9 @@ public interface TrophosomeTargetBuildComp extends PayloadBuildComp, Posc{
   default void requires(Seq<Unit> value){
   }
 
-  @Override
-  default boolean acceptUnitPayload(Unit unit){
-    return PayloadBuildComp.super.acceptUnitPayload(unit) && acceptTrophosome(unit.type);
+  @Annotations.MethodEntry(entryMethod = "acceptPayload", override = true, paramTypes = {"mindustry.gen.Building -> source", "mindustry.world.blocks.payloads.Payload -> payload"})
+  default boolean acceptPayload(Building source, Payload payload){
+    return acceptTrophosome(payload.content());
   }
 
   boolean canAcceptPayload(UnlockableContent type);

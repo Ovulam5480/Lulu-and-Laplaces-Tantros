@@ -1,9 +1,9 @@
 package lulu.entities.comp.utilcomps;
 
-import lulu.entities.gen.*;
-import lulu.graphics.*;
 import arc.graphics.*;
 import ent.anno.*;
+import lulu.entities.gen.*;
+import lulu.graphics.fx.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 

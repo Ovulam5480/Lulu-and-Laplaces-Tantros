@@ -1,8 +1,8 @@
 package lulu.content;
 
+import ent.anno.*;
 import lulu.content.blocks.*;
 import lulu.entities.gen.*;
-import ent.anno.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
@@ -18,6 +18,10 @@ public class OvulamBlocks{
 
   @Annotations.EntityDef(value = {Buildingc.class, FloorCrafterBuildc.class}, serialize = false, genericMode = Annotations.EntityDef.GenericMode.SELF)
   private static class FloorCrafterBuildBuildingComp{
+  }
+
+  @Annotations.EntityDef(value = {Buildingc.class, MultiPayloadCrafterBuildc.class}, genIO = false, genericMode = Annotations.EntityDef.GenericMode.SELF)
+  public static class MultiPayloadCrafterBuildBuildingComp{
   }
 
   public static Block itemPacker;

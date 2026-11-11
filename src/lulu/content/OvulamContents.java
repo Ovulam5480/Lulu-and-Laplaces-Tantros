@@ -1,7 +1,6 @@
 package lulu.content;
 
 import arc.struct.*;
-import lulu.content.extensions.*;
 import lulu.content.tantros.*;
 import lulu.ctype.*;
 import lulu.entities.gen.*;

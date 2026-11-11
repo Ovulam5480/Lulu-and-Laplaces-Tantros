@@ -1,9 +1,11 @@
 package lulu.entities.ai;
 
-import lulu.content.extensions.*;
-import lulu.world.components.buildComps.*;
 import arc.util.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.world.components.buildComps.*;
 import mindustry.*;
+import mindustry.ai.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 
@@ -20,20 +22,23 @@ public class TrophosomeAI extends AIController{
 
   @Override
   public void updateMovement(){
-    if(target == null || !target.getBuilding().isAdded()){
+    Building building = target.getBuilding();
+    if(target == null || !building.isAdded()){
       lastPriority = -999;
       findTarget();
-    }else if(unit.within(target, target.getBlock().size * 3f) && target.acceptUnitPayload(unit)){
-      target.getBuilding().handleUnitPayload(unit, p -> {
-        target.handlePayload(target.getBuilding(), p);
+    }else if(unit.within(target, target.getBlock().size * 3f) && target.<PayloadBuildc>getBuild().acceptUnitPayload(unit)){
+      building.handleUnitPayload(unit, p -> {
+        building.handlePayload(building, p);
         target.removeTrophosomeRequire(unit);
       });
     }else{
       if(unit.isFlying()){
         moveTo(target, 0, 0);
       }else{
-        if(controlPath.getPathPosition(unit, Tmp.v1.set(target), Tmp.v1, Tmp.v2, null)){
-          moveTo(Tmp.v2, 0, 0);
+        ControlPathfinder.PathfindResult result = controlPath.getPathPosition(unit, Tmp.v1.set(target));
+
+        if(result.move){
+          moveTo(result.dest, 0, 0);
         }else{
           findTarget();
         }

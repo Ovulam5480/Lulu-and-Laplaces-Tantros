@@ -1,12 +1,12 @@
 package lulu.entities.weapon;
 
-import lulu.content.*;
-import lulu.entities.*;
-import lulu.entities.gen.*;
-import lulu.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import lulu.content.*;
+import lulu.entities.*;
+import lulu.entities.gen.*;
+import lulu.graphics.fx.*;
 import mindustry.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;

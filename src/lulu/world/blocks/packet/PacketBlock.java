@@ -1,18 +1,18 @@
 package lulu.world.blocks.packet;
 
-import lulu.*;
-import lulu.content.*;
-import lulu.content.extensions.*;
-import lulu.ctype.packet.*;
-import lulu.entities.*;
-import lulu.entities.gen.*;
-import lulu.util.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import lulu.*;
+import lulu.content.*;
+import lulu.ctype.*;
+import lulu.ctype.packet.*;
+import lulu.entities.*;
+import lulu.entities.gen.*;
+import lulu.util.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.units.*;

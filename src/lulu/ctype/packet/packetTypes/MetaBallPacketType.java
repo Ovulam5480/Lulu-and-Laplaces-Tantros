@@ -2,7 +2,7 @@ package lulu.ctype.packet.packetTypes;
 
 import lulu.*;
 import lulu.entities.gen.*;
-import lulu.graphics.*;
+import lulu.graphics.renderer.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 

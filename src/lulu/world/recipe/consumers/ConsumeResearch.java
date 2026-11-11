@@ -1,15 +1,14 @@
 package lulu.world.recipe.consumers;
 
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.game.researchs.*;
-import lulu.lib.singularity.world.blocks.research.*;
-import lulu.type.resourceStacks.*;
-import lulu.world.blocks.*;
-import lulu.world.components.buildComps.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.research.*;
+import lulu.type.resourceStacks.*;
+import lulu.world.blocks.*;
+import lulu.world.components.buildComps.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;

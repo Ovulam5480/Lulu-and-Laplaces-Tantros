@@ -1,22 +1,22 @@
 package lulu.world.blocks.power;
 
-import arc.scene.ui.TextField;
-import arc.scene.ui.layout.Table;
-import arc.struct.Seq;
-import arc.util.Strings;
+import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
+import arc.struct.*;
+import arc.util.*;
 import arc.util.io.*;
-import lulu.ctype.Power;
-import lulu.content.OvulamContents;
-import lulu.world.OvulamPowerGraph;
+import lulu.content.*;
+import lulu.ctype.*;
+import lulu.world.*;
 import lulu.world.components.blockComps.*;
 import lulu.world.components.buildComps.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
-import universecore.annotations.Annotations;
+import universecore.annotations.*;
 
 @Annotations.ImplEntries
 public class PowerChannelVoid extends PowerBlock implements PowerChannelBlockComp{

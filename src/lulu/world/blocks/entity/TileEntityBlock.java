@@ -1,15 +1,15 @@
 package lulu.world.blocks.entity;
 
-import lulu.*;
-import lulu.content.extensions.*;
-import lulu.entities.gen.*;
-import lulu.graphics.StaticDrawLayer;
-import lulu.world.components.blockComps.*;
 import arc.*;
 import arc.func.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.graphics.renderer.*;
+import lulu.world.components.blockComps.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;

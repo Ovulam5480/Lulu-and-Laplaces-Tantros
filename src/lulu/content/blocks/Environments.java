@@ -1,7 +1,7 @@
 package lulu.content.blocks;
 
 import lulu.content.*;
-import lulu.content.extensions.*;
+import lulu.ctype.*;
 import mindustry.content.*;
 import mindustry.world.blocks.environment.*;
 

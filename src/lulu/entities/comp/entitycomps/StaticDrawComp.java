@@ -1,7 +1,7 @@
 package lulu.entities.comp.entitycomps;
 
-import lulu.graphics.StaticMeshRenderer;
 import ent.anno.*;
+import lulu.graphics.renderer.*;
 import mindustry.gen.*;
 
 @Annotations.EntityComponent

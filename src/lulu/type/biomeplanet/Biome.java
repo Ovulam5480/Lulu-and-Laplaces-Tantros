@@ -1,10 +1,10 @@
 package lulu.type.biomeplanet;
 
 import arc.func.*;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
-import lulu.content.extensions.*;
-import arc.math.*;
+import lulu.ctype.*;
 import lulu.ctype.packet.*;
 import lulu.type.resourceStacks.*;
 import lulu.util.*;

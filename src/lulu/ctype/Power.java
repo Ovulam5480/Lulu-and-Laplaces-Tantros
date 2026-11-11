@@ -1,10 +1,8 @@
 package lulu.ctype;
 
 import arc.graphics.*;
-import lulu.content.OvulamContents;
-import lulu.content.extensions.*;
+import lulu.content.*;
 import lulu.world.*;
-import mindustry.Vars;
 import mindustry.ctype.*;
 
 public class Power extends UnlockableContent{

@@ -3,7 +3,7 @@ package lulu.dev;
 import arc.*;
 import lulu.*;
 import lulu.content.tantros.*;
-import lulu.lib.singularity.ui.dialogs.*;
+import lulu.ui.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.net.*;
@@ -13,9 +13,9 @@ public final class DevStartup{
   private DevStartup(){
   }
 
-  public static void loadFirstSave(){
+  public static void loadSave(String name){
     Events.on(EventType.ClientLoadEvent.class, e -> {
-      Vars.ui.load.runLoadSave(Vars.control.saves.getSaveSlots().first());
+      Vars.ui.load.runLoadSave(Vars.control.saves.getSaveSlots().find(s -> s.getName().equals(name)));
     });
   }
 
@@ -39,5 +39,9 @@ public final class DevStartup{
     Events.on(EventType.ClientLoadEvent.class, e -> {
       Vars.control.playNewSector(null, LaplacesTantros.tantros.sectors.find(s -> s.id == id), new WorldReloader());
     });
+  }
+
+  public static void onLoaded(Runnable runnable){
+    Events.on(EventType.ClientLoadEvent.class, e -> runnable.run());
   }
 }

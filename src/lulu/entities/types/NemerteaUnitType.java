@@ -1,9 +1,9 @@
 package lulu.entities.types;
 
-import lulu.content.extensions.*;
+import arc.struct.*;
+import lulu.ctype.*;
 import lulu.entities.ai.*;
 import lulu.entities.weapon.*;
-import arc.struct.*;
 import mindustry.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;

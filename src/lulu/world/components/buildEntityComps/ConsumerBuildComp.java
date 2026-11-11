@@ -1,12 +1,5 @@
 package lulu.world.components.buildEntityComps;
 
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.graphic.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.modules.*;
-import lulu.world.recipe.*;
-import lulu.world.recipe.consumers.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -16,6 +9,13 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.graphics.draw.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.modules.*;
+import lulu.world.recipe.*;
+import lulu.world.recipe.consumers.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -235,6 +235,16 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
   }
 
   @Annotations.Replace(1)
+  public int getMaximumAccepted(Item item){
+    if(getConsumerBlock().useRecipeCapacity()){
+      ItemStack stack = Structs.find(consumer.current.<ConsumeItemBase<T>>get(ResourceType.item).consItems, e -> e.item == item);
+      return Mathf.floor(stack.amount * getConsumerBlock().recipeCapacityMulti());
+    }
+
+    return block.itemCapacity;
+  }
+
+  @Annotations.Replace(1)
   public boolean acceptLiquid(Building source, Liquid liquid){
     return acceptLiquidConsumer(source, liquid);
   }
@@ -252,7 +262,6 @@ abstract class ConsumerBuildComp<T extends Building & ConsumerBuildc<T>> impleme
     return block.liquidCapacity;
   }
 
-  public abstract int getMaximumAccepted(Item item);
 
   @Annotations.Replace(1)
   public SglLiquidModule liquids(){

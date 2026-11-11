@@ -1,12 +1,5 @@
 package lulu.world.components.buildEntityComps;
 
-import lulu.ctype.*;
-import lulu.entities.gen.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.modules.*;
-import lulu.world.recipe.*;
-import lulu.world.recipe.consumers.*;
-import lulu.world.recipe.producers.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -17,7 +10,13 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.io.*;
 import ent.anno.*;
-import mindustry.game.*;
+import lulu.ctype.*;
+import lulu.entities.gen.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.modules.*;
+import lulu.world.recipe.*;
+import lulu.world.recipe.consumers.*;
+import lulu.world.recipe.producers.*;
 import mindustry.gen.*;
 import mindustry.logic.*;
 import mindustry.type.*;
@@ -34,16 +33,7 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> impleme
   @Annotations.Import
   LiquidModule liquids;
   @Annotations.Import
-  ItemModule items;
-
-  @Annotations.Import
-  Team team;
-  @Annotations.Import
-  float x, y, health, maxHealth;
-  @Annotations.Import
-  Tile tile;
-  @Annotations.Import
-  boolean enabled = true;
+  float x, y;
   @Annotations.Import
   BaseConsumeModule<T> consumer;
   @Annotations.Import
@@ -64,10 +54,6 @@ abstract class ProducerBuildComp<T extends Building & ProducerBuildc<T>> impleme
   public Floatf<T> currBoost = e -> 1;
   public float real;
   public int mark;
-
-  public ProducerBuildc<T> getProducerBuild(){
-    return self();
-  }
 
   public ProducerBlockComp<T> getProducerBlock(){
     return (ProducerBlockComp<T>)block;

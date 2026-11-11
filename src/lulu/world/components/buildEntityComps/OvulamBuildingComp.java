@@ -7,10 +7,8 @@ import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.logic.*;
-import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
-import mindustry.world.blocks.payloads.*;
 import mindustry.world.modules.*;
 
 import static mindustry.Vars.*;
@@ -134,7 +132,7 @@ abstract class OvulamBuildingComp implements Buildingc{
       case y -> World.conv(y);
       case color -> Color.toDoubleBits(team.color.r, team.color.g, team.color.b, 1f);
       case dead -> !isValid() ? 1 : 0;
-      case solid -> block.solid || checkSolid() ? 1 : 0;
+      case solid -> block.solid || this.<Building>self().checkSolid() ? 1 : 0;
       case team -> team.id;
       case health -> health;
       case maxHealth -> maxHealth;
@@ -156,18 +154,11 @@ abstract class OvulamBuildingComp implements Buildingc{
       case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();
       case enabled -> enabled ? 1 : 0;
       case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;
-      case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);
+      case payloadCount ->
+        (this.<Building>self().getPayloads() != null ? this.<Building>self().getPayloads().total() : 0) + (this.<Building>self().getPayload() != null ? 1 : 0);
       case size -> block.size;
       case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;
       default -> Float.NaN; //gets converted to null in logic
     };
   }
-
-  public abstract boolean checkSolid();
-
-  public abstract Payload getPayload();
-
-  public abstract Payload takePayload();
-
-  public abstract PayloadSeq getPayloads();
 }

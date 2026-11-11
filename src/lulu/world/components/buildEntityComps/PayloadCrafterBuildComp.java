@@ -1,19 +1,16 @@
 package lulu.world.components.buildEntityComps;
 
+import arc.func.*;
+import arc.graphics.g2d.*;
+import ent.anno.*;
 import lulu.ctype.*;
 import lulu.entities.gen.*;
 import lulu.world.components.blockComps.*;
-import lulu.world.recipe.consumers.*;
 import lulu.world.recipe.producers.*;
-import arc.func.*;
-import arc.graphics.g2d.*;
-import arc.util.*;
-import ent.anno.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
-import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.modules.*;
@@ -107,15 +104,6 @@ abstract class PayloadCrafterBuildComp<T extends Building & ProducerBuildc<T>> i
     if(producer().current != null && (p = producer().current.get(ResourceType.payload)) != null){
       Draw.draw(Layer.blockOver, () -> Drawf.construct(self(), p.payloads[0].item, rotdeg() - 90f, progress(), workEfficiency(), totalProgress()));
     }
-  }
-
-  @Annotations.Replace(3)
-  public boolean acceptItem(Building source, Item item){
-    PayloadCrafterBlockComp<T> crafterBlock = getPayloadCrafterBlock();
-    ItemStack stack;
-    return source.interactable(team) && block.hasItems
-      && (source == self() || (!(consumer().hasConsume() || consumer().hasOptional()) || crafterBlock.filter().filter(self(), ResourceType.item, item, acceptAll(ResourceType.item))))
-      && items.get(item) < ((stack = Structs.find(consumer().current.<ConsumeItemBase<T>>get(ResourceType.item).consItems, e -> e.item == item)) != null ? stack.amount * crafterBlock.itemCapacityMulti() : 0);
   }
 
   public abstract float rotdeg();

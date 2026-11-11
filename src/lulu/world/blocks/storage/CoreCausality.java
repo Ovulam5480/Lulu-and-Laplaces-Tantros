@@ -1,17 +1,18 @@
 package lulu.world.blocks.storage;
 
-import arc.graphics.*;
-import lulu.*;
-import lulu.content.*;
-import lulu.graphics.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.components.buildComps.*;
 import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.*;
+import lulu.content.*;
+import lulu.graphics.fx.*;
+import lulu.graphics.renderer.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.components.buildComps.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;

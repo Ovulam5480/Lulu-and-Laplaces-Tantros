@@ -1,12 +1,5 @@
 package lulu.world.neoplasm.effect;
 
-import lulu.content.*;
-import lulu.content.blocks.*;
-import lulu.type.*;
-import lulu.type.neoplasm.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.components.buildComps.*;
-import lulu.world.neoplasm.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -18,6 +11,13 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import lulu.content.*;
+import lulu.content.blocks.*;
+import lulu.type.*;
+import lulu.type.neoplasm.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.components.buildComps.*;
+import lulu.world.neoplasm.*;
 import mindustry.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
@@ -258,14 +258,6 @@ public class NeoplasmNeuron extends NeoplasmGanglion implements NeoplasmBlockCom
     @Override
     public void getFromRead(Queue<Entityc> toRead){
       cortex.getFromRead(toRead);
-    }
-
-    @Override
-    public void readPayloads(Reads read, byte revision){
-    }
-
-    @Override
-    public void writePayloads(Writes write){
     }
   }
 }

@@ -16,3 +16,4 @@ build/
 
 # 手动提交
 /revisions/
+/local.properties

@@ -1,11 +1,5 @@
 package lulu.world.blocks.storage;
 
-import lulu.*;
-import lulu.content.*;
-import lulu.entities.gen.*;
-import lulu.graphics.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.components.buildComps.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -13,6 +7,12 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import lulu.*;
+import lulu.content.*;
+import lulu.entities.gen.*;
+import lulu.graphics.fx.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.components.buildComps.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.core.*;

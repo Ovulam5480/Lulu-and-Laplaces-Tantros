@@ -1,7 +1,7 @@
 package lulu.world.components.blockComps;
 
-import lulu.content.extensions.*;
 import arc.struct.*;
+import lulu.ctype.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
 import universecore.annotations.*;

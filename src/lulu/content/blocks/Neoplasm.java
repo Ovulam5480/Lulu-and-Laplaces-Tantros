@@ -1,7 +1,11 @@
 package lulu.content.blocks;
 
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import ent.anno.*;
 import lulu.content.*;
-import lulu.content.extensions.*;
+import lulu.ctype.*;
 import lulu.entities.gen.*;
 import lulu.world.neoplasm.*;
 import lulu.world.neoplasm.effect.*;
@@ -11,10 +15,6 @@ import lulu.world.neoplasm.production.*;
 import lulu.world.neoplasm.units.*;
 import lulu.world.recipe.consumers.*;
 import lulu.world.recipe.producers.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import ent.anno.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;

@@ -1,9 +1,5 @@
 package lulu.type;
 
-import lulu.*;
-import lulu.entities.gen.*;
-import lulu.lib.singularity.graphic.*;
-import lulu.util.math.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -12,6 +8,10 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import lulu.*;
+import lulu.entities.gen.*;
+import lulu.graphics.draw.*;
+import lulu.util.math.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;

@@ -1,13 +1,13 @@
 package lulu.world.components.buildEntityComps;
 
-import lulu.entities.gen.*;
-import lulu.world.components.blockComps.*;
-import lulu.world.modules.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import ent.anno.*;
+import lulu.entities.gen.*;
+import lulu.world.components.blockComps.*;
+import lulu.world.modules.*;
 import mindustry.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -169,15 +169,25 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
   }
 
   public boolean acceptPayloadPayloadBuild(Building source, Payload payload){
-    return hasPayloadCapital();
+    return hasPayloadCapital(payload);
   }
 
   public int getTotalPayloads(){
     return payloads.total() + Mathf.num(inputting != null);
   }
 
-  public boolean hasPayloadCapital(){
-    return getPayloadBlock().acceptIgnoreCapacity() || getTotalPayloads() < getPayloadBlock().payloadCapacity();
+  public float payloadUsed(){
+    return payloads.payloads.payloads.sumf(p -> Mathf.sqr(p.size() / tilesize));
+  }
+
+  public boolean hasPayloadCapital(Payload payload){
+    return hasPayloadCapital(payload.size() / 8);
+  }
+
+  public boolean hasPayloadCapital(float size){
+    PayloadBlockComp block = getPayloadBlock();
+    return (block.acceptIgnoreAmount() || getTotalPayloads() < block.payloadAmountCapacity())
+      && (block.acceptIgnoreArea() || payloadUsed() + Mathf.sqr(size) < block.payloadAreaCapacity());
   }
 
   public void popPayload(){
@@ -223,7 +233,7 @@ abstract class PayloadBuildComp implements OvulamBuildingc{
     float outputProgress = handleOutputPayload();
 
     if(inputProgress >= 0.999f){
-      if(payloads.total() < getPayloadBlock().payloadCapacity()){
+      if(hasPayloadCapital(inputting)){
         payloads.add(inputting);
         stackAlpha = 1;
         inputting = null;
